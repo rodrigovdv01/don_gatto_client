@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useShoppingContext } from "../../../ShoppingContext";
 import axios from "axios";
-import SignInForm from "../../../components/User/SignInForm";
+// import SignInForm from "../../../components/User/SignInForm";
 import "./RegistroPedidos.css";
 import "../../../components/Header/Header.css";
 
@@ -18,7 +18,7 @@ const RegistroPedidos = () => {
     detallesPedido,
   } = useShoppingContext();
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     

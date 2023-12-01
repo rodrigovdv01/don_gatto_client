@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useShoppingContext } from "../../ShoppingContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,8 +14,6 @@ const CheckoutCart = () => {
     eliminarDelCarrito,
     selectedItems,
     setSelectedItems,
-    handleItemSelectedChange,
-    productos,
     eliminarMenu,
     modificarCantidadMenu,
     calcularSubtotal,

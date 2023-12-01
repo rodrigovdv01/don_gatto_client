@@ -1,5 +1,5 @@
 // Importa las librerías y componentes necesarios
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -26,14 +26,14 @@ import PedidoConfirmado from "./pages/Pedidos/PedidoConfirmado";
 import { AuthProvider } from "./AuthContext";
 import { ShoppingProvider } from "./ShoppingContext";
 import { useIsUserAdmin } from "./AuthContext";
-import AgeConfirmation from "./AgeConfirmation";
+// import AgeConfirmation from "./AgeConfirmation";
 
 import "./styles.css";
 
 function App() {
   const isUserAdmin = useIsUserAdmin();
   const location = useLocation();
-  const [isAgeConfirmed, setIsAgeConfirmed] = useState(false);
+  // const [isAgeConfirmed, setIsAgeConfirmed] = useState(false);
   
 
   // Comprueba si la ubicación actual coincide con "/login" o "/registrarse"

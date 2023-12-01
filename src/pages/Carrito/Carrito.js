@@ -63,7 +63,7 @@ const Carrito = ({
                 >
                   <div className="carrito-item-details">
                     <div className="carrito-item-info">
-                      <img height={100} src={item.img}></img>
+                      <img height={100} alt="item" src={item.img}></img>
                       <h4>{item.nombre}</h4>
                       <p>{item.descripcion}</p>
                         <div>

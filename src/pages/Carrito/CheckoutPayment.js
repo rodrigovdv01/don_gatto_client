@@ -18,7 +18,6 @@ const CheckoutPayment = () => {
     calcularTotal,
     carrito,
     setPedidoId,
-    selectedItems,
     vaciarCarrito,
     setSelectedItems,
     selectedItemsOriginales,
@@ -92,6 +91,7 @@ const CheckoutPayment = () => {
             cantidad: producto.cantidad,
             precio_unitario: producto.precio,
           });
+          console.log(index);
         }
 
         console.log("Respuesta del servidor:", pedidoResponse.data);

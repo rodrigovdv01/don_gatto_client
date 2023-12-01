@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import SignInForm from "../../../components/User/SignInForm";
+// import SignInForm from "../../../components/User/SignInForm";
 import ListaUsuarios from "./ListaUsuarios"; // Asegúrate de ajustar la importación al componente correcto
 import "../../../styles.css";
 
@@ -16,7 +16,7 @@ const AgregarUsuarios = () => {
 
   const [usuarios, setUsuarios] = useState([]);
   const [error, setError] = useState(null); // Estado para manejar errores
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     
