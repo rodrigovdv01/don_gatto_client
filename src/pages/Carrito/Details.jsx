@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useShoppingContext } from "../../ShoppingContext";
 import "./Details.css";
 import "./Checkout.css";
 
 const Details = () => {
-  const { carrito, selectedItems, setSelectedItems, selectedItemsOriginales } =
+  const { carrito, setSelectedItems, selectedItemsOriginales } =
     useShoppingContext();
   const navigate = useNavigate();
   const location = useLocation();

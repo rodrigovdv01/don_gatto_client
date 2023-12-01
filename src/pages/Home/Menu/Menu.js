@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faShoppingCart,
   faHistory,
-  faChildren,
 } from "@fortawesome/free-solid-svg-icons";
 import { useShoppingContext } from "../../../ShoppingContext";
 import { Link } from "react-router-dom";
