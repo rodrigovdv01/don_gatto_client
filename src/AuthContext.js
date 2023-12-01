@@ -62,7 +62,6 @@ export const AuthProvider = ({ children }) => {
 
       // Remove the token from the cookie
       Cookies.remove("authToken");
-      localStorage.remove("authToken");
 
       // Redirect to the home page
       navigate("/");
