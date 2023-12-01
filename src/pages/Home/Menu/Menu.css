@@ -1,0 +1,179 @@
+/* Menu.css */
+* {
+  margin: 0;
+}
+/* Estilo para el contenedor principal del menú */
+.menu-container {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); /* Uso de CSS Grid para el diseño responsive */
+  gap: 10px;
+  justify-content: center;
+  align-items: center; /* Centra verticalmente los elementos en el contenedor */
+}
+
+.menu-item-content {
+  display: flex;
+  flex-direction: row;
+  max-height: 250px;
+  justify-content: space-between;
+}
+
+.menu-item-content .description {
+  padding: 8px;
+}
+
+.agregar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra horizontalmente el botón */
+}
+
+.agregar-button {
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  background-color: #121212;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.agregar-button:hover {
+  background-color: #002b44; /* Cambia el color al pasar el cursor */
+}
+
+.ver-carrito-container {
+  display: flex;
+  text-align: center;
+  width: 75%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  padding-top: 10px;
+}
+
+
+
+.ver-carrito {
+  background-color: #fff;
+  color: #000;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  width: 150px;
+  margin: 0 auto;
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+.ver-carrito:hover,
+.estado:hover {
+  background-color: #000;
+  color: #fff;
+}
+.estado {
+  background-color: #fff;
+  font-size: 18px;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  color: #000;
+  text-decoration: none;
+  width: 220px;
+  margin: 0 auto;
+  border-radius: 5px;
+  text-align: center;
+  align-self: center;
+  padding: 4px;
+}
+.estado a {
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  color: #fff;
+}
+
+/* Estilo para el título principal */
+.menu-category h2 {
+  font-size: 1.5rem; /* Tamaño de fuente */
+  margin-top: 10px; /* Espacio entre el título y la lista de elementos */
+  border-bottom: 2px solid #ff6265; /* Borde amarillo debajo del título */
+  padding-bottom: 5px; /* Espacio entre el borde y el texto */
+  color: #fff; /* Color del texto */
+}
+
+.menu-options {
+  padding: 2vh 2vw;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.menu-list {
+  display: flex;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(300px, 1fr)
+  ); /* Uso de CSS Grid para el diseño responsive */
+  gap: 10px;
+}
+
+/* Estilo para cada elemento del menú */
+.menu-item {
+  overflow: hidden;
+  margin: 0;
+  max-width: 350px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex; /* Utiliza flexbox para controlar el diseño */
+  flex-direction: column; /* Cambia a columna para colocar elementos uno debajo del otro */
+}
+
+/* Estilo para la imagen con borde redondeado */
+.menu-item img {
+  height: 150px; /* Mantiene la proporción original de la imagen */
+}
+
+/* Estilo para el título del elemento del menú */
+.menu-item h3 {
+  font-size: 1.2rem;
+  color: #333;
+  padding: 0 5px;
+}
+
+/* Estilo para la descripción del elemento del menú */
+.menu-item p {
+  font-size: 0.8rem;
+  color: #666;
+  padding: 5px;
+}
+
+/* Estilo para el precio del elemento del menú */
+.menu-item .price {
+  font-size: 1.2rem;
+  color: #ff6265;
+  font-weight: bold;
+}
+
+/* Estilo para dispositivos móviles (ejemplo: ancho máximo de 600px) */
+@media (max-width: 600px) {
+}
+
+.red-text {
+  color: #f00;
+}
+
+/* Estilos para dispositivos móviles con ancho igual o menor a 540px */
+@media (max-width: 840px) {
+  .ver-carrito-container {
+    flex-direction: column;  
+  }
+  .ver-carrito,
+  .estado {
+    margin-bottom: 10px; /* Agrega un espacio entre los elementos */
+  }
+}

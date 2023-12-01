@@ -1,0 +1,168 @@
+/* Carrito.css */
+
+
+/* Style for the sidebar container */
+.carrito-sidebar {
+  position: fixed;
+  top: 59px;
+  right: -30%; /* Start closed by default */
+  height: calc(100% - 59px);
+  background-color: #fff;
+  overflow-y: auto;
+  z-index: 300000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: right 0.3s ease-in-out; /* Animate right property for transition */
+}
+
+.shipping-details, .payment-form-container {
+  color:white;
+}
+.submit-button {
+  width: 270px;
+  text-align: center;
+}
+.btn {
+  color: white;
+  background-color: #075480;
+  margin: 10px;
+  padding: 15px;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.buttons a {
+  color:white;
+}
+
+.login-form a, .center a {
+  color: white;
+  
+}
+
+
+/* Style for the open sidebar */
+.carrito-sidebar.open {
+  right: 0; /* Open the sidebar */
+  width: 420px;
+}
+
+/* Style for the close button (X) */
+.carrito-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Style for the container inside the sidebar */
+.carrito-container {
+  padding: 20px;
+}
+
+.ir-a-comprar {
+  color:#333;
+}
+
+/* Style for the title of the cart */
+.carrito-title {
+  color: black;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #4a4a4a;
+  padding-bottom: 15px;
+}
+
+.cantidad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+/* Style for each item in the cart */
+.carrito-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-width: 100%;
+}
+
+#login {
+  text-decoration: underline;
+  color:#840404;
+}
+
+.opciones-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.opciones-menu select {
+  padding: 10px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+}
+/* Establecer el ancho del contenido al 100% */
+.carrito-item > * {
+  width: 100%;
+}
+
+/* Style for the buttons to increase and decrease quantity */
+.carrito-button {
+  background-color: #ff6265;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.carrito-button-disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Style for the delete button */
+.carrito-button-eliminar {
+  background-color: #ff0000;
+}
+
+/* Style for the "Realizar Pedido" button */
+.carrito-button-pedido {
+  display: block;
+  margin: 0 auto;
+  background-color: #075480;
+  margin-top: 20px;
+  padding: 10px 20px;
+}
+.carrito-button-pedido:hover {
+  background-color: #0e72ab;
+}
+
+/* Style for the quantity text */
+.carrito-quantity {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.carrito-img {
+  height: 50px;
+}
+
+@media screen and (max-width: 600px){
+  .carrito-sidebar.open {
+    width: 80%;
+  }
+}

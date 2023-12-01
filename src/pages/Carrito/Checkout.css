@@ -1,0 +1,112 @@
+/* CheckoutShipping.css */
+
+.heading {
+  padding: 10px 40px 0;
+font-size: 24px;
+margin-bottom: 20px;
+text-align: center;
+}
+
+.shipping-details {
+  text-align: center;
+}
+
+
+.checkout-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  border-collapse: collapse;
+  justify-content: center;
+}
+
+.label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 90%;
+}
+
+.submit-button {
+  background-color: #3c97cb;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.payment-form-container {
+  width: 100%;
+  text-align: center;
+}
+.submit-button:hover {
+  background-color: #9adaff; /* Cambia el color al pasar el mouse */
+}
+
+/* Media query for responsive design */
+@media (min-width: 768px) {
+
+  .input {
+    margin-bottom: 10px;
+  }
+
+  .submit-button {
+    margin-top: 10px;
+  }
+  .item-container {
+    height: auto; /* Adjust height for responsive design */
+  }
+
+  .checkout-form-container {
+    flex-direction: row;
+    width: 95%;
+    margin: 0 auto;
+    max-height: 80vh; /* Set a maximum height for the table container */
+    position: relative; /* Add this to establish a stacking context */
+  }
+
+  .form {
+    width: 60%;
+    
+  margin: 0;
+  }
+
+}
+
+
+.tarjeta-debito-credito {
+  margin-top: 20px;
+}
+
+.tarjeta-debito-credito label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.tarjeta-debito-credito input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

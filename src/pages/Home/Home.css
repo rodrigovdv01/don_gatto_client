@@ -1,0 +1,131 @@
+/* Home.css */
+
+/* Estilos para los elementos dentro de home-container */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 1.2rem;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Estilo para los botones al estilo poco de round */
+button {
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Estilo para los enlaces */
+a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.text {
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+}
+
+.text h1 {
+  font-size: 60px;
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+}
+
+.hidden {
+  display: none;
+}
+.text p {
+  opacity: 0;
+  animation: fadeIn 6s forwards;
+}
+
+.image {
+  opacity: 0;
+  animation: fadeInFromLeft 2s forwards;
+  animation-delay: 1s;
+}
+
+
+.text, .image {
+  opacity: 0;
+  transform: translateY(20px); /* Inicialmente, oculta los elementos y desplázalos hacia abajo */
+  transition: opacity 1s ease, transform 1s ease; /* Aplica transiciones suaves */
+}
+
+.image-container {
+  height: 100%;
+  flex: 1;
+}
+
+.home-image {
+  max-width: 100%;
+}
+
+.text-container {
+  color:#f5f5f5;
+  text-align: justify;
+  padding: 0 40px;
+  width: 60%;
+  flex: 2;
+
+}
+.text-container h2 {
+  font-size: 32px;
+  text-align: center;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .text {
+    text-align: center;
+  }
+}

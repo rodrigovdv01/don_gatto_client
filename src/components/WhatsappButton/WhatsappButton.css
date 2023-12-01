@@ -1,0 +1,21 @@
+#wa {
+    background-color: #1d9323;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    cursor: pointer;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 2000;
+    border-radius: 50%;
+}
+
+#wa:hover {
+    background-color: #62d467;
+}
+
+#wa-icon {
+    height: 2em;
+}

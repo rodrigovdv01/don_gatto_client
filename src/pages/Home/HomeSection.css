@@ -1,0 +1,86 @@
+/* Estilos para el contenedor principal */
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  color: #000000;
+  text-align: center;
+  max-width: 100vw;
+  margin: 0px auto;
+  padding: 20px;
+}
+
+/* Estilo para el contenedor de texto */
+.text-container {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Estilo para el título h2 */
+h2 {
+  font-size: 24px;
+  margin: 0;
+  color: #fff;
+}
+/* Estilo para el contenido dentro del contenedor (párrafos, etc.) */
+.text-container p {
+  margin: 10px 0;
+  font-size: 18px;
+  color: #fff;
+}
+
+/* Estilos para la sección invertida */
+.home-container.reverse {
+  flex-direction: row-reverse;
+}
+
+.home-image {
+  background: #fffffff0;
+  padding: 5px;
+    border-radius: 60% 70% 50% 40%;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.4); /* Aumentar la sombra al pasar el cursor */
+}
+
+/* Estilos para la imagen y el texto en la sección predeterminada */
+.image-container {
+  /* Estilos para la imagen */
+}
+
+.text-container {
+  /* Estilos para el texto */
+}
+
+/* Estilos para la imagen y el texto en la sección invertida */
+.home-container.reverse .image-container {
+  /* Estilos para la imagen en la sección invertida */
+}
+
+.home-container.reverse .text-container {
+  /* Estilos para el texto en la sección invertida */
+}
+
+/* Agrega otros estilos personalizados según tus necesidades */
+/* Estilo para la imagen que cubre todo el contenedor */
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Para ajustar la imagen y mantener su relación de aspecto */
+  }
+  
+  
+@media  screen and (max-width: 768px) {
+    .home-container {
+        flex-direction: column;
+        width: 100%;
+    }
+    .home-container.reverse {
+      flex-direction: column;
+    }
+    .text-container {
+        width: 90%;
+    }
+    .home-image {
+        max-width: 70%;
+      }
+  }

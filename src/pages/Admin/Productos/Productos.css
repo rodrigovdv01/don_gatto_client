@@ -1,0 +1,53 @@
+/* ListaProductos.css */
+
+/* Estilo para la tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  /* Estilo para los encabezados */
+  th {
+    background-color: #007bff; /* Fondo azul */
+    color: white; /* Letra blanca */
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  /* Estilo para filas impares (fondo gris) */
+  tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Estilo para filas pares (fondo blanco) */
+  tbody tr:nth-child(even) {
+    background-color: white;
+  }
+
+  .img {
+    height: 100px;
+  }
+  
+  /* Estilo para las imágenes (ajustar al tamaño de la fila) */
+  tbody img {
+    max-width: 100%;
+    max-height: 100px; /* Establece la altura máxima de la imagen */
+    height: auto;
+  }
+  
+  /* Estilo para las filas (establece la altura máxima) */
+  tbody tr {
+    max-height: 100px; /* Establece la altura máxima de las filas */
+    overflow: hidden; /* Oculta el contenido que supere la altura máxima */
+  }
+  
+  /* Estilo para los botones */
+  button {
+    background-color: #1b1b1b; /* Rojo */
+    color: white; /* Letra blanca */
+    border: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  

@@ -1,0 +1,103 @@
+/* Estilos para el footer */
+footer {
+    background-color: #ffffff;
+    color: #00000091;
+    padding: 20px 0;
+    z-index: 200000;
+  }
+
+  footer h3 {
+    color: #000000;
+  }
+  
+  .footer-content {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Estilos para pantallas más grandes, como laptops y escritorios */
+  @media screen and (min-width: 768px) {
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  
+  /* Estilos para pantallas más pequeñas, como celulares y tablets */
+  @media screen and (max-width: 767px) {
+    .footer-content {
+      flex-direction: column;
+      text-align: center;
+      align-items: center; /* Opcional: centrar elementos en pantallas pequeñas */
+    }
+  }
+
+
+  
+  .footer-section {
+    flex: 1;
+    margin: 0 20px;
+  }
+  
+  .footer-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  .footer-section p {
+    
+    margin: 20px 0;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-section ul li {
+    margin-bottom: 5px;
+  }
+  
+  .footer-section a {
+    color: #000;
+    text-decoration: none;
+  }
+  
+  .footer-bottom {
+    border-top: solid 1px #333;
+    display: flex;
+    justify-content: space-between;
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .footer-bottom p {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+  
+  .footer-bottom ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-bottom ul li {
+    display: inline;
+    margin-right: 10px;
+  }
+  
+  .footer-bottom a, .footer-bottom li {
+    color: #000;
+    text-decoration: none;
+    font-weight: 300;
+  }
+  .footer-bottom a:hover {
+    text-decoration: none;
+  }
+
+  .redes-sociales a {
+    font-size: 24px; /* Tamaño deseado para los iconos (ajusta según tu preferencia) */
+    margin-right: 30px; /* Espacio entre los iconos de redes sociales */
+  }
+  

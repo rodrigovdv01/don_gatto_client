@@ -1,0 +1,92 @@
+/* form.css */
+.form-container {
+  color: #ccc;
+  display: grid;
+  grid-template-rows: 1fr;
+  width: 50%;
+  height: 50%;
+  margin: 0 auto;
+  background-color: #cccccc0e;
+  border-radius: 50px;
+  padding-top: 30px;
+}
+
+.form-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.login-form,
+.register-form {
+  margin: auto;
+  height: 50%;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 18px;
+}
+
+.form-label {
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-align: left;
+  width: 100%;
+}
+
+.form-input {
+  width: 100%;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 5px;
+}
+
+.form-button {
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.user-info-title {
+  font-size: 24px;
+  margin-top: 20px;
+}
+
+.user-info {
+  font-size: 18px;
+}
+
+.logout-button {
+  background-color: #ff4d4d;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.logout-button:hover {
+  background-color: #d63434;
+}
+
+.center {
+  text-align: center;
+}

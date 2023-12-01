@@ -1,0 +1,116 @@
+/* MisPedidos.css */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table,
+th,
+td {
+  border: 1px solid #ccc;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+}
+
+thead {
+  background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.selected {
+  background-color: #a0d3e8;
+}
+
+.detalles {
+  min-height: 50vh;
+}
+.detalle-pedido {
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+.detalle-pedido h3 {
+  margin-top: 0;
+}
+
+.detalle-pedido ul {
+  list-style: none;
+  padding: 0;
+}
+
+.detalle-pedido li {
+  margin-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+}
+
+table,
+th,
+td {
+  border: 1px solid #ccc;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+}
+
+thead {
+  background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.section-title {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.section-title h2 {
+  font-size: 24px;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.section-title p {
+  font-size: 16px;
+  margin: 10px 0;
+  color: #777;
+}
+
+.datos-del-comprador {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 10px;
+}
+
+.datos-del-comprador li {
+  text-align: justify;
+  margin-bottom: 8px;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+
+
+
