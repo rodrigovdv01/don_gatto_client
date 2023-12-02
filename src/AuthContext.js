@@ -25,7 +25,6 @@ export const AuthProvider = ({ children }) => {
       );
 
       const authToken = response.data.token; // Assuming your server sends back a token
-      
 
       if (authToken) {
         // Store the token in localStorage
@@ -37,9 +36,8 @@ export const AuthProvider = ({ children }) => {
         // Store the generated token in a cookie
         Cookies.set("authToken", newAuthToken, { expires: 1, secure: true });
         // Store the generated token in localStorage
-      localStorage.setItem("authToken", newAuthToken);
+        localStorage.setItem("authToken", newAuthToken);
       }
-      
 
       setAuthenticatedUser(response.data.user);
 
@@ -62,6 +60,8 @@ export const AuthProvider = ({ children }) => {
 
       // Remove the token from the cookie
       Cookies.remove("authToken");
+      // Remove the "authTokenServer" cookie
+      Cookies.remove("authTokenServer");
 
       // Redirect to the home page
       navigate("/");

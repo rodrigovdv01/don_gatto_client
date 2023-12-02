@@ -66,10 +66,12 @@ const CheckoutPayment = () => {
       return;
     }
     try {
+      const user_id = authenticatedUser ? authenticatedUser.id : "0";
+
       const pedidoResponse = await axios.post(
         `${process.env.REACT_APP_API_URL}/pedidos/crear-pedido`,
         {
-          user_id: authenticatedUser.id,
+          user_id,
           monto_total: montoTotal,
           nombre: `${shippingInfo.nombre} ${shippingInfo.apellidos}`,
           telefono: `${shippingInfo.telefono}`,
@@ -85,7 +87,7 @@ const CheckoutPayment = () => {
 
         for (const [index, producto] of carrito.entries()) {
           await axios.post(`${process.env.REACT_APP_API_URL}/pedidos/detalles-de-pedido`, {
-            user_id: authenticatedUser.id,
+            user_id,
             pedido_id: nuevoPedidoId,
             producto_id: producto.producto_id,
             cantidad: producto.cantidad,

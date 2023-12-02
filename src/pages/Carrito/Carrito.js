@@ -66,42 +66,41 @@ const Carrito = ({
                       <img height={100} alt="item" src={item.img}></img>
                       <h4>{item.nombre}</h4>
                       <p>{item.descripcion}</p>
-                        <div>
-                          <div>Precio: S/. {item.precio}</div>
-                          <div className="cantidad">
-                            <div
-                              className={`carrito-button ${
-                                item.cantidad === 0
-                                  ? "carrito-button-disabled"
-                                  : ""
-                              }`}
-                              onClick={() =>
-                                modificarCantidad(item.producto_id, -1)
-                              }
-                              disabled={item.cantidad === 0}
-                            >
-                              <FontAwesomeIcon icon={faMinus} />
-                            </div>
-                            <span className="carrito-quantity">
-                              {item.cantidad}
-                            </span>
-                            <div
-                              className="carrito-button"
-                              onClick={() =>
-                                modificarCantidad(item.producto_id, 1)
-                              }
-                            >
-                              <FontAwesomeIcon icon={faPlus} />
-                            </div>
-                          </div>
+                      <div>
+                        <div>Precio: S/. {item.precio}</div>
+                        <div className="cantidad">
                           <div
-                            className="carrito-button carrito-button-eliminar"
-                            onClick={() => eliminarDelCarrito(item.producto_id)}
+                            className={`carrito-button ${
+                              item.cantidad === 0
+                                ? "carrito-button-disabled"
+                                : ""
+                            }`}
+                            onClick={() =>
+                              modificarCantidad(item.producto_id, -1)
+                            }
+                            disabled={item.cantidad === 0}
                           >
-                            <FontAwesomeIcon icon={faTrash} />
+                            <FontAwesomeIcon icon={faMinus} />
+                          </div>
+                          <span className="carrito-quantity">
+                            {item.cantidad}
+                          </span>
+                          <div
+                            className="carrito-button"
+                            onClick={() =>
+                              modificarCantidad(item.producto_id, 1)
+                            }
+                          >
+                            <FontAwesomeIcon icon={faPlus} />
                           </div>
                         </div>
-                      
+                        <div
+                          className="carrito-button carrito-button-eliminar"
+                          onClick={() => eliminarDelCarrito(item.producto_id)}
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </li>
@@ -109,27 +108,22 @@ const Carrito = ({
             </ul>
             <div>
               <p className="total">Total: S/. {calcularTotal(carrito)}</p>
-              {authenticatedUser ? (
-                // Renderiza el botón para continuar con la compra si el usuario ha iniciado sesión
-                <button
-                  type="submit"
-                  className="carrito-button carrito-button-pedido"
-                >
-                  Continuar con mi pedido
-                </button>
-              ) : (
-                // Renderiza un mensaje o un enlace de inicio de sesión si el usuario no ha iniciado sesión
-                <p>
-                  Para continuar con la compra,{" "}
-                  <Link to="/login" id="login">inicia sesión aquí</Link>.
-                </p>
-              )}
-              <button>
-                <Link to="/menu" onClick={toggleCart}>
-                  Seguir comprando
-                </Link>
+              {/* // Renderiza el botón para continuar con la compra si el usuario
+              ha iniciado sesión */}
+              <button
+                type="submit"
+                className="carrito-button carrito-button-pedido"
+              >
+                Continuar con mi Pedido
               </button>
-              <button onClick={vaciarCarrito}>Vaciar Carrito</button>
+              <div className="carrito-bottom-buttons">
+                <button>
+                  <Link to="/menu" onClick={toggleCart}>
+                    Seguir comprando
+                  </Link>
+                </button>
+                <button onClick={vaciarCarrito}>Vaciar Carrito</button>
+              </div>
             </div>
           </>
         )}

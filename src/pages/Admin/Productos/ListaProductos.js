@@ -175,7 +175,7 @@ const ListaProductos = () => {
         <table>
           <thead>
             <tr>
-              <th>Id de producto</th>
+              <th>ID de Producto</th>
               <th>Nombre</th>
               <th>Descripción</th>
               <th>Stock</th>

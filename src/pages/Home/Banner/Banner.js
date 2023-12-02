@@ -15,7 +15,7 @@ function Banner() {
     <div className="banner-container">
       <div className="image-container">
         <img
-          src={`/images/banner/banner-${currentImage}.jpg`}
+          src={`/images/banner/banner-${currentImage}.png`}
           alt={`Banner ${currentImage}`}
         />
         <Link to="/menu" className="banner-button">

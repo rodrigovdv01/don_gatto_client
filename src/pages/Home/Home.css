@@ -16,7 +16,7 @@ ul {
 }
 
 /* Estilo para los botones al estilo poco de round */
-button {
+.ver-mas {
   color: white;
   border: none;
   border-radius: 20px;

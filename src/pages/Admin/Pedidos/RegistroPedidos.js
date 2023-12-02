@@ -21,11 +21,39 @@ const RegistroPedidos = () => {
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    
-    obtenerUsuarios();
-    obtenerPedidos();
-    obtenerProductos();
-  }, [obtenerUsuarios, obtenerPedidos, obtenerProductos]);
+    const fetchProductos = async () => {
+      try {
+        await obtenerProductos();
+      } catch (error) {
+        console.error("Error fetching productos:", error);
+      }
+    };
+
+    fetchProductos();
+  }, [obtenerProductos]);
+  useEffect(() => {
+    const fetchUsuarios = async () => {
+      try {
+        await obtenerUsuarios();
+      } catch (error) {
+        console.error("Error fetching usuarios:", error);
+      }
+    };
+
+    fetchUsuarios();
+  }, [obtenerUsuarios]);
+
+  useEffect(() => {
+    const fetchPedidos = async () => {
+      try {
+        await obtenerPedidos();
+      } catch (error) {
+        console.error("Error fetching pedidos:", error);
+      }
+    };
+
+    fetchPedidos();
+  }, [obtenerPedidos]);
 
   const buscarInformacionUsuario = (user_id) => {
     const usuario = usuariosOriginales.find(
@@ -35,13 +63,16 @@ const RegistroPedidos = () => {
   };
 
   const handlePedidoClick = async (pedido) => {
-    setSelectedPedido(pedido);
-
-    // Aquí puedes llamar a obtenerDetallesPedido para obtener los detalles del pedido seleccionado
-    try {
-      await obtenerDetallesPedido(pedido.id, "/registro-de-pedidos");
-    } catch (error) {
-      console.error("Error al obtener los detalles del pedido:", error);
+    if (selectedPedido && selectedPedido.id === pedido.id) {
+      // If the same pedido is clicked again, close the details section
+      setSelectedPedido(null);
+    } else {
+      setSelectedPedido(pedido);
+      try {
+        await obtenerDetallesPedido(pedido.id, "/registro-de-pedidos");
+      } catch (error) {
+        console.error("Error al obtener los detalles del pedido:", error);
+      }
     }
   };
 
@@ -69,14 +100,16 @@ const RegistroPedidos = () => {
     }
   };
 
-  const handleEstadoChange = (e) => {
+  const handleEstadoChange = async (e) => {
     const nuevoEstado = e.target.value;
     const pedidoId = selectedPedido.id;
 
     // Actualiza el estado del pedido en el servidor
-    actualizarEstadoPedido(pedidoId, nuevoEstado);
-  };
+    await actualizarEstadoPedido(pedidoId, nuevoEstado);
 
+    // Clear the selectedPedido after updating the state
+    setSelectedPedido(null);
+  };
 
   return (
     <div className="content-container">

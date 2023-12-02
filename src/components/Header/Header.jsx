@@ -20,7 +20,6 @@ import jwt_decode from "jwt-decode";
 import Cookies from "js-cookie";
 import { AuthProvider } from "../../AuthContext";
 
-
 const Header = () => {
   const {
     authenticatedUser,
@@ -63,13 +62,13 @@ const Header = () => {
   }, [checkAuthentication]);
 
   useEffect(() => {
-    const tokenCookie = Cookies.get('authToken');
-  
+    const tokenCookie = Cookies.get("authTokenServer");
+
     if (tokenCookie) {
       try {
         const decodedToken = jwt_decode(tokenCookie);
         const currentTime = Date.now() / 1000;
-  
+
         if (decodedToken.exp > currentTime) {
           // Establecer el usuario autenticado solo si no hay un usuario autenticado actualmente
           if (!setAuthenticatedUser) {
@@ -86,7 +85,7 @@ const Header = () => {
       console.log("La cookie authToken no está presente");
     }
   }, [setAuthenticatedUser]);
-  
+
   // Verificar si la ubicación actual es "/login" o "/registrarse"
   const isLoginPage = location.pathname === "/login";
   const isSignUpPage = location.pathname === "/registrarse";
@@ -275,19 +274,6 @@ const Header = () => {
                     <>
                       <li>
                         <Link
-                          to="/login"
-                          onClick={() => {
-                            if (cartOpen) {
-                              toggleCart();
-                            }
-                            hideOpciones();
-                          }}
-                        >
-                          Iniciar Sesión
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
                           to="/registrarse"
                           onClick={() => {
                             if (cartOpen) {
@@ -297,6 +283,19 @@ const Header = () => {
                           }}
                         >
                           Registrarse
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/login"
+                          onClick={() => {
+                            if (cartOpen) {
+                              toggleCart();
+                            }
+                            hideOpciones();
+                          }}
+                        >
+                          Iniciar Sesión
                         </Link>
                       </li>
                     </>
