@@ -10,24 +10,17 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import "../../styles.css";
-import { useAuth } from "../../AuthContext"; // Importa el contexto de autenticación
 
 const Carrito = ({
   carrito,
-  eliminarMenu,
   eliminarDelCarrito,
   modificarCantidad,
-  modificarCantidadMenu,
   toggleCart,
   cartOpen,
-  menuItems,
-  selectedItems,
-  handleItemSelectedChange,
   calcularTotal,
   vaciarCarrito,
 }) => {
   const navigate = useNavigate();
-  const { authenticatedUser } = useAuth(); // Obtiene el objeto authenticatedUser del contexto de autenticación
 
   const handleSubmit = (e) => {
     e.preventDefault();
