@@ -1,112 +1,255 @@
 /* CheckoutShipping.css */
 
 .heading {
-  padding: 10px 40px 0;
-font-size: 24px;
-margin-bottom: 20px;
-text-align: center;
-}
-
-.shipping-details {
-  text-align: center;
-}
-
-
-.checkout-form-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.form {
-  border-collapse: collapse;
-  justify-content: center;
-}
-
-.label {
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: #555;
-}
-
-.input-group {
+  font-size: 24px;
   margin-bottom: 20px;
-}
-
-.input {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-  width: 90%;
-}
-
-.submit-button {
-  background-color: #3c97cb;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.payment-form-container {
-  width: 100%;
-  text-align: center;
-}
-.submit-button:hover {
-  background-color: #9adaff; /* Cambia el color al pasar el mouse */
-}
-
-/* Media query for responsive design */
-@media (min-width: 768px) {
-
-  .input {
-    margin-bottom: 10px;
+  text-align: justify;
   }
-
-  .submit-button {
-    margin-top: 10px;
+  
+  .shipping-details {
+    text-align: center;
   }
-  .item-container {
-    height: auto; /* Adjust height for responsive design */
+  
+  .flex {
+    display: flex;
+    align-items: left;
+    align-self: center;
+    flex: 1;
   }
-
+  
+  
+  
+  #nombre-container {
+    margin-right:8px;
+    flex: 1.4;
+    width: 100%;
+  }
+  
+  #apellidos-container {
+    flex: 2;
+    width: 100%;
+  }
+  
+  .ver-pedido {
+    font-size: 1.5rem;
+    -webkit-user-select: none;
+    user-select: none;
+    margin-right: 10px;
+  }
+  .ver-pedido:hover {
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+  
+  
+  .continue-shopping {
+    color: #353535;
+    font-weight: 300;
+    font-size: 1rem;
+  }
+  
+  .continue-shopping:hover {
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  
+  .flex-form-input label, .input-group {
+    margin-right:10px;
+    margin-bottom: 8px;
+    color: #000;
+    font-size: 14px;
+  }
+  
+  .color-red-bold {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .color-red {
+    color: red;
+  }
+  
+  
+  .row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    flex: 1;
+    margin-bottom: 15px;
+  }
+  
+  .flex-space-between {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    justify-content: space-between;
+  }
+  
+  .content-box {
+    width: 80%;
+    margin: 20px auto;
+  }
+  
   .checkout-form-container {
-    flex-direction: row;
-    width: 95%;
-    margin: 0 auto;
-    max-height: 80vh; /* Set a maximum height for the table container */
-    position: relative; /* Add this to establish a stacking context */
+    width: 100%;
+    align-items: center;
+    text-align: justify;
   }
-
+  
   .form {
-    width: 60%;
+    border-collapse: collapse;
+    justify-content: center;
+  }
+  
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    flex: 1;
+  }
+  
+  .input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+  }
+  
+  .submit-button {
+    background-color: #3c97cb;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .rotate {
+    transform: rotate(45deg);
+    transition: transform 0.3s ease; /* Agrega una transición suave */
+  }
+  
+  .close-div {
+    background: none;
+  }
+  .close-div:hover {
+    background: none;
+  }
+  
+  .close-icon {
+    font-size: 24px;
+    color: black;
+  }
+  .close-icon:hover {
+    
+    color: rgb(136, 136, 136);
+  }
+  
+  .rotate.reverse {
+    transform: rotate(0deg);
+  }
+  
+  .submit-button:hover {
+    background-color: #9adaff; /* Cambia el color al pasar el mouse */
+  }
+  
+  
+  .form {
+    width: 100%;
     
   margin: 0;
   }
-
-}
-
-
-.tarjeta-debito-credito {
-  margin-top: 20px;
-}
-
-.tarjeta-debito-credito label {
-  display: block;
-  margin-bottom: 8px;
-}
-
-.tarjeta-debito-credito input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+  
+  .title {
+    text-align: center;
+    font-size: 3rem;
+  }
+  
+  
+  .tarjeta-debito-credito {
+    margin-top: 20px;
+  }
+  
+  .tarjeta-debito-credito label {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .tarjeta-debito-credito input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .next-step-button {
+    background-color: #3c97cb;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    position: absolute;
+    right: 10%;
+  }
+  
+  .next-step-button:hover {
+    background-color: #f00; /* Change color on hover */
+  }
+  
+  /* Media query for responsive design */
+  @media (min-width: 768px) {
+  
+    
+    .row {
+      flex-direction: row ;
+    }
+  
+    .flex-form-input {
+      display: flex;
+      flex-direction: column;
+      align-items: justify;
+      flex: 1;
+    }
+  
+    .next-step-button {
+      right: 0;
+  }
+  
+    .input {
+      margin-bottom: 10px;
+    }
+  
+    .submit-button {
+      margin-top: 10px;
+    }
+    .item-container {
+      height: auto; /* Adjust height for responsive design */
+    }
+  
+    .checkout-form-container {
+      flex-direction: row;
+      width: 95%;
+      margin: 0 auto;
+      max-height: 80vh; /* Set a maximum height for the table container */
+      position: relative; /* Add this to establish a stacking context */
+    }
+  
+    .form {
+      width: 100%;
+      
+    margin: 0;
+    }
+  
+  }

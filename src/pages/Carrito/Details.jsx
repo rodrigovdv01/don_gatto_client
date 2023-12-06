@@ -7,8 +7,6 @@ import "./Checkout.css";
 const Details = () => {
   const { carrito, setSelectedItems, selectedItemsOriginales } =
     useShoppingContext();
-  const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     // Cargar los datos del localStorage al estado cuando se monta el componente
@@ -16,85 +14,70 @@ const Details = () => {
     if (savedSelectedItems) {
       setSelectedItems(JSON.parse(savedSelectedItems));
     }
+  }, []);
 
-    // Resto de tu código...
-  }, [setSelectedItems]);
-
- 
-  const handleEditCart = () => {
-    // Restaura los selectedItems a su estado original
-    setSelectedItems([...selectedItemsOriginales]);
-
-    // Navega de regreso a la página del carrito
-    navigate("/checkout/cart");
+  const calcularSubtotal = () => {
+    return carrito.reduce((total, item) => {
+      return total + item.precio * item.cantidad;
+    }, 0);
   };
 
-  const handleCheckout = () => {
-    if (location.pathname === "/checkout/cart") {
-      navigate("/checkout/shipping");
-    }
-  };
-
-  const renderCartLink = () => {
-    if (location.pathname === "/checkout/cart") {
-      return (
-        <>
-          <Link to="/menu" className="continue-shopping">
-            Seguir Comprando
-          </Link>
-          <input
-            type="submit"
-            value="Siguiente paso"
-            onClick={handleCheckout}
-            className="next-step-button"
-          />
-        </>
-      );
-    } else if (location.pathname === "/checkout/shipping") {
-      return (
-        <div className="buttons">
-          <Link
-            to="/checkout/cart"
-            className="continue-shopping"
-            onClick={handleEditCart}
-          >
-            Editar Carrito
-          </Link>
-          <input
-            type="submit"
-            value="Realizar pedido"
-            className="btn"
-            onClick={handleCheckout}
-          />
-        </div>
-      );
-    }
+  const calcularTotal = () => {
+    const total = calcularSubtotal();
+    return total;
   };
 
   return (
-    <div className="details">
-      {renderCartLink()}
+    <div className="">
       <table className="product-table">
+        <thead>
+          <th>Producto</th>
+          <th>Subtotal</th>
+        </thead>
         <tbody>
           {carrito.map((item, index) => {
             const monto_total = item.precio * item.cantidad;
             return (
               <tr key={`${item.producto_id}-${index}`}>
-                <td>
-                  <img src={item.img} alt="" />
-                  <b>{item.nombre}</b>
-                  
-                  <p>{item.descripcion}</p>
+                <td className="flex" style={{ alignItems: "center" }}>
+                  <img src={item.img} alt="imagen del producto" />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "flex-start",
+                      marginLeft: "8px",
+                    }}
+                  >
+                    <span className="product-name">{item.nombre}</span>
+                    <b className="product-quantity">x{item.cantidad}</b>
+                  </div>
                 </td>
-                <td>{item.cantidad}</td>
+
                 <td>S/. {monto_total}</td>
               </tr>
             );
           })}
+          <tr className="cart-subtotal">
+            <td>
+              <b>Subtotal</b>
+            </td>
+
+            <td>S/. {calcularSubtotal()}</td>
+          </tr>
+          <tr className="cart-shipping">
+            <td colSpan="2">
+              <b>Envío</b>
+            </td>
+          </tr>
+          <tr className="cart-total">
+            <td>
+              <b>Total</b>
+            </td>
+            <td>S/. {calcularTotal()}</td>
+          </tr>
         </tbody>
       </table>
-
-      {/* <p className="total">Total: S/. {calcularTotal(carrito)}</p> */}
     </div>
   );
 };

@@ -1,3 +1,41 @@
+.product-table {
+  border-radius: 0;
+}
+
+.product-table thead,
+.product-table tbody,
+.cart-subtotal,
+.cart-shipping,
+.cart-total {
+  border: 1px solid #d5d5d5;
+}
+
+.cart-subtotal td,
+.cart-shipping td,
+.cart-total td{
+  padding: 15px;
+}
+
+.product-table th {
+  background: none;
+  color: black;
+  border: none;
+  font-size: 14px;
+  padding: 10px;
+}
+
+.product-name {
+  top: 0;
+}
+.product-table td {
+  background: none;
+  color: black;
+  border: none;
+  font-size: 14px;
+  text-align: justify;
+  padding: 10px;
+}
+
 .product-details {
   display: flex;
   justify-content: space-between;
@@ -43,7 +81,6 @@
 
   /* Estilos para el elemento .details cuando se hace sticky */
   .details.sticky {
-    position: sticky;
     bottom: 0; /* Lo anclamos en la parte inferior del contenedor principal */
     background-color: #fff; /* Cambia el fondo según tus preferencias */
     z-index: 1; /* Asegúrate de que esté por encima de otros elementos */

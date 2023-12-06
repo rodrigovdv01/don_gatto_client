@@ -1,6 +1,6 @@
 // Importa las librerías y componentes necesarios
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "../../styles.css";
 import "./Checkout.css";
@@ -17,7 +17,6 @@ const CheckoutPayment = () => {
   const {
     calcularTotal,
     carrito,
-    setPedidoId,
     vaciarCarrito,
     setSelectedItems,
     selectedItemsOriginales,
@@ -65,9 +64,11 @@ const CheckoutPayment = () => {
       setMetodoPagoError("Por favor, selecciona un método de pago");
       return;
     }
+
     try {
       const user_id = authenticatedUser ? authenticatedUser.id : "0";
 
+      // Create a new pedido
       const pedidoResponse = await axios.post(
         `${process.env.REACT_APP_API_URL}/pedidos/crear-pedido`,
         {
@@ -77,28 +78,51 @@ const CheckoutPayment = () => {
           telefono: `${shippingInfo.telefono}`,
           direccion_envio: `${shippingInfo.direccion}`,
           email: `${shippingInfo.email}`,
-          estado_pedido: "Recibido",
+          estado_pedido: "Activo",
         }
       );
 
       if (pedidoResponse.status === 201) {
         const nuevoPedidoId = pedidoResponse.data.pedido.id;
-        setPedidoId(nuevoPedidoId);
 
-        for (const [index, producto] of carrito.entries()) {
-          await axios.post(`${process.env.REACT_APP_API_URL}/pedidos/detalles-de-pedido`, {
+        // Define the date of now
+        const fecha_transaccion = new Date().toISOString();
+
+        // Set the estado_transaccion to a default value (you might want to adjust this)
+        const estado_transaccion = "Pendiente";
+
+        // Create a new transacción associated with the pedido
+        await axios.post(
+          `${process.env.REACT_APP_API_URL}/transacciones_pago`,
+          {
             user_id,
             pedido_id: nuevoPedidoId,
-            producto_id: producto.producto_id,
-            cantidad: producto.cantidad,
-            precio_unitario: producto.precio,
-          });
+            fecha_transaccion,
+            metodo_pago: metodoPago,
+            monto_transaccion: montoTotal,
+            estado_transaccion,
+          }
+        );
+
+        // Add detalles-de-pedido for each product in the carrito
+        for (const [index, producto] of carrito.entries()) {
+          await axios.post(
+            `${process.env.REACT_APP_API_URL}/pedidos/detalles-de-pedido`,
+            {
+              user_id,
+              pedido_id: nuevoPedidoId,
+              producto_id: producto.producto_id,
+              cantidad: producto.cantidad,
+              precio_unitario: producto.precio,
+            }
+          );
           console.log(index);
         }
 
         console.log("Respuesta del servidor:", pedidoResponse.data);
         navigate(`/pedido-confirmado/${nuevoPedidoId}`);
       }
+
       vaciarCarrito();
       setSelectedItems([...selectedItemsOriginales]);
     } catch (error) {
@@ -202,7 +226,7 @@ const CheckoutPayment = () => {
                   type="text"
                   id="cvv"
                   name="cvv"
-                  maxLength="3"
+                  maxLength="4"
                   minLength="3"
                   // Agrega más propiedades según tus necesidades (por ejemplo, validación)
                 />
@@ -224,8 +248,11 @@ const CheckoutPayment = () => {
         {metodoPagoError && (
           <div className="error-message">{metodoPagoError}</div>
         )}
+        <Link to="/checkout" className="continue-shopping">
+          volver
+        </Link>
         <button type="submit" className="submit-button">
-          Pagar
+          Realizar Pedido
         </button>
       </form>
     </div>

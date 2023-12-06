@@ -2,104 +2,108 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { v4 as uuidv4 } from "uuid";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [authenticatedUser, setAuthenticatedUser] = useState(null);
-  // const [error, setError] = useState(null);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Al cargar el componente, intenta recuperar la información de autenticación desde las cookies.
-    checkAuthentication();
-  }, []);
+  const handleLogout = async () => {
+    try {
+      // Send a request to the server to invalidate the session
+      await axios.get(`${process.env.REACT_APP_API_URL}/logout`, {
+        withCredentials: true,
+      });
+  
+      // Clear the state of authentication
+      setAuthenticatedUser(null);
+  
+      // Remove the authToken cookie
+      Cookies.remove("authToken");
+      Cookies.remove("authTokenServer");
+  
+      // Redirect the user to the desired page (e.g., the homepage)
+      navigate("/");
+    } catch (error) {
+      // Handle any errors that may occur during logout
+      console.error("Error during logout:", error);
+  
+      // Clear the state of authentication even if an error occurs
+      setAuthenticatedUser(null);
+  
+      // Remove the authToken cookie even if an error occurs
+      Cookies.remove("authToken");
+      Cookies.remove("authTokenServer");
+  
+      // Redirect the user to the desired page (e.g., the homepage)
+      navigate("/");
+    }
+  };
+  
 
   const handleLogin = async (formData) => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/login`,
         formData,
-        { withCredentials: true }
+        {
+          withCredentials: true, // Configurar para enviar cookies
+        }
       );
 
-      const authToken = response.data.token; // Assuming your server sends back a token
-
-      if (authToken) {
-        // Store the token in localStorage
-        localStorage.setItem("authToken", authToken);
-        // Store the token in a cookie
-        Cookies.set("authToken", authToken, { expires: 1, secure: true });
-      } else {
-        const newAuthToken = uuidv4();
-        // Store the generated token in a cookie
-        Cookies.set("authToken", newAuthToken, { expires: 1, secure: true });
-        // Store the generated token in localStorage
-        localStorage.setItem("authToken", newAuthToken);
-      }
-
+      // Obtener la cookie del servidor
+      const authTokenCookie = response.headers["set-cookie"];
+      // Almacenarla en tu aplicación
+      Cookies.set("authToken", authTokenCookie);
       setAuthenticatedUser(response.data.user);
-
-      if (response.data.Login) {
+      setError(null);
+      if (response.data.Login) {  
         navigate("/");
       }
     } catch (error) {
-      // Handle login errors
-      console.error("Error durante el inicio de sesión:", error);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await axios.get(`${process.env.REACT_APP_API_URL}/logout`, {
-        withCredentials: true,
-      });
-
-      setAuthenticatedUser(null);
-
-      // Remove the token from the cookie
-      Cookies.remove("authToken");
-      // Remove the "authTokenServer" cookie
-      Cookies.remove("authTokenServer");
-
-      // Redirect to the home page
-      navigate("/");
-    } catch (error) {
-      console.error("Error logging out:", error);
+      // Manejo de errores de inicio de sesión
+      if (error.response) {
+        if (error.response.status === 401) {
+          if (error.response.data.message === "Correo no registrado") {
+            setError("Correo no registrado. Regístrate si eres nuevo.");
+          } else {
+            setError("Contraseña incorrecta. Verifica tu contraseña.");
+          }
+        } else {
+          setError("Error de inicio de sesión. Intenta nuevamente más tarde.");
+        }
+      } else {
+        setError("Error de red. Verifica tu conexión a Internet.");
+      }
     }
   };
 
   const checkAuthentication = async () => {
     try {
-      // Retrieve the token from the cookie
-      const authToken = Cookies.get("authToken");
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/verify-auth`, {
+        withCredentials: true, // Configurar para enviar cookies
+      });
 
-      if (authToken) {
-        // Include the token in the axios request header
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/verify-auth`,
-          {
-            withCredentials: true,
-            headers: { Authorization: `Bearer ${authToken}` },
-          }
-        );
-
-        if (response.data.isAuthenticated) {
-          setAuthenticatedUser(response.data.user);
-        }
+      if (response.data.isAuthenticated) {
+        setAuthenticatedUser(response.data.user);
       }
     } catch (error) {
-      console.error("Error checking authentication:", error);
+      console.error("Error al verificar la autenticación:", error);
     }
   };
+
+  useEffect(() => {
+    checkAuthentication();
+  }, []);
 
   const contextValue = {
     authenticatedUser,
     setAuthenticatedUser,
+    checkAuthentication,
     handleLogout,
     handleLogin,
-    checkAuthentication,
   };
 
   return (

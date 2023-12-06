@@ -20,7 +20,7 @@ import Productos from "./pages/Admin/Productos/Productos";
 import Usuarios from "./pages/Admin/Users/Usuarios";
 import MisPedidos from "./pages/Pedidos/MisPedidos";
 import CheckoutCart from "./pages/Carrito/CheckoutCart";
-import CheckoutShipping from "./pages/Carrito/CheckoutShipping";
+import Checkout from "./pages/Carrito/Checkout";
 import CheckoutPayment from "./pages/Carrito/CheckoutPayment";
 import PedidoConfirmado from "./pages/Pedidos/PedidoConfirmado";
 import { AuthProvider } from "./AuthContext";
@@ -87,7 +87,7 @@ function App() {
         />
 
         <Route path="/checkout/cart" element={<CheckoutCart />} />
-        <Route path="/checkout/shipping" element={<CheckoutShipping />} />
+        <Route path="/checkout/shipping" element={<Checkout />} />
         <Route path="/checkout/payment" element={<CheckoutPayment />} />
         <Route
           path="/pedido-confirmado/:pedidoId"
