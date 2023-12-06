@@ -1,78 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useShoppingContext } from "../../ShoppingContext";
-import "../../styles.css";
 
 const PedidoDetalle = () => {
   const {
     obtenerDetallesPedido,
     detallesPedido,
     obtenerProductos,
-    obtenerUsuarios,
     productosOriginales,
   } = useShoppingContext();
   const { pedidoId } = useParams();
-  const [loading, setLoading] = useState(true);
+  const [selectedPedido, setSelectedPedido] = useState(null);
 
   useEffect(() => {
-    const fetchDetallesPedido = async () => {
+    const fetchData = async () => {
       try {
         await obtenerDetallesPedido(pedidoId);
-        setLoading(false);
+        await obtenerProductos();
+        setSelectedPedido(pedidoId); // Set selectedPedido with the ID from the route
       } catch (error) {
         console.error("Error al obtener los detalles del pedido:", error);
-        setLoading(false);
       }
     };
 
-    fetchDetallesPedido();
-  }, [pedidoId, obtenerDetallesPedido]);
-
-  useEffect(() => {
-    obtenerProductos();
-    obtenerUsuarios();
-  }, [ obtenerProductos, obtenerUsuarios]);
-
-  if (loading) {
-    return <p>Cargando...</p>;
-  }
+    fetchData();
+  }, [pedidoId, obtenerDetallesPedido, obtenerProductos]);
 
   return (
     <div className="content-container">
-      <h2>Tu pedido está siendo revisado</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID del Producto</th>
-            <th>Nombre del Producto</th>
-            <th>Entrada</th>
-            <th>Segundo</th>
-            <th>Postre</th>
-            <th>Bebida</th>
-            <th>Cantidad</th>
-            <th>Precio Unitario</th>
-          </tr>
-        </thead>
-        <tbody>
-          {detallesPedido.map((detalle) => {
+      <h2>¡Hemos recibido tu pedido y está siendo revisado!</h2>
+      {/* <ul>
+        <li>
+          Nombre del cliente: {selectedPedido ? selectedPedido.nombre : "-"}
+        </li>
+        <li>
+          Dirección de entrega: {detallesPedido?.direccion_envio || "-"}
+        </li>
+      </ul> */}
+      <div className="pedido-card-container">
+        {Array.isArray(detallesPedido) && detallesPedido.length > 0 ? (
+          detallesPedido.map((detalle, index) => {
             const productoDelDetalle = productosOriginales.find(
               (producto) => producto.producto_id === detalle.producto_id
             );
             return (
-              <tr key={detalle.id}>
-                <td>{detalle.producto_id}</td>
-                <td>{productoDelDetalle?.nombre || "-"}</td>
-                <td>{detalle.selectedEntrada || "-"}</td>
-                <td>{detalle.selectedSegundo || "-"}</td>
-                <td>{detalle.selectedPostre || "-"}</td>
-                <td>{detalle.selectedBebida || "-"}</td>
-                <td>{detalle.cantidad}</td>
-                <td>S/. {detalle.precio_unitario.toFixed(2)}</td>
-              </tr>
+              <React.Fragment key={index}>
+                <ul className="pedido-card">
+                  <li>
+                    <img
+                      alt="imagen del producto"
+                      src={productoDelDetalle?.img || "-"}
+                      width={200}
+                    ></img>
+                  </li>
+                  <li>
+                    <b>Cantidad:</b> {detalle.cantidad}
+                  </li>
+                  <li>
+                    <b>Nombre del Producto:</b>{" "}
+                    {productoDelDetalle?.nombre || "-"}
+                  </li>
+                  <li>
+                    <b>Precio Unitario:</b> S/.{" "}
+                    {detalle.precio_unitario.toFixed(2)}
+                  </li>
+                </ul>
+              </React.Fragment>
             );
-          })}
-        </tbody>
-      </table>
+          })
+        ) : (
+          <p>No hay detalles disponibles para este pedido.</p>
+        )}
+      </div>
     </div>
   );
 };
