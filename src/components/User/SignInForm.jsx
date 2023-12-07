@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import "../../styles.css";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../AuthContext"; // Importa useAuth
+import { useNavigate } from "react-router-dom";
 import "./form.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const SignInForm = () => {
   const [formData, setFormData] = useState({
@@ -17,15 +16,14 @@ const SignInForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setError(error)
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     // Utiliza handleLogin del contexto para manejar el inicio de sesión
     handleLogin(formData);
-
   };
 
   return (
@@ -59,7 +57,7 @@ const SignInForm = () => {
           <button type="submit" className="form-button">
             Iniciar sesión
           </button>
-          <ul className="center">
+          <ul>
             <li>ó</li>
             <li>
               <p>
@@ -81,9 +79,6 @@ const SignInForm = () => {
           </button>
         </div>
       )}
-      <div className="center">
-        <Link to="/" style={{fontSize: "16px"}}> <FontAwesomeIcon style={{paddingTop: "40px"}} icon={faArrowLeft}/> Volver al inicio</Link>
-      </div>
     </div>
   );
 };

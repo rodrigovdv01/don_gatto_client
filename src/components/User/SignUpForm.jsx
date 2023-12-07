@@ -13,6 +13,7 @@ const SignUpForm = () => {
     apellido: "",
     telefono: "",
     email: "",
+    direccion_envio: "",
     password: "",
   });
 
@@ -40,72 +41,79 @@ const SignUpForm = () => {
 
   return (
     <div className="content-container">
-      <div className="form-container" style={{marginTop: "-30px"}}>
-        <form onSubmit={handleSubmit} className="register-form">
-        <h1 className="form-title">Registrarse</h1>
-          <label className="form-label">
-            Nombre:
-            <input
-              type="text"
-              name="nombre"
-              value={formData.nombre}
-              onChange={handleChange}
-              className="form-input"
-            />
-          </label>
-          <label className="form-label">
-            Apellido:
-            <input
-              type="text"
-              name="apellido"
-              value={formData.apellido}
-              onChange={handleChange}
-              className="form-input"
-            />
-          </label>
-          <label className="form-label">
-            Teléfono:
-            <input
-              type="text"
-              name="telefono"
-              value={formData.telefono}
-              onChange={handleChange}
-              className="form-input"
-            />
-          </label>
-          <label className="form-label">
-            Email:
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="form-input"
-            />
-          </label>
-          <label className="form-label">
-            Contraseña:
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="form-input"
-            />
-          </label>
-          <button type="submit" className="form-button">
-            Registrarse
-          </button>
-          <ul className="center">
-            <li>ó</li>
-            <li>
-              <p>
-                <Link to="/login">Iniciar Sesión</Link>
-              </p>
-            </li>
-          </ul>
-        </form>
-      </div>
+      <form onSubmit={handleSubmit} className="register-form">
+        <label className="form-label">
+          Nombre:
+          <input
+            type="text"
+            name="nombre"
+            value={formData.nombre}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </label>
+        <label className="form-label">
+          Apellido:
+          <input
+            type="text"
+            name="apellido"
+            value={formData.apellido}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </label>
+        <label className="form-label">
+          Teléfono:
+          <input
+            type="text"
+            name="telefono"
+            value={formData.telefono}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </label>
+        <label className="form-label">
+          Email:
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </label>
+        <label className="form-label">
+          Direccion:
+          <input
+            type="text"
+            name="direccion_envio"
+            value={formData.direccion_envio}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </label>
+        <label className="form-label">
+          Contraseña:
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className="form-input"
+          />
+        </label>
+        <button type="submit" className="form-button">
+          Registrarse
+        </button>
+        <ul>
+          <li>ó</li>
+          <li>
+            <p>
+              <Link to="/login">Iniciar Sesión</Link>
+            </p>
+          </li>
+        </ul>
+      </form>
     </div>
   );
 };

@@ -24,6 +24,8 @@ const MisPedidos = () => {
   const [sortOrder, setSortOrder] = useState("desc");
   const [filterEstado, setFilterEstado] = useState("");
 
+  const [circleColor, setCircleColor] = useState("#ffcccb"); // Inicializado con el mismo color que el fondo seleccionado
+
   const handleSortChange = () => {
     const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
     setSortOrder(newSortOrder);
@@ -180,17 +182,23 @@ const MisPedidos = () => {
       <div className="pedido-card-container">
         {applySortAndFilter(filteredPedidos).map((pedido) => (
           <React.Fragment key={pedido.id}>
-            <ul
-              className={`${
-                selectedPedido === pedido ? "selected " : ""
-              }pedido-card ${
-                pedido.estado_pedido === "Finalizado" ? "finalizado" : ""
-              } ${pedido.estado_pedido === "En camino" ? "en-camino" : ""}`}
-            >
+            <ul className="pedido-card">
               <li className="id-estado">
                 <div>{pedido.estado_pedido}</div>
                 <div id="id-pedido">
-                  <span id="id">ID</span> <span id="pedidoID">{pedido.id}</span>
+                  <div
+                  id="status-circle"
+                    className={`${
+                      selectedPedido === pedido ? "selected " : ""
+                    } ${
+                      pedido.estado_pedido === "Finalizado" ? "finalizado" : ""
+                    } ${
+                      pedido.estado_pedido === "En camino" ? "en-camino" : ""
+                    }${
+                      pedido.estado_pedido === "Activo" ? "activo" : ""
+                    }`}
+                  ></div>
+                  <div><span id="id">ID</span> <span id="pedidoID">{pedido.id}</span></div>
                 </div>
               </li>
               <li>
