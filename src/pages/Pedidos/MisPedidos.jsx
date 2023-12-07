@@ -72,7 +72,7 @@ const MisPedidos = () => {
           `${process.env.REACT_APP_API_URL}/verify-auth`,
           { withCredentials: true }
         );
-
+    
         if (response.data.isAuthenticated) {
           await Promise.all([
             obtenerUsuarios(),
@@ -80,15 +80,15 @@ const MisPedidos = () => {
             obtenerProductos(),
           ]);
         }
-
+    
         setIsAuthenticated(response.data.isAuthenticated);
-        authenticatedUserId = response.data.id;
-
+        authenticatedUserId = response.data.user.id; // Modifica esta línea
+    
         if (response.data.isAuthenticated) {
           const filteredPedidos = authenticatedUserId
             ? pedidos.filter((pedido) => pedido.user_id === authenticatedUserId)
             : pedidos;
-
+    
           setFilteredPedidos(filteredPedidos);
         }
       } catch (error) {
@@ -98,6 +98,7 @@ const MisPedidos = () => {
         setLoading(false);
       }
     };
+    
 
     fetchData();
   }, [forceUpdate]); // Dependencia añadida para forzar la actualización
@@ -310,13 +311,12 @@ const MisPedidos = () => {
                       </li>
                       {selectedPedido.estado_pedido === "En camino" && (
                         <>
-                          
-                  <li>
-                    Su pedido está en camino a {selectedPedido.direccion_envio}, salió el{" "}
-                    {formatDate(selectedPedido.updatedAt)}
-                    {" "}a las{" "}
-                    {formatTime(selectedPedido.updatedAt)}
-                  </li>
+                          <li>
+                            Su pedido está en camino a{" "}
+                            {selectedPedido.direccion_envio}, salió el{" "}
+                            {formatDate(selectedPedido.updatedAt)} a las{" "}
+                            {formatTime(selectedPedido.updatedAt)}
+                          </li>
                         </>
                       )}
                       {selectedPedido.estado_pedido === "Finalizado" && (
@@ -330,7 +330,7 @@ const MisPedidos = () => {
                             {formatTime(selectedPedido.updatedAt)}
                           </li>
                         </>
-                      )}  
+                      )}
                     </div>
 
                     {selectedPedido === pedido && (
