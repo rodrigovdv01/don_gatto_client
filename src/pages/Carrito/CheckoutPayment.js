@@ -64,10 +64,11 @@ const CheckoutPayment = () => {
       setMetodoPagoError("Por favor, selecciona un método de pago");
       return;
     }
-
+  
+    
     try {
       const user_id = authenticatedUser ? authenticatedUser.id : "0";
-
+  
       // Create a new pedido
       const pedidoResponse = await axios.post(
         `${process.env.REACT_APP_API_URL}/pedidos/crear-pedido`,
@@ -81,15 +82,19 @@ const CheckoutPayment = () => {
           estado_pedido: "Activo",
         }
       );
-
+  
       if (pedidoResponse.status === 201) {
         const nuevoPedidoId = pedidoResponse.data.pedido.id;
-
+  
         // Define the date of now
         const fecha_transaccion = new Date().toISOString();
-
+  
         // Set the estado_transaccion to a default value (you might want to adjust this)
-        const estado_transaccion = "Pendiente";
+        let estado_transaccion = "Pendiente";
+
+if (metodoPago === "TarjetaDebitoCredito") {
+  estado_transaccion = "Pagado";
+}
 
         // Create a new transacción associated with the pedido
         await axios.post(
@@ -103,26 +108,23 @@ const CheckoutPayment = () => {
             estado_transaccion,
           }
         );
-
+  
         // Add detalles-de-pedido for each product in the carrito
         for (const [index, producto] of carrito.entries()) {
-          await axios.post(
-            `${process.env.REACT_APP_API_URL}/pedidos/detalles-de-pedido`,
-            {
-              user_id,
-              pedido_id: nuevoPedidoId,
-              producto_id: producto.producto_id,
-              cantidad: producto.cantidad,
-              precio_unitario: producto.precio,
-            }
-          );
+          await axios.post(`${process.env.REACT_APP_API_URL}/pedidos/detalles-de-pedido`, {
+            user_id,
+            pedido_id: nuevoPedidoId,
+            producto_id: producto.producto_id,
+            cantidad: producto.cantidad,
+            precio_unitario: producto.precio,
+          });
           console.log(index);
         }
-
+  
         console.log("Respuesta del servidor:", pedidoResponse.data);
         navigate(`/pedido-confirmado/${nuevoPedidoId}`);
       }
-
+  
       vaciarCarrito();
       setSelectedItems([...selectedItemsOriginales]);
     } catch (error) {

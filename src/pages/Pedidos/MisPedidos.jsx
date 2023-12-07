@@ -155,10 +155,14 @@ const MisPedidos = () => {
   return (
     <div className="content-container">
       <div className="section-title">
-        <h2>Historial de pedidos: {filteredPedidos.length}</h2>
-        <p>Haz click en el pedido para ver sus detalles</p>
+        {filteredPedidos.length > 0 ? (
+          <h2>Historial de pedidos: {filteredPedidos.length}</h2>
+        ) : (
+          <h2>No tienes pedidos aún. Haz click para cargarlos.</h2>
+        )}
+        <p>Haz click en un pedido para ver sus detalles</p>
         <div>
-          <button onClick={handleForceUpdate}>Actualizar Pedidos</button>
+          <button onClick={handleForceUpdate}>Cargar Pedidos</button>
           <label>
             Ordenar por:
             <select value={sortOrder} onChange={handleSortChange}>
@@ -169,16 +173,17 @@ const MisPedidos = () => {
         </div>
         <div>
           <label>
-            Estado de pedido:
+            Filtrar por estado:
             <select value={filterEstado} onChange={handleFilterChange}>
               <option value="">Todos</option>
-              <option value="Activo">Activo</option>
+              <option value="Activo">En proceso</option>
               <option value="En camino">En camino</option>
               <option value="Finalizado">Finalizado</option>
             </select>
           </label>
         </div>
       </div>
+
       <div className="pedido-card-container">
         {applySortAndFilter(filteredPedidos).map((pedido) => (
           <React.Fragment key={pedido.id}>
@@ -205,6 +210,9 @@ const MisPedidos = () => {
                   </div>
                 </div>
               </li>
+              <li className="direccion">
+                {pedidos.find((pedido) => pedido.id)?.direccion_envio}
+              </li>
               <li>
                 <b>S/. {pedido.monto_total.toFixed(2)}</b>
               </li>
@@ -214,44 +222,57 @@ const MisPedidos = () => {
                   onClick={() => handlePedidoClick(pedido)}
                 >
                   {pedido.estado_pedido === "Activo"
-                    ? "Enviar comprobante de pago"
-                    : "Detalles del pedido"}
+                    ? "detalles del pedido"
+                    : "detalles del pedido"}
                 </button>
               </li>
               {selectedPedido === pedido && (
                 <li>
                   <ul>
-                    <li>
-                      <strong>Estado de Pago:</strong>{" "}
-                      {transacciones[pedido.id]?.estado_transaccion}
-                    </li>
+                    <div className="flex-space-between">
+                      <li>
+                        <strong>Método:</strong>{" "}
+                        {transacciones[pedido.id]?.metodo_pago ===
+                        "TarjetaDebitoCredito" ? (
+                          <span>Tarjeta</span>
+                        ) : (
+                          <span>{transacciones[pedido.id]?.metodo_pago}</span>
+                        )}
+                      </li>
 
-                    <li>
-                      <strong>Método de pago:</strong>{" "}
-                      {transacciones[pedido.id]?.metodo_pago}
-                    </li>
-                    <div className="enviar-comprobante">
-                      <a
-                        target="_blank"
-                        rel="noreferrer"
-                        href={`https://api.whatsapp.com/send?phone=+51949833976&text=ID de pedido: ${selectedPedido.id}%0D%0ANombre: ${selectedPedido.nombre}%0D%0ADirección de entrega: ${selectedPedido.direccion_envio}`}
+                      <li
+                        className={
+                          transacciones[pedido.id]?.estado_transaccion ===
+                            "Pendiente" ||
+                          transacciones[pedido.id]?.estado_transaccion ===
+                            "Rechazada"
+                            ? "red"
+                            : "green"
+                        }
                       >
-                        Enviar comprobante
-                      </a>
+                        {transacciones[pedido.id]?.estado_transaccion ===
+                        "Pendiente"
+                          ? `Pago ${
+                              transacciones[pedido.id]?.estado_transaccion
+                            }`
+                          : transacciones[pedido.id]?.estado_transaccion ||
+                            "cargando..."}
+                      </li>
                     </div>
-                    <li>
-                      <strong>{selectedPedido.nombre}</strong>
-                    </li>
-                    <li>
-                      <strong>Teléfono:</strong> {selectedPedido.telefono}
-                    </li>
-                    <li>
-                      <strong>Email:</strong> {selectedPedido.email}
-                    </li>
-                    <li>
-                      <strong>Dirección de entrega:</strong>{" "}
-                      {selectedPedido.direccion_envio}
-                    </li>
+
+                    <img
+                      src="/images/yape.jpg"
+                      width={200}
+                      alt="Yape"
+                      className="yape-image"
+                    />
+
+                    <div className="datos-pedido">
+                      <li>{selectedPedido.nombre}</li>
+                      <li>{selectedPedido.telefono}</li>
+                      <li>{selectedPedido.email}</li>
+                      <li>{selectedPedido.direccion_envio}</li>
+                    </div>
 
                     {selectedPedido === pedido && (
                       <li>
@@ -269,15 +290,32 @@ const MisPedidos = () => {
                                 <div className="detalle-mi-pedido" key={index}>
                                   <div
                                     style={{
-                                      margin: "0 auto",
-                                      textAlign: "center",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "space-between",
+                                      padding: "8px",
+                                      borderBottom: "1px solid #ccc",
                                     }}
                                   >
-                                    <span>{detalle.cantidad}</span>
-                                    <span>{productoDelDetalle?.nombre}</span>
-                                    <span>
-                                      S/. {detalle.precio_unitario.toFixed(2)}
-                                    </span>
+                                    <div style={{ flex: 1 }}>
+                                      <span>{detalle.cantidad}</span>{" "}
+                                      <span>{productoDelDetalle?.nombre}</span>
+                                    </div>
+                                    <div style={{ flex: 1 }}>
+                                      <img
+                                        alt={`Imagen del producto ${productoDelDetalle?.nombre}`}
+                                        src={productoDelDetalle?.img}
+                                        height={80}
+                                        style={{ marginRight: "16px" }}
+                                      />
+                                    </div>
+                                    <div
+                                      style={{ flex: 1, textAlign: "right" }}
+                                    >
+                                      <span>
+                                        S/. {detalle.precio_unitario.toFixed(2)}
+                                      </span>
+                                    </div>
                                   </div>
                                 </div>
                               );
@@ -289,6 +327,22 @@ const MisPedidos = () => {
                           )}
                         </ul>
                       </li>
+                    )}
+                    {transacciones[pedido.id]?.estado_transaccion ===
+                      "Pendiente" ||
+                    transacciones[pedido.id]?.estado_transaccion ===
+                      "Rechazada" ? (
+                      <div className="enviar-comprobante">
+                        <a
+                          target="_blank"
+                          rel="noreferrer"
+                          href={`https://api.whatsapp.com/send?phone=+51949833976&text=ID de pedido: ${selectedPedido.id}%0D%0ANombre: ${selectedPedido.nombre}%0D%0ADirección de entrega: ${selectedPedido.direccion_envio}`}
+                        >
+                          Enviar comprobante
+                        </a>
+                      </div>
+                    ) : (
+                      ""
                     )}
                   </ul>
                 </li>

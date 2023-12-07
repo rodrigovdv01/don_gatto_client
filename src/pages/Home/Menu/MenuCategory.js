@@ -1,14 +1,26 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useShoppingContext } from "../../../ShoppingContext";
 import "../../../styles.css";
+import whooshSound from "../../../audio/whoosh.mp3";
 
 const MenuCategory = ({ category, menuItems, agregarAlCarrito, menuCount }) => {
   // Filtra los productos activos antes de mostrarlos
-  const productosActivos = menuItems.filter((menuItem) => menuItem.activo === true);
+  const productosActivos = menuItems.filter(
+    (menuItem) => menuItem.activo === true
+  );
+  const whooshRef = useRef(null);
+  const { toggleCart, cartOpen, carrito } = useShoppingContext();
 
   const handleAgregarClick = (menuItem) => {
     // Aquí debes llamar a la función agregarAlCarrito con un nombre personalizado
     // Puedes usar el valor de menuCount para crear el nombre único
+    if (!cartOpen){
+      toggleCart();
+    }
     agregarAlCarrito(menuItem, `Menu del día ${menuCount + 1}`);
+    if (whooshRef.current) {
+      whooshRef.current.play();
+    }
   };
 
   return (
@@ -42,6 +54,8 @@ const MenuCategory = ({ category, menuItems, agregarAlCarrito, menuCount }) => {
           ))}
         </ul>
       </div>
+
+      <audio ref={whooshRef} src={whooshSound}></audio>
     </div>
   );
 };

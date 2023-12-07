@@ -74,7 +74,7 @@ const Checkout = () => {
               VER PEDIDO
             </a>
             {detailsVisible && (
-              <Link to="/carrito" className="continue-shopping">
+              <Link to="/checkout/cart" className="continue-shopping">
                 editar Carrito
               </Link>
             )}
