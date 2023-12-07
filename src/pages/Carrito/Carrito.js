@@ -3,13 +3,9 @@ import { Link } from "react-router-dom";
 import "./Carrito.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
-import {
-  faTrash,
-  faPlus,
-  faMinus,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import "../../styles.css";
+import { useAuth } from "../../AuthContext"; // Importa el contexto de autenticación
 
 const Carrito = ({
   carrito,
@@ -26,7 +22,7 @@ const Carrito = ({
     e.preventDefault();
 
     toggleCart();
-    navigate("/checkout/cart");
+    navigate("/checkout/shipping");
   };
 
   return (
@@ -41,81 +37,46 @@ const Carrito = ({
         {carrito.length === 0 ? (
           <>
             <p>No has seleccionado ningún producto.</p>
-            <Link to="/menu" className="ir-a-comprar" onClick={toggleCart}>
+            <Link to="/menu" className="continue-shopping" onClick={toggleCart}>
               Ir a comprar
             </Link>
           </>
         ) : (
           <>
-            <h2 className="carrito-title">Mi pedido</h2>
+            <h2 className="carrito-title">MI CARRITO</h2>
             <ul className="carrito-items">
               {carrito.map((item, index) => (
                 <li
                   className="carrito-item"
                   key={`${item.producto_id}-${index}`}
                 >
-                  <div className="carrito-item-details">
-                    <div className="carrito-item-info">
-                      <img height={100} alt="item" src={item.img}></img>
-                      <h4>{item.nombre}</h4>
-                      <p>{item.descripcion}</p>
-                      <div>
-                        <div>Precio: S/. {item.precio}</div>
-                        <div className="cantidad">
-                          <div
-                            className={`carrito-button ${
-                              item.cantidad === 0
-                                ? "carrito-button-disabled"
-                                : ""
-                            }`}
-                            onClick={() =>
-                              modificarCantidad(item.producto_id, -1)
-                            }
-                            disabled={item.cantidad === 0}
-                          >
-                            <FontAwesomeIcon icon={faMinus} />
-                          </div>
-                          <span className="carrito-quantity">
-                            {item.cantidad}
-                          </span>
-                          <div
-                            className="carrito-button"
-                            onClick={() =>
-                              modificarCantidad(item.producto_id, 1)
-                            }
-                          >
-                            <FontAwesomeIcon icon={faPlus} />
-                          </div>
-                        </div>
-                        <div
-                          className="carrito-button carrito-button-eliminar"
-                          onClick={() => eliminarDelCarrito(item.producto_id)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </div>
-                      </div>
-                    </div>
+                  <img
+                    className="carrito-img"
+                    alt="product image"
+                    src={item.img}
+                  ></img>
+                  <div className="texto">
+                    <h4>{item.nombre}</h4>
+
+                    <p>Cantidad: {item.cantidad}</p>
+                    <p>S/. {item.precio.toFixed(2)}</p>
                   </div>
                 </li>
               ))}
             </ul>
             <div>
               <p className="total">Total: S/. {calcularTotal(carrito)}</p>
-              {/* // Renderiza el botón para continuar con la compra si el usuario
-              ha iniciado sesión */}
-              <button
-                type="submit"
-                className="carrito-button carrito-button-pedido"
-              >
-                Continuar con mi Pedido
-              </button>
-              <div className="carrito-bottom-buttons">
-                <button>
-                  <Link to="/menu" onClick={toggleCart}>
-                    Seguir comprando
-                  </Link>
-                </button>
-                <button onClick={vaciarCarrito}>Vaciar Carrito</button>
+              <div className="opciones-carrito">
+                <input
+                  type="submit"
+                  className="carrito-button carrito-button-pedido"
+                  value="PAGAR"
+                />
+                <Link to="/checkout/cart" onClick={toggleCart}>
+                  <button className="carrito-button --pedido">
+                    editar carrito
+                  </button>
+                </Link>
               </div>
             </div>
           </>

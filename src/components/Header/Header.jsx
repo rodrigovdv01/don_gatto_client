@@ -235,7 +235,7 @@ const Header = () => {
                     {cartItemCount > 0 && (
                       <span
                         style={{
-                          color: isHomePage && !isScrolled ? "#000" : "#000",
+                          color: isHomePage && !isScrolled ? "#fff" : "#fff",
                         }}
                         className="cart-item-count"
                       >
@@ -330,7 +330,7 @@ const Header = () => {
                             className="cart-item-count"
                             style={{
                               color:
-                                isHomePage && !isScrolled ? "#000" : "#000",
+                                isHomePage && !isScrolled ? "#fff" : "#fff",
                             }}
                           >
                             {cartItemCount}

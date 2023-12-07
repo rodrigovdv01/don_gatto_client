@@ -83,6 +83,10 @@ td {
   line-height: 1.2;
 }
 
+.flex {
+  align-items: center;
+}
+
 .pedido-card-container {
   display: flex;
   margin: 0 auto;
@@ -105,10 +109,10 @@ td {
 
 #status-circle {
   display: block;
-  width: 15px;
-  height: 15px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  margin-right: 8px; /* Ajusta el margen según sea necesario */
+  margin-left: 8px; /* Ajusta el margen según sea necesario */
 }
 
 .id-estado {
@@ -118,15 +122,17 @@ td {
 }
 
 .activo {
-  background-color: #3f9a1e;
+  background-color: #fff;
+  border: 3px solid #3f9a1e;
 }
 
 .en-camino {
-  background-color: #3c97cb;
+  background-color: #fff;
+  border: 3px solid rgb(255, 221, 0);
 }
 
 .finalizado {
-  background-color: rgb(255, 221, 0);
+  background-color: #433ccb;
 }
 
 #ver-detalles {

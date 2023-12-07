@@ -184,21 +184,25 @@ const MisPedidos = () => {
           <React.Fragment key={pedido.id}>
             <ul className="pedido-card">
               <li className="id-estado">
-                <div>{pedido.estado_pedido}</div>
-                <div id="id-pedido">
+                <div className="flex">
+                  <div>{pedido.estado_pedido}</div>
+
                   <div
-                  id="status-circle"
+                    id="status-circle"
                     className={`${
                       selectedPedido === pedido ? "selected " : ""
                     } ${
                       pedido.estado_pedido === "Finalizado" ? "finalizado" : ""
                     } ${
                       pedido.estado_pedido === "En camino" ? "en-camino" : ""
-                    }${
-                      pedido.estado_pedido === "Activo" ? "activo" : ""
-                    }`}
+                    }${pedido.estado_pedido === "Activo" ? "activo" : ""}`}
                   ></div>
-                  <div><span id="id">ID</span> <span id="pedidoID">{pedido.id}</span></div>
+                </div>
+                <div className="">
+                  <div>
+                    <span id="id">ID</span>{" "}
+                    <span id="pedidoID">{pedido.id}</span>
+                  </div>
                 </div>
               </li>
               <li>

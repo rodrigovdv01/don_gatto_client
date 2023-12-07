@@ -9,39 +9,10 @@
   height: calc(100% - 59px);
   background-color: #fff;
   overflow-y: auto;
-  z-index: 300000;
+  
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   transition: right 0.3s ease-in-out; /* Animate right property for transition */
 }
-
-.shipping-details, .payment-form-container {
-  color:white;
-}
-.submit-button {
-  width: 270px;
-  text-align: center;
-}
-.btn {
-  color: white;
-  background-color: #000000;
-  margin: 10px;
-  padding: 15px;
-  border: none;
-  outline: none;
-  border-radius: 40px;
-  font-weight: bold;
-  font-size: 22px;
-}
-
-.buttons a {
-  color:#000;
-}
-
-.login-form a, .center a {
-  color: white;
-  
-}
-
 
 /* Style for the open sidebar */
 .carrito-sidebar.open {
@@ -64,18 +35,11 @@
   padding: 20px;
 }
 
-.ir-a-comprar {
-  color:#333;
-}
-
 /* Style for the title of the cart */
 .carrito-title {
-  color: black;
-  text-align: center;
   font-size: 1.2rem;
   margin-top: 10px;
   margin-bottom: 10px;
-  border-bottom: 1px solid #4a4a4a;
   padding-bottom: 15px;
 }
 
@@ -86,24 +50,45 @@
   padding: 10px;
 }
 
+.cantidad input {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: #fff;
+  border: none;
+}
+
+.none {
+  display: none;
+}
+
+
 /* Style for each item in the cart */
 .carrito-item {
   display: flex;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items:flex-start;
   margin: 10px 0;
-  padding: 10px;
   background-color: #fff;
-  border: 1px solid #ccc;
   border-radius: 5px;
   max-width: 100%;
 }
 
-#login {
-  text-decoration: underline;
-  color:#840404;
+.carrito-item .texto {
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  justify-content: space-between;
 }
-
+.carrito-item .texto h4 {
+  font-size: 1rem;
+}
+.carrito-item .texto p {
+  font-size: .8rem;
+}
 .opciones-menu {
   display: flex;
   flex-direction: column;
@@ -121,7 +106,7 @@
 
 /* Style for the buttons to increase and decrease quantity */
 .carrito-button {
-  background-color: #ff6265;
+  background-color: #fdc557;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -130,35 +115,35 @@
 }
 
 .carrito-button-disabled {
-  background-color: #000000;
+  background-color: #ccc;
   cursor: not-allowed;
 }
 
 /* Style for the delete button */
 .carrito-button-eliminar {
-  background-color: #ff0000;
+  background-color: #fdc557;
 }
 
-.carrito-bottom-buttons {
+.opciones-carrito {
   display: flex;
-  justify-content: flex-start;
-
 }
 
-.carrito-bottom-buttons button {
-  margin: 0 5px;
-
+.opciones-carrito a {
+  color: white;
+  text-decoration: none;
+  display: flex;
 }
 
 /* Style for the "Realizar Pedido" button */
-.carrito-button-pedido {
+.carrito-button {
   display: block;
-  margin: 10px 25px;
-  background-color: #000000;
+  margin: 0 auto;
+  background-color: #000;
+  margin-top: 20px;
   padding: 10px 20px;
 }
-.carrito-button-pedido:hover {
-  background-color: #676767;
+.carrito-button:hover {
+  background-color: #99daff;
 }
 
 /* Style for the quantity text */
@@ -168,11 +153,17 @@
 }
 
 .carrito-img {
-  height: 50px;
+  height: 150px;
+  width: 150px;
 }
 
 @media screen and (max-width: 600px){
   .carrito-sidebar.open {
     width: 80%;
   }
+}
+
+
+.carrito-item h4 {
+  font-weight: 300;
 }
