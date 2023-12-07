@@ -3,6 +3,9 @@ import { useShoppingContext } from "../../ShoppingContext";
 import axios from "axios";
 import "./MisPedidos.css";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
+
 const MisPedidos = () => {
   const [selectedPedido, setSelectedPedido] = useState(null);
   const [transacciones, setTransacciones] = useState({});
@@ -142,6 +145,16 @@ const MisPedidos = () => {
     }
   };
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
+  }
+
+  function formatTime(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString();
+  }
+
   if (loading) {
     return (
       <div className="content-container">
@@ -162,7 +175,16 @@ const MisPedidos = () => {
         )}
         <p>Haz click en un pedido para ver sus detalles</p>
         <div>
-          <button onClick={handleForceUpdate}>Cargar Pedidos</button>
+          <button
+            onClick={handleForceUpdate}
+            className={
+              filteredPedidos.length === 0
+                ? "red-background"
+                : "black-background"
+            }
+          >
+            Cargar Pedidos
+          </button>
           <label>
             Ordenar por:
             <select value={sortOrder} onChange={handleSortChange}>
@@ -188,44 +210,57 @@ const MisPedidos = () => {
         {applySortAndFilter(filteredPedidos).map((pedido) => (
           <React.Fragment key={pedido.id}>
             <ul className="pedido-card">
-              <li className="id-estado">
-                <div className="flex">
-                  <div>{pedido.estado_pedido}</div>
+              <div className="pedido-preview">
+                <li className="id-estado">
+                  <div className="flex">
+                    <div>{pedido.estado_pedido}</div>
 
-                  <div
-                    id="status-circle"
-                    className={`${
-                      selectedPedido === pedido ? "selected " : ""
-                    } ${
-                      pedido.estado_pedido === "Finalizado" ? "finalizado" : ""
-                    } ${
-                      pedido.estado_pedido === "En camino" ? "en-camino" : ""
-                    }${pedido.estado_pedido === "Activo" ? "activo" : ""}`}
-                  ></div>
-                </div>
-                <div className="">
-                  <div>
-                    <span id="id">ID</span>{" "}
-                    <span id="pedidoID">{pedido.id}</span>
+                    <div
+                      id="status-circle"
+                      className={`${
+                        selectedPedido === pedido ? "selected " : ""
+                      } ${
+                        pedido.estado_pedido === "Finalizado"
+                          ? "finalizado"
+                          : ""
+                      } ${
+                        pedido.estado_pedido === "En camino" ? "en-camino" : ""
+                      }${pedido.estado_pedido === "Activo" ? "activo" : ""}`}
+                    ></div>
                   </div>
-                </div>
-              </li>
-              <li className="direccion">
-                {pedidos.find((pedido) => pedido.id)?.direccion_envio}
-              </li>
-              <li>
-                <b>S/. {pedido.monto_total.toFixed(2)}</b>
-              </li>
-              <li>
-                <button
-                  id="ver-detalles"
-                  onClick={() => handlePedidoClick(pedido)}
-                >
-                  {pedido.estado_pedido === "Activo"
-                    ? "detalles del pedido"
-                    : "detalles del pedido"}
-                </button>
-              </li>
+
+                  <div className="">
+                    <div>
+                      <span id="id">ID</span>{" "}
+                      <span id="pedidoID">{pedido.id}</span>
+                    </div>
+                  </div>
+                </li>
+                <li className="direccion">
+                  {pedidos.find((pedido) => pedido.id)?.direccion_envio}
+                </li>
+                <li className="monto_total">
+                  <b>S/. {pedido.monto_total.toFixed(2)}</b>
+                </li>
+                <li className="ver-detalles">
+                  <button
+                    id="ver-detalles"
+                    onClick={() => handlePedidoClick(pedido)}
+                  >
+                    {pedido.estado_pedido === "Activo"
+                      ? "detalles del pedido"
+                      : "detalles del pedido"}{" "}
+                    <FontAwesomeIcon
+                      icon={
+                        selectedPedido && selectedPedido.id === pedido.id
+                          ? faAngleUp
+                          : faAngleDown
+                      }
+                    />
+                  </button>
+                </li>
+              </div>
+
               {selectedPedido === pedido && (
                 <li>
                   <ul>
@@ -259,26 +294,43 @@ const MisPedidos = () => {
                             "cargando..."}
                       </li>
                     </div>
-                    {transacciones[pedido.id]?.metodo_pago === "Yape" &&
-                    (transacciones[pedido.id]?.estado_transaccion ===
-                      "Pendiente" ||
-                      transacciones[pedido.id]?.estado_transaccion ===
-                        "Rechazada") ? (
-                      <img
-                        src="/images/yape.jpg"
-                        width={200}
-                        alt="Yape"
-                        className="yape-image"
-                      />
-                    ) : (
-                      ""
-                    )}
 
                     <div className="datos-pedido">
                       <li>{selectedPedido.nombre}</li>
                       <li>{selectedPedido.telefono}</li>
                       <li>{selectedPedido.email}</li>
                       <li>{selectedPedido.direccion_envio}</li>
+                      <li>
+                        <strong>Realizado el:</strong>{" "}
+                        {formatDate(selectedPedido.createdAt)}
+                      </li>
+                      <li>
+                        <strong>a las:</strong>{" "}
+                        {formatTime(selectedPedido.createdAt)}
+                      </li>
+                      {selectedPedido.estado_pedido === "En camino" && (
+                        <>
+                          
+                  <li>
+                    Su pedido está en camino a {selectedPedido.direccion_envio}, salió el{" "}
+                    {formatDate(selectedPedido.updatedAt)}
+                    {" "}a las{" "}
+                    {formatTime(selectedPedido.updatedAt)}
+                  </li>
+                        </>
+                      )}
+                      {selectedPedido.estado_pedido === "Finalizado" && (
+                        <>
+                          <li>
+                            <strong>Fecha de Entrega:</strong>{" "}
+                            {formatDate(selectedPedido.updatedAt)}
+                          </li>
+                          <li>
+                            <strong>Hora de Entrega:</strong>{" "}
+                            {formatTime(selectedPedido.updatedAt)}
+                          </li>
+                        </>
+                      )}  
                     </div>
 
                     {selectedPedido === pedido && (
@@ -328,12 +380,38 @@ const MisPedidos = () => {
                               );
                             })
                           ) : (
-                            <li>
-                              No hay detalles disponibles para este pedido.
-                            </li>
+                            <li>Cargando detalles del pedido...</li>
                           )}
                         </ul>
+                        {detallesPedido && detallesPedido.detalles && (
+                          <>
+                            {detallesPedido.detalles.length > 1 ||
+                            detallesPedido.detalles.some(
+                              (detalle) => detalle.cantidad > 1
+                            ) ? (
+                              <span className="flex-end">
+                                total S/. {pedido.monto_total.toFixed(2)}
+                              </span>
+                            ) : (
+                              ""
+                            )}
+                          </>
+                        )}
                       </li>
+                    )}
+                    {transacciones[pedido.id]?.metodo_pago === "Yape" &&
+                    (transacciones[pedido.id]?.estado_transaccion ===
+                      "Pendiente" ||
+                      transacciones[pedido.id]?.estado_transaccion ===
+                        "Rechazada") ? (
+                      <img
+                        src="/images/yape.jpg"
+                        width={200}
+                        alt="Yape"
+                        className="yape-image"
+                      />
+                    ) : (
+                      ""
                     )}
                     {transacciones[pedido.id]?.estado_transaccion ===
                       "Pendiente" ||

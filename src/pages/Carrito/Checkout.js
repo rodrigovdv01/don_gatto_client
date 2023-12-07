@@ -139,7 +139,6 @@ const Checkout = () => {
                 onChange={(e) => handleInputChange(e, setEmail)}
                 className="input"
                 required
-                disabled={email !== ""}
               />
             </div>
             <div className="input-group">

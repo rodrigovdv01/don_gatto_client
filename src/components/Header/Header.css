@@ -79,7 +79,7 @@ li a {
 
 /* Estilo para los enlaces al pasar el cursor */
 li a:hover {
-  text-decoration: none; /* Subraya los enlaces al pasar el cursor */
+ font-size: 1.05rem;
 }
 
 /* Estilos para la lista no ordenada (ul) */
@@ -165,6 +165,17 @@ li {
   padding: 5px 10px;
   border-radius: 20px;
   transition: box-shadow 0.3s, transform 0.3s; /* Agregamos transiciones para suavizar el cambio */
+  min-width: 150px;
+  background-color: #2d02b0;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 6px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  animation-delay: 1s;
+  box-shadow: 0 0 100px rgba(0, 0, 255, 0.982);
+  margin: 0 auto;
 }
 
 .pide-online a {
@@ -174,7 +185,6 @@ li {
 
 .pide-online:hover {
   background-color: rgb(114, 189, 255);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Agregamos un resplandor utilizando box-shadow */
   transform: scale(
     1.1
   ); /* Hacemos que el botón se agrande al 110% del tamaño original */

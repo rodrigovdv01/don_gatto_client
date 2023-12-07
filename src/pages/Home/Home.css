@@ -26,6 +26,9 @@ ul {
   padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
+  background-color: #c82333;
+  margin-top: 25px;
+
 }
 
 /* Estilo para los enlaces */

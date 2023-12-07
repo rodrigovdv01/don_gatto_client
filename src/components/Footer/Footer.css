@@ -1,13 +1,13 @@
 /* Estilos para el footer */
 footer {
-    background-color: #ffffff;
-    color: #00000091;
+    background-color: #000000;
+    color: #ffffff;
     padding: 20px 0;
     z-index: 200000;
   }
 
   footer h3 {
-    color: #000000;
+    color: #ffffff;
   }
   
   .footer-content {
@@ -59,12 +59,12 @@ footer {
   }
   
   .footer-section a {
-    color: #000;
+    color: #ffffff;
     text-decoration: none;
   }
   
   .footer-bottom {
-    border-top: solid 1px #333;
+    border-top: solid 1px #bbbbbb;
     display: flex;
     justify-content: space-between;
     max-width: 1024px;
@@ -88,7 +88,7 @@ footer {
   }
   
   .footer-bottom a, .footer-bottom li {
-    color: #000;
+    color: #ffffff;
     text-decoration: none;
     font-weight: 300;
   }

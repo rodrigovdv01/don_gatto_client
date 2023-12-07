@@ -11,15 +11,10 @@ function Banner() {
 
   return (
     <>
-      <div className="image-container">
-        <img
-          src={`/images/banner/banner-${currentImage}.png`}
-          alt={`Banner ${currentImage}`}
-        />
+      <div className="banner-container">
         <Link to="/menu" className="banner-button">
           ORDENA AQUÍ
         </Link>
-        
       </div>
       
     </>

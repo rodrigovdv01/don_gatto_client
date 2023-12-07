@@ -84,15 +84,12 @@ table td button:hover {
     cursor: pointer;
   }
   
-  /* Estilo para los botones al pasar el mouse */
-  button:hover {
-    background-color: #c82333; /* Rojo más oscuro */
-  }
-  
   .green {
     color: #00b306;
   }
 
-  a:hover {
-    text-decoration: none;
+  .flex-end {
+    display: flex;
+    justify-content: end;
+    padding: 10px;
   }

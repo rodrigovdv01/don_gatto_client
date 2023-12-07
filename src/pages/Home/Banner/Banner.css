@@ -2,8 +2,10 @@
   margin: 0 auto;
   position: relative;
   text-align: center;
-  height: calc(83vh - 72px);
+  min-height: 100vh;
+  max-height: 120vh;
   background-color: #000000;
+  background-image: url('../../../images/banner-1.png');
   background-size:cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -18,11 +20,10 @@
 
 /* Estilo para el botón de compra */
 .banner-button {
-  position: absolute;
   min-width: 150px;
   background-color: #2d02b0;
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1rem;
   padding: 6px 20px;
   text-decoration: none;
   border-radius: 5px;
@@ -30,9 +31,14 @@
   animation: glowUp 2s infinite;
   animation-delay: 1s;
   box-shadow: 0 0 20px rgba(0, 0, 255, 0.5);
+  position: absolute;
+  top: 90%;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%); /* Añadimos translate para centrar sin margen */
+  transform: translate(-50%, -50%);
+  color: #fff; 
+  background-color: rgba(0, 0, 0, 0.7); 
+  padding: 10px 20px; 
+  text-decoration: none;
 }
 
 /* Definición de la animación */
@@ -73,4 +79,9 @@
 
 .selected {
   background-color: #f57366;
+}
+
+.image-container {
+  min-height: 565px;
+
 }

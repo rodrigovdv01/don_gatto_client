@@ -165,7 +165,7 @@ const CheckoutCart = () => {
       </form>
       <div className="buttons">
         <Link to="/menu" className="continue-shopping">
-          Seguir Comprando
+          Agregar productos
         </Link>
         <input
           type="submit"
