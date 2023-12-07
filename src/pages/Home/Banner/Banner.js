@@ -9,10 +9,8 @@ function Banner() {
     setCurrentImage(imageNumber);
   };
 
-
-
   return (
-    <div className="banner-container">
+    <>
       <div className="image-container">
         <img
           src={`/images/banner/banner-${currentImage}.png`}
@@ -21,22 +19,10 @@ function Banner() {
         <Link to="/menu" className="banner-button">
           ORDENA AQUÍ
         </Link>
+        
       </div>
-      <div className="image-selector">
-        <div
-          className={`circle ${currentImage === 1 ? "selected" : ""}`}
-          onClick={() => changeImage(1)}
-        ></div>
-        <div
-          className={`circle ${currentImage === 2 ? "selected" : ""}`}
-          onClick={() => changeImage(2)}
-        ></div>
-        <div
-          className={`circle ${currentImage === 3 ? "selected" : ""}`}
-          onClick={() => changeImage(3)}
-        ></div>
-      </div>
-    </div>
+      
+    </>
   );
 }
 

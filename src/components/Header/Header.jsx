@@ -131,23 +131,28 @@ const Header = () => {
                     }
                   }}
                 >
-                  <img
-                    className="banner-img"
-                    src={
-                      isScrolled
-                        ? isHovered
+                  {(location.pathname === "/" && isScrolled) ||
+                  location.pathname !== "/" ? (
+                    <img
+                      className="banner-img"
+                      src={
+                        isScrolled
+                          ? isHovered
+                            ? "/images/logos/logo1.png"
+                            : "/images/logos/logo1.png"
+                          : isHovered
                           ? "/images/logos/logo1.png"
-                          : "/images/logos/logo1.png"
-                        : isHovered
-                        ? "/images/logos/logo1.png"
-                        : location.pathname === "/"
-                        ? "/images/logos/logo1.png" // Cambiado a "logo1.png" cuando la ruta es "/"
-                        : "/images/logos/logo1.png" // Otras rutas mostrarán "logo3.png"
-                    }
-                    alt="Logo"
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                  />
+                          : location.pathname === "/"
+                          ? "/images/logos/logo1.png" // Cambiado a "logo1.png" cuando la ruta es "/"
+                          : "/images/logos/logo1.png" // Otras rutas mostrarán "logo3.png"
+                      }
+                      alt="Logo"
+                      onMouseEnter={() => setIsHovered(true)}
+                      onMouseLeave={() => setIsHovered(false)}
+                    />
+                  ) : (
+                    ""
+                  )}
                 </Link>
               </li>
               {authenticatedUser ? (
@@ -170,14 +175,13 @@ const Header = () => {
                       >
                         <FontAwesomeIcon
                           style={{
-                            color:
-                              isHomePage && !isScrolled ? "#000" : "#000",
+                            color: isHomePage && !isScrolled ? "#fff" : "#000",
                           }}
                           icon={faHistory}
                         />{" "}
                         <b
                           style={{
-                            color: isHomePage && !isScrolled ? "#000" : "#000",
+                            color: isHomePage && !isScrolled ? "#fff" : "#000",
                           }}
                         >
                           Mis Pedidos
@@ -198,15 +202,14 @@ const Header = () => {
                       >
                         <b
                           style={{
-                            color: isHomePage && !isScrolled ? "#000" : "#000",
+                            color: isHomePage && !isScrolled ? "#fff" : "#000",
                           }}
                         >
                           Bienvenido, {authenticatedUser.nombre}{" "}
                         </b>
                         <FontAwesomeIcon
                           style={{
-                            color:
-                              isHomePage && !isScrolled ? "#000" : "#000",
+                            color: isHomePage && !isScrolled ? "#fff" : "#000",
                           }}
                           icon={userMenuOpen ? faAngleUp : faAngleDown}
                         />
@@ -216,7 +219,7 @@ const Header = () => {
                   <button
                     style={{
                       backgroundColor:
-                        isHomePage && !isScrolled ? "#000" : "#000",
+                        isHomePage && !isScrolled ? "#fff" : "#000",
                     }}
                     className="cart-div"
                     onClick={() => {
@@ -228,7 +231,7 @@ const Header = () => {
                   >
                     <FontAwesomeIcon
                       style={{
-                        color: isHomePage && !isScrolled ? "#fff" : "#fff",
+                        color: isHomePage && !isScrolled ? "#000" : "#fff",
                       }}
                       icon={faShoppingCart}
                     />
@@ -249,15 +252,12 @@ const Header = () => {
                         className="pide-online"
                         style={{
                           backgroundColor:
-                            isHomePage && !isScrolled ? "#000" : "#00",
+                            isHomePage && !isScrolled ? "#fff" : "#000",
                         }}
                       >
                         <Link
                           style={{
-                            color:
-                              isHomePage && !isScrolled
-                                ? "#fff"
-                                : "#fff",
+                            color: isHomePage && !isScrolled ? "#000" : "#fff",
                           }}
                           to="/menu"
                         >
@@ -274,9 +274,10 @@ const Header = () => {
                       <>
                         <li className="log">
                           <Link
-                          style={{
-                            color: isHomePage && !isScrolled ? "#000" : "#000",
-                          }}
+                            style={{
+                              color:
+                                isHomePage && !isScrolled ? "#fff" : "#000",
+                            }}
                             className={`login-logout ${
                               isScrolled ? "scrolled" : ""
                             }`}
@@ -296,7 +297,8 @@ const Header = () => {
                               isScrolled ? "scrolled" : ""
                             }`}
                             style={{
-                              color: isHomePage && !isScrolled ? "#000" : "#000",
+                              color:
+                                isHomePage && !isScrolled ? "#fff" : "#000",
                             }}
                             to="/login"
                             onClick={() => {
@@ -311,32 +313,31 @@ const Header = () => {
                       </>
                     )}
                   <li>
-                      <button
+                    <button
+                      style={{
+                        backgroundColor:
+                          isHomePage && !isScrolled ? "#fff" : "#000",
+                      }}
+                      onClick={toggleCart}
+                      className="cart-div"
+                    >
+                      <FontAwesomeIcon
                         style={{
-                          backgroundColor:
-                            isHomePage && !isScrolled ? "#000" : "#000",
+                          color: isHomePage && !isScrolled ? "#000" : "#fff",
                         }}
-                        onClick={toggleCart}
-                        className="cart-div"
-                      >
-                        <FontAwesomeIcon
+                        icon={faShoppingCart}
+                      />
+                      {cartItemCount > 0 && (
+                        <span
+                          className="cart-item-count"
                           style={{
                             color: isHomePage && !isScrolled ? "#fff" : "#fff",
                           }}
-                          icon={faShoppingCart}
-                        />
-                        {cartItemCount > 0 && (
-                          <span
-                            className="cart-item-count"
-                            style={{
-                              color:
-                                isHomePage && !isScrolled ? "#fff" : "#fff",
-                            }}
-                          >
-                            {cartItemCount}
-                          </span>
-                        )}
-                      </button>
+                        >
+                          {cartItemCount}
+                        </span>
+                      )}
+                    </button>
                   </li>
                 </>
               )}

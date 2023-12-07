@@ -79,7 +79,7 @@ li a {
 
 /* Estilo para los enlaces al pasar el cursor */
 li a:hover {
-  text-decoration: underline; /* Subraya los enlaces al pasar el cursor */
+  text-decoration: none; /* Subraya los enlaces al pasar el cursor */
 }
 
 /* Estilos para la lista no ordenada (ul) */

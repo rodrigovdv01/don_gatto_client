@@ -15,7 +15,7 @@ function Home() {
   const buttonText = showFullDescription ? "Ver menos" : "Ver más";
 
   return (
-    <div className="content-container">
+    <div className="home-content">
       <div id="banner">
         <Banner />
       </div>
@@ -96,7 +96,7 @@ function Home() {
             title="Waka"
             media={{ type: "video", src: "waka" }}
             padding="100px" // Asegúrate de que el nombre de la propiedad sea "padding" en lugar de "imgH"
-            backgroundColor="rgb(5 5 5 / 30%)"
+            backgroundColor="rgb(21 21 21)"
             reverse={false} // No invertir posición
           >
             <p>

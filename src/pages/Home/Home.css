@@ -1,4 +1,7 @@
 /* Home.css */
+.home-content {
+  background: #1a1a1a;
+}
 
 /* Estilos para los elementos dentro de home-container */
 h1 {
