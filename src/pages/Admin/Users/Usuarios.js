@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import SignInForm from "../../../components/User/SignInForm";
+import SignInForm from "../../../components/User/SignInForm";
 import ListaUsuarios from "./ListaUsuarios"; // Asegúrate de ajustar la importación al componente correcto
 import "../../../styles.css";
 
@@ -16,10 +16,21 @@ const AgregarUsuarios = () => {
 
   const [usuarios, setUsuarios] = useState([]);
   const [error, setError] = useState(null); // Estado para manejar errores
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    
+    // Verificar la autenticación al cargar el componente
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/verify-auth`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setIsAuthenticated(response.data.isAuthenticated);
+      })
+      .catch((error) => {
+        console.error("Error al verificar la autenticación:", error);
+        setIsAuthenticated(false);
+      });
     cargarUsuarios();
   }, []);
 
@@ -69,6 +80,14 @@ const AgregarUsuarios = () => {
       );
     }
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="content-container">
+        <SignInForm />
+      </div>
+    );
+  }
 
   return (
     <div className="content-container">

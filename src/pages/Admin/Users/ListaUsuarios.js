@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./Usuarios.css"; // Asegúrate de ajustar el nombre del archivo CSS
 import EditarUsuario from "./EditarUsuario"; // Asegúrate de importar el componente de edición de usuario si existe
-
 const ListaUsuarios = () => {
   const [usuariosOriginales, setUsuariosOriginales] = useState([]);
   const [usuariosFiltrados, setUsuariosFiltrados] = useState([]);
@@ -165,10 +164,9 @@ const ListaUsuarios = () => {
             <th>Id de Usuario</th>
             <th>Nombre</th>
             <th>Apellido</th>
-            <th>Saldo disponible</th>
             <th>Correo Electrónico</th>
             <th>Teléfono</th>
-            <th>Dirección</th>
+            <th>Dirección de envío</th>
             <th>Rol</th>
             <th>Acciones</th>
           </tr>
@@ -179,10 +177,9 @@ const ListaUsuarios = () => {
               <td>{usuario.id}</td>
               <td>{usuario.nombre}</td>
               <td>{usuario.apellido}</td>
-              <td>S/. 0.00</td>
               <td>{usuario.email}</td>
               <td>{usuario.telefono}</td>
-              <td>{usuario.direccion}</td>
+              <td>{usuario.direccion_envio}</td>
               <td>{usuario.level}</td>
               <td>
                 <button onClick={() => handleEditarUsuario(usuario)}>

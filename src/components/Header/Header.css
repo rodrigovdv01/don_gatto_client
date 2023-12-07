@@ -1,135 +1,94 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 /* Estilo para el encabezado */
+/* Estilos para el header-container */
+/* Estilo inicial de la barra de navegación */
 .header-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   position: fixed;
-  z-index: 1000;
-  background-color: #fff;
-  height: 60px;
+  z-index: 4000;
+  margin-bottom: 20px;
   width: 100%;
+  height: 60px;
   top: 0;
-  font-family: 'Poppins', sans-serif;
-  transition: background-color 0.5s; /* Agregar transición para el cambio de color de fondo */
+  font-family: "Poppins", sans-serif;
+  background-color: transparent;
+  transition: background-color 0.3s ease; /* Agrega una transición suave */
 }
 
+/* Estilo de la barra de navegación con fondo blanco */
+.header-container.scrolled {
+  background-color: #ffffff; /* Cambia el fondo a blanco */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Opcional: Agrega una sombra */
+}
+
+.login-logout {
+  color: black;
+}
+
+/* Estilo para la barra de navegación */
+nav {
+  text-align: center; /* Centra los elementos de navegación horizontalmente */
+  width: 100%;
+}
+
+.links-principales {
+  margin: 10px;
+}
 
 /* Estilo para la lista no ordenada (ul) */
 ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  list-style: none; /* Quita los puntos de lista predeterminados */
+  padding: 0; /* Elimina el espacio de relleno predeterminado */
+  margin: 0; /* Elimina el margen predeterminado */
+}
+
+.header-elements {
+  margin: 0 auto;
+}
+
+.banner-img {
+  max-height: 55px;
+}
+
+.nombre-usuario {
+  margin-right: 10px;
+  color: black;
+}
+.nombre-usuario:hover {
+  cursor: pointer;
 }
 
 /* Estilo para los elementos de la lista (li) */
 li {
-  display: inline;
-  margin-right: 20px;
-}
-.header li {
-  color:#1b1b1b;
+  margin-right: 20px; /* Agrega espacio horizontal entre los elementos */
 }
 
 /* Estilo para los enlaces (a) */
 li a {
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.user-menu li a {
-  color:#000;
-}
-
-.user-menu li a:hover {
-  color:#8b8b8b;
-}
-
-.user-menu button:hover {
-  background-color:#8b8b8b;
+  text-decoration: none; /* Quita la subrayado de los enlaces */
+  color: rgb(0, 0, 0);
+  font-weight: bold; /* Establece el peso de la fuente en negrita */
+  font-size: 16px; /* Tamaño de la fuente para los enlaces */
 }
 
 .icon {
-  color: #ff6265; /* Arreglar la coma que causaba un error */
-}
-
-/* Estilo para los enlaces al pasar el cursor */
-
-.header-ul li a:hover {
   color: #ff6265;
 }
 
-
-/* Estilo para el fondo transparente */
-.header-container.transparent {
-  background-color: transparent;
+/* Estilo para los enlaces al pasar el cursor */
+li a:hover {
+  text-decoration: underline; /* Subraya los enlaces al pasar el cursor */
 }
-
-.header-ul a {
-  color: #1b1b1b;
-}
-
-button a {
-  color: white;
-}
-/* Estilo para el fondo blanco después de desplazarse */
-.header-container.white-background {
-  background-color: #1b1b1b
-}
-
-  .links-principales {
-    margin: 10px;
-  }
-  
-  /* Estilo para la lista no ordenada (ul) */
-  ul {
-    list-style: none; /* Quita los puntos de lista predeterminados */
-    padding: 0; /* Elimina el espacio de relleno predeterminado */
-    margin: 0; /* Elimina el margen predeterminado */
-  }
-
-  .header-elements {
-    margin: 0 auto;
-  }
-
-  .banner-img {
-    max-height: 52px;
-  }
-
-  .nombre-usuario {
-    margin-right: 10px;
-    color: #1b1b1b;
-  }
-  .nombre-usuario:hover {
-    cursor: pointer;
-  }
-  
-  /* Estilo para los elementos de la lista (li) */
-  li {
-    display: inline; /* Hace que los elementos de la lista estén uno al lado del otro */
-    margin-right: 20px; /* Agrega espacio horizontal entre los elementos */
-  }
-  
-  /* Estilo para los enlaces (a) */
-  li a {
-    text-decoration: none; /* Quita la subrayado de los enlaces */
-    font-weight: bold; /* Establece el peso de la fuente en negrita */
-    font-size: 16px; /* Tamaño de la fuente para los enlaces */
-  }
-
-  .icon {
-    color: #ff6265,
-  }
-
 
 /* Estilos para la lista no ordenada (ul) */
 .header-ul {
   list-style: none;
-  justify-content: space-around;
-  padding: 0 120px;
+  padding: 0;
   margin: 0;
   display: flex; /* Cambia el comportamiento de la lista a una disposición flexible */
+  justify-content: space-around; /* Distribuye los elementos a lo largo del contenedor */
   align-items: center; /* Centra verticalmente los elementos */
   width: 100%; /* Ocupa todo el ancho disponible */
 }
@@ -142,95 +101,84 @@ li {
 }
 
 .cart-div {
-  background-color: #000;
   border-radius: 6px;
+  margin-left: 10px ;
 }
 .cart-div:hover {
-  background-color: #e1e1e1;
+  background-color: #9edcff;
   border-radius: 6px;
 }
 
-.visible {
-  display:block;
-}
+/* ListaProductos.css */
+  
+  /* Estilo para los botones */
+  .cart-div  {
+    color: white; /* Letra blanca */
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+
+  
 
 .user-menu {
   position: absolute;
   top: 60px;
   right: 0;
   width: 80%;
-  background: #fff;
+  background: #ffffff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   position: fixed;
   height: 40vh;
   overflow-y: auto;
-  z-index: 1000;
-}
-.user-menu li {
-  padding: 10px;
+  z-index: 4000;
 }
 
-@media screen and (max-width: 772px){
+@media screen and (max-width: 772px) {
   .user-menu {
     width: 70%;
   }
 }
 
-@media screen and (max-width: 425px){
+@media screen and (max-width: 425px) {
   .user-menu {
     width: 100%;
   }
 }
 
-
-@media screen and (min-width: 772px){
+@media screen and (min-width: 772px) {
   .user-menu {
     width: 40%;
   }
 }
 .user-menu ul {
   /* Agrega estilos a los elementos dentro del menú */
+  padding: 10px; /* Añade espacio entre elementos (ajusta según tus necesidades) */
   text-align: center;
   display: flex;
   flex-direction: column; /* Cambia la disposición a vertical */
 }
-/* ... otros estilos ... */
-
-/* Estilo para la imagen del banner */
-.banner-img {
-  display: block;
-  max-height: 52px;
-  
+.pide-online {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 20px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  transition: box-shadow 0.3s, transform 0.3s; /* Agregamos transiciones para suavizar el cambio */
 }
 
-#nuestros-servicios:hover {
-  cursor: pointer;
-}
-
-/* Estilo para el encabezado cuando el fondo debe ser blanco *
-/* ... otros estilos ... */
-.opciones {
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  top: 60px;
-}
-
-.opciones a {
-  color: black;
-  padding: 12px 16px;
+.pide-online a {
+  color: #fff;
   text-decoration: none;
-  display: block;
 }
 
-.opciones a:hover {
-  background-color: #dfdfdf;
+.pide-online:hover {
+  background-color: rgb(114, 189, 255);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Agregamos un resplandor utilizando box-shadow */
+  transform: scale(
+    1.1
+  ); /* Hacemos que el botón se agrande al 110% del tamaño original */
 }
-
-@media screen and (max-width: 768px) {
-  .header-ul {
-    padding: 0;
-  }
+.pide-online a:hover {
+  text-decoration: none;
 }

@@ -16,18 +16,30 @@ import { useAuth, useIsUserAdmin } from "../../AuthContext";
 import { useLocation } from "react-router-dom";
 import Carrito from "../../pages/Carrito/Carrito";
 import { useShoppingContext } from "../../ShoppingContext";
-import jwt_decode from "jwt-decode";
-import Cookies from "js-cookie";
-import { AuthProvider } from "../../AuthContext";
 
 const Header = () => {
-  const {
-    authenticatedUser,
-    setAuthenticatedUser,
-    handleLogout,
-    checkAuthentication,
-  } = useAuth();
+  const { authenticatedUser, handleLogout } = useAuth();
   const isUserAdmin = useIsUserAdmin();
+  const location = useLocation();
+
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const {
     carrito,
     vaciarCarrito,
@@ -36,14 +48,14 @@ const Header = () => {
     modificarCantidadMenu,
     agregarMenu,
     eliminarMenu,
-    setSelectedItems,
     selectedItems,
-    selectedItemsOriginales,
+    setSelectedItems,
     handleItemSelectedChange,
     productos,
     setProductos,
     calcularTotal,
     calcularSubtotal,
+    selectedItemsOriginales,
     toggleCart,
     closeCart,
     cartOpen,
@@ -51,73 +63,19 @@ const Header = () => {
     toggleUserMenu,
   } = useShoppingContext();
 
-  const location = useLocation();
-  const [cartItemCount, setCartItemCount] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [opcionesVisible, setOpcionesVisible] = useState(false);
-
-  useEffect(() => {
-    // Verificar la autenticación al cargar el componente Header
-    checkAuthentication();
-  }, [checkAuthentication]);
-
-  useEffect(() => {
-    const tokenCookie = Cookies.get("authTokenServer");
-
-    if (tokenCookie) {
-      try {
-        const decodedToken = jwt_decode(tokenCookie);
-        const currentTime = Date.now() / 1000;
-
-        if (decodedToken.exp > currentTime) {
-          // Establecer el usuario autenticado solo si no hay un usuario autenticado actualmente
-          if (!setAuthenticatedUser) {
-            setAuthenticatedUser(decodedToken);
-          }
-        } else {
-          console.log("La cookie ha expirado");
-        }
-      } catch (error) {
-        console.error("Error al decodificar el token:", error.message);
-        // Puedes manejar el error de decodificación aquí, por ejemplo, limpiando la cookie
-      }
-    } else {
-      console.log("La cookie authToken no está presente");
-    }
-  }, [setAuthenticatedUser]);
-
   // Verificar si la ubicación actual es "/login" o "/registrarse"
   const isLoginPage = location.pathname === "/login";
   const isSignUpPage = location.pathname === "/registrarse";
 
-  const toggleOpciones = () => {
-    setOpcionesVisible(!opcionesVisible);
+  const [isTablet, setIsTablet] = useState(window.innerWidth <= 768);
+  const handleResize = () => {
+    setIsTablet(window.innerWidth <= 768);
   };
-
-  const hideOpciones = () => {
-    setOpcionesVisible(false);
-  };
-
-  function scrollToSection(sectionId) {
-    const section = document.getElementById(sectionId);
-
-    if (section) {
-      window.scrollTo({
-        top: section.offsetTop - 60,
-        behavior: "smooth",
-      });
-    }
-  }
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY !== 0);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -139,7 +97,7 @@ const Header = () => {
       .catch((error) => {
         console.error("Error al obtener productos activos:", error);
       });
-  }, [setProductos]);
+  }, []);
 
   useEffect(() => {
     const totalItems = carrito.reduce(
@@ -149,182 +107,244 @@ const Header = () => {
     setCartItemCount(totalItems);
   }, [carrito]);
 
-  const [isTablet] = useState(window.innerWidth <= 768);
+  const [cartItemCount, setCartItemCount] = useState(0);
+
+  const [isHovered, setIsHovered] = useState(false);
+  const isHomePage = location.pathname === "/";
 
   return (
-    <AuthProvider>
+    <>
       {!(isLoginPage || isSignUpPage) && (
         <header className={`header-container ${isScrolled ? "scrolled" : ""}`}>
-          <ul className="header-ul">
-            <li>
-              <Link
-                className="links-principales"
-                to="/"
-                onClick={() => {
-                  if (cartOpen) {
-                    toggleCart();
-                  }
-                  if (userMenuOpen) {
-                    toggleUserMenu();
-                  }
-                  hideOpciones();
-                }}
-              >
-                <img
-                  className={`banner-img ${isScrolled ? "visible" : ""}`}
-                  src="/images/logos/dongatto.png"
-                  alt="Logo"
-                />
-              </Link>
-            </li>
-
-            <div className="servicios">
-              <li>
+          <nav>
+            <ul className="header-ul">
+              <li className="header-logo">
                 <Link
+                  className="links-principales"
+                  to="/"
                   onClick={() => {
-                    toggleOpciones();
                     if (cartOpen) {
                       toggleCart();
                     }
+                    if (userMenuOpen) {
+                      toggleUserMenu();
+                    }
                   }}
                 >
-                  Nuestros Productos
+                  <img
+                    className="banner-img"
+                    src={
+                      isScrolled
+                        ? isHovered
+                          ? "/images/logos/logo1.png"
+                          : "/images/logos/logo1.png"
+                        : isHovered
+                        ? "/images/logos/logo1.png"
+                        : location.pathname === "/"
+                        ? "/images/logos/logo1.png" // Cambiado a "logo1.png" cuando la ruta es "/"
+                        : "/images/logos/logo1.png" // Otras rutas mostrarán "logo3.png"
+                    }
+                    alt="Logo"
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                  />
                 </Link>
               </li>
-
-              <div className={`opciones ${opcionesVisible ? "" : "hidden"}`}>
-                <a
-                  href="#buffet-y-banquetes"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection("buffet-y-banquetes");
-                    hideOpciones();
-                  }}
-                >
-                  Relx
-                </a>
-                <a
-                  href="#cafeterias"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection("cafeterias");
-                    hideOpciones();
-                  }}
-                >
-                  Waka
-                </a>
-              </div>
-            </div>
-
-            {authenticatedUser ? (
-              <>
-                <li>
-                  <Link
-                    to="/mis-pedidos"
-                    className="links-principales"
-                    onClick={() => {
-                      if (cartOpen) {
-                        toggleCart();
-                      }
-                      if (userMenuOpen) {
-                        toggleUserMenu();
-                      }
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faHistory} /> Mis Pedidos
-                  </Link>
-                </li>
-                <li>
-                  {authenticatedUser.nombre && (
-                    <span
-                      className="nombre-usuario"
-                      onClick={() => {
-                        toggleUserMenu();
-                        if (cartOpen) {
-                          toggleCart();
-                        }
-                      }}
-                    >
-                      Bienvenido, {authenticatedUser.nombre}{" "}
-                      <FontAwesomeIcon
-                        icon={userMenuOpen ? faAngleUp : faAngleDown}
-                      />
-                    </span>
-                  )}
-                  <button
-                    className="cart-div"
-                    onClick={() => {
-                      toggleCart();
-                      if (userMenuOpen) {
-                        toggleUserMenu();
-                      }
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faShoppingCart} />
-                    {cartItemCount > 0 && (
-                      <span className="cart-item-count">{cartItemCount}</span>
+              {authenticatedUser ? (
+                <>
+                  <li>
+                    {!isTablet && (
+                      <Link
+                        to="/mis-pedidos"
+                        className={`links-principales ${
+                          isScrolled ? "scrolled" : ""
+                        }`}
+                        onClick={() => {
+                          if (cartOpen) {
+                            toggleCart();
+                          }
+                          if (userMenuOpen) {
+                            toggleUserMenu();
+                          }
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          style={{
+                            color:
+                              isHomePage && !isScrolled ? "#000" : "#000",
+                          }}
+                          icon={faHistory}
+                        />{" "}
+                        <b
+                          style={{
+                            color: isHomePage && !isScrolled ? "#000" : "#000",
+                          }}
+                        >
+                          Mis Pedidos
+                        </b>{" "}
+                      </Link>
                     )}
-                  </button>
-                </li>
-              </>
-            ) : (
-              <>
-                {location.pathname !== "/login" &&
-                  location.pathname !== "/registrarse" && (
-                    <>
-                      <li>
-                        <Link
-                          to="/registrarse"
-                          onClick={() => {
-                            if (cartOpen) {
-                              toggleCart();
-                            }
-                            hideOpciones();
+                  </li>
+                  <li>
+                    {authenticatedUser.nombre && (
+                      <span
+                        className="nombre-usuario"
+                        onClick={() => {
+                          toggleUserMenu();
+                          if (cartOpen) {
+                            toggleCart();
+                          }
+                        }}
+                      >
+                        <b
+                          style={{
+                            color: isHomePage && !isScrolled ? "#000" : "#000",
                           }}
                         >
-                          Registrarse
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/login"
-                          onClick={() => {
-                            if (cartOpen) {
-                              toggleCart();
-                            }
-                            hideOpciones();
+                          Bienvenido, {authenticatedUser.nombre}{" "}
+                        </b>
+                        <FontAwesomeIcon
+                          style={{
+                            color:
+                              isHomePage && !isScrolled ? "#000" : "#000",
                           }}
-                        >
-                          Iniciar Sesión
-                        </Link>
-                      </li>
-                    </>
-                  )}
-                <li>
+                          icon={userMenuOpen ? faAngleUp : faAngleDown}
+                        />
+                      </span>
+                    )}
+                  </li>
                   <button
-                    onClick={() => {
-                      toggleCart();
-                      hideOpciones();
+                    style={{
+                      backgroundColor:
+                        isHomePage && !isScrolled ? "#000" : "#000",
                     }}
                     className="cart-div"
+                    onClick={() => {
+                      toggleCart();
+                      if (userMenuOpen) {
+                        toggleUserMenu();
+                      }
+                    }}
                   >
                     <FontAwesomeIcon
-                      style={{ color: "#fff" }}
+                      style={{
+                        color: isHomePage && !isScrolled ? "#fff" : "#fff",
+                      }}
                       icon={faShoppingCart}
                     />
                     {cartItemCount > 0 && (
-                      <span className="cart-item-count">{cartItemCount}</span>
+                      <span
+                        style={{
+                          color: isHomePage && !isScrolled ? "#000" : "#000",
+                        }}
+                        className="cart-item-count"
+                      >
+                        {cartItemCount}
+                      </span>
                     )}
                   </button>
-                </li>
-              </>
-            )}
-          </ul>
+                  {!isTablet && (
+                    <li>
+                      <button
+                        className="pide-online"
+                        style={{
+                          backgroundColor:
+                            isHomePage && !isScrolled ? "#000" : "#00",
+                        }}
+                      >
+                        <Link
+                          style={{
+                            color:
+                              isHomePage && !isScrolled
+                                ? "#fff"
+                                : "#fff",
+                          }}
+                          to="/menu"
+                        >
+                          ¡Pide Online!
+                        </Link>
+                      </button>
+                    </li>
+                  )}
+                </>
+              ) : (
+                <>
+                  {location.pathname !== "/login" &&
+                    location.pathname !== "/registrarse" && (
+                      <>
+                        <li className="log">
+                          <Link
+                          style={{
+                            color: isHomePage && !isScrolled ? "#000" : "#000",
+                          }}
+                            className={`login-logout ${
+                              isScrolled ? "scrolled" : ""
+                            }`}
+                            to="/registrarse"
+                            onClick={() => {
+                              if (cartOpen) {
+                                toggleCart();
+                              }
+                            }}
+                          >
+                            Registrarse
+                          </Link>
+                        </li>
+                        <li className="log">
+                          <Link
+                            className={`login-logout ${
+                              isScrolled ? "scrolled" : ""
+                            }`}
+                            style={{
+                              color: isHomePage && !isScrolled ? "#000" : "#000",
+                            }}
+                            to="/login"
+                            onClick={() => {
+                              if (cartOpen) {
+                                toggleCart();
+                              }
+                            }}
+                          >
+                            Iniciar Sesión
+                          </Link>
+                        </li>
+                      </>
+                    )}
+                  <li>
+                      <button
+                        style={{
+                          backgroundColor:
+                            isHomePage && !isScrolled ? "#000" : "#000",
+                        }}
+                        onClick={toggleCart}
+                        className="cart-div"
+                      >
+                        <FontAwesomeIcon
+                          style={{
+                            color: isHomePage && !isScrolled ? "#fff" : "#fff",
+                          }}
+                          icon={faShoppingCart}
+                        />
+                        {cartItemCount > 0 && (
+                          <span
+                            className="cart-item-count"
+                            style={{
+                              color:
+                                isHomePage && !isScrolled ? "#000" : "#000",
+                            }}
+                          >
+                            {cartItemCount}
+                          </span>
+                        )}
+                      </button>
+                  </li>
+                </>
+              )}
+            </ul>
 
-          {userMenuOpen && (
-            <div className="user-menu">
-              <ul>
-                {isTablet && (
+            {userMenuOpen && (
+              <div className="user-menu">
+                <ul>
                   <li>
                     <Link
                       to="/mis-pedidos"
@@ -338,48 +358,69 @@ const Header = () => {
                         }
                       }}
                     >
-                      <FontAwesomeIcon icon={faHistory} /> Mis Pedidos
+                      <FontAwesomeIcon
+                        style={{ color: "#000" }}
+                        icon={faHistory}
+                      />{" "}
+                      Mis Pedidos
                     </Link>
                   </li>
-                )}
-
-                {isUserAdmin && (
-                  <>
-                    <li>
-                      <Link to="/registro-de-pedidos" onClick={toggleUserMenu}>
-                        <FontAwesomeIcon icon={faList} /> Registro de Pedidos
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/administrar-productos"
-                        onClick={toggleUserMenu}
-                      >
-                        <FontAwesomeIcon icon={faEdit} /> Administrar Productos
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/administrar-usuarios" onClick={toggleUserMenu}>
-                        <FontAwesomeIcon icon={faUsers} /> Administrar Usuarios
-                      </Link>
-                    </li>
-                  </>
-                )}
-                <li>
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      toggleUserMenu();
-                      vaciarCarrito();
-                      setSelectedItems([...selectedItemsOriginales]);
-                    }}
-                  >
-                    Cerrar sesión
-                  </button>
-                </li>
-              </ul>
-            </div>
-          )}
+                  {isUserAdmin && (
+                    <>
+                      <li>
+                        <Link
+                          to="/registro-de-pedidos"
+                          onClick={toggleUserMenu}
+                        >
+                          <FontAwesomeIcon
+                            style={{ color: "#000" }}
+                            icon={faList}
+                          />{" "}
+                          Todos los Pedidos
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/administrar-productos"
+                          onClick={toggleUserMenu}
+                        >
+                          <FontAwesomeIcon
+                            style={{ color: "#000" }}
+                            icon={faEdit}
+                          />{" "}
+                          Productos
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/administrar-usuarios"
+                          onClick={toggleUserMenu}
+                        >
+                          <FontAwesomeIcon
+                            style={{ color: "#000" }}
+                            icon={faUsers}
+                          />{" "}
+                          Usuarios
+                        </Link>
+                      </li>
+                    </>
+                  )}
+                  <li>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        toggleUserMenu();
+                        vaciarCarrito();
+                        setSelectedItems([...selectedItemsOriginales]);
+                      }}
+                    >
+                      Cerrar sesión
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </nav>
           {cartOpen && (
             <Carrito
               carrito={carrito}
@@ -391,7 +432,6 @@ const Header = () => {
               menuItems={productos}
               eliminarMenu={eliminarMenu}
               agregarMenu={agregarMenu}
-              // Eliminados los props relacionados con postres, bebidas, segundos, entradas
               selectedItems={selectedItems}
               setSelectedItems={setSelectedItems}
               handleItemSelectedChange={handleItemSelectedChange}
@@ -403,7 +443,7 @@ const Header = () => {
           {cartOpen && <div className="overlay" onClick={closeCart}></div>}
         </header>
       )}
-    </AuthProvider>
+    </>
   );
 };
 

@@ -83,8 +83,8 @@ const EditarUsuario = ({ usuario, onClose, onUpdate }) => {
             Dirección:
             <input
               type="text"
-              name="direccion"
-              value={formData.direccion}
+              name="direccion_envio"
+              value={formData.direccion_envio}
               onChange={handleChange}
             />
           </label>
