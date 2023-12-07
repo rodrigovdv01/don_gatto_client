@@ -259,13 +259,20 @@ const MisPedidos = () => {
                             "cargando..."}
                       </li>
                     </div>
-
-                    <img
-                      src="/images/yape.jpg"
-                      width={200}
-                      alt="Yape"
-                      className="yape-image"
-                    />
+                    {transacciones[pedido.id]?.metodo_pago === "Yape" &&
+                    (transacciones[pedido.id]?.estado_transaccion ===
+                      "Pendiente" ||
+                      transacciones[pedido.id]?.estado_transaccion ===
+                        "Rechazada") ? (
+                      <img
+                        src="/images/yape.jpg"
+                        width={200}
+                        alt="Yape"
+                        className="yape-image"
+                      />
+                    ) : (
+                      ""
+                    )}
 
                     <div className="datos-pedido">
                       <li>{selectedPedido.nombre}</li>
@@ -336,7 +343,7 @@ const MisPedidos = () => {
                         <a
                           target="_blank"
                           rel="noreferrer"
-                          href={`https://api.whatsapp.com/send?phone=+51949833976&text=ID de pedido: ${selectedPedido.id}%0D%0ANombre: ${selectedPedido.nombre}%0D%0ADirección de entrega: ${selectedPedido.direccion_envio}`}
+                          href={`https://api.whatsapp.com/send?phone=+51913687390&text=ID de pedido: ${selectedPedido.id}%0D%0ANombre: ${selectedPedido.nombre}%0D%0ADirección de entrega: ${selectedPedido.direccion_envio}`}
                         >
                           Enviar comprobante
                         </a>
