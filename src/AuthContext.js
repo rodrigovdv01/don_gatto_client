@@ -20,10 +20,6 @@ export const AuthProvider = ({ children }) => {
       // Clear the state of authentication
       setAuthenticatedUser(null);
   
-      // Remove the authToken cookie
-      Cookies.remove("authToken");
-      Cookies.remove("authTokenServer");
-  
       // Redirect the user to the desired page (e.g., the homepage)
       navigate("/");
     } catch (error) {
@@ -33,9 +29,6 @@ export const AuthProvider = ({ children }) => {
       // Clear the state of authentication even if an error occurs
       setAuthenticatedUser(null);
   
-      // Remove the authToken cookie even if an error occurs
-      Cookies.remove("authToken");
-      Cookies.remove("authTokenServer");
   
       // Redirect the user to the desired page (e.g., the homepage)
       navigate("/");
@@ -52,11 +45,6 @@ export const AuthProvider = ({ children }) => {
           withCredentials: true, // Configurar para enviar cookies
         }
       );
-
-      // Obtener la cookie del servidor
-      const authTokenCookie = response.headers["set-cookie"];
-      // Almacenarla en tu aplicación
-      Cookies.set("authToken", authTokenCookie);
       setAuthenticatedUser(response.data.user);
       setError(null);
       if (response.data.Login) {  
@@ -101,7 +89,6 @@ export const AuthProvider = ({ children }) => {
   const contextValue = {
     authenticatedUser,
     setAuthenticatedUser,
-    checkAuthentication,
     handleLogout,
     handleLogin,
   };
