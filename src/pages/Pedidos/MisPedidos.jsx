@@ -72,7 +72,7 @@ const MisPedidos = () => {
           `${process.env.REACT_APP_API_URL}/verify-auth`,
           { withCredentials: true }
         );
-    
+
         if (response.data.isAuthenticated) {
           await Promise.all([
             obtenerUsuarios(),
@@ -80,15 +80,15 @@ const MisPedidos = () => {
             obtenerProductos(),
           ]);
         }
-    
+
         setIsAuthenticated(response.data.isAuthenticated);
         authenticatedUserId = response.data.user.id; // Modifica esta línea
-    
+
         if (response.data.isAuthenticated) {
           const filteredPedidos = authenticatedUserId
             ? pedidos.filter((pedido) => pedido.user_id === authenticatedUserId)
             : pedidos;
-    
+
           setFilteredPedidos(filteredPedidos);
         }
       } catch (error) {
@@ -98,7 +98,6 @@ const MisPedidos = () => {
         setLoading(false);
       }
     };
-    
 
     fetchData();
   }, [forceUpdate]); // Dependencia añadida para forzar la actualización
@@ -237,9 +236,7 @@ const MisPedidos = () => {
                     </div>
                   </div>
                 </li>
-                <li className="direccion">
-                  {pedidos.find((pedido) => pedido.id)?.direccion_envio}
-                </li>
+                <li className="direccion">{pedido.direccion_envio}</li>
                 <li className="monto_total">
                   <b>S/. {pedido.monto_total.toFixed(2)}</b>
                 </li>
