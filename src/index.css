@@ -100,8 +100,6 @@ table td button:hover {
   
   /* Estilo para los botones */
   button {
-    background-color: #dc3545; 
-    color: white; 
     border: none;
     padding: 5px 10px;
     cursor: pointer;

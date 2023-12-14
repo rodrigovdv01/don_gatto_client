@@ -19,6 +19,7 @@ const calcularTotal = (carrito) => {
 // Proveedor del contexto que contendrá el estado del carrito
 export const ShoppingProvider = ({ children }) => {
   // Guarda una copia de los selectedItems originales
+  const [sortBy, setSortBy] = useState(""); // Agregado
   const [selectedItemsOriginales, setSelectedItemsOriginales] = useState([]);
   const [productos, setProductos] = useState([]); // Estado para los productos obtenidos de la API
   const [selectedEntrada, setSelectedEntrada] = useState();
@@ -370,6 +371,8 @@ export const ShoppingProvider = ({ children }) => {
         setMontoTotal,
         distrito,
         setDistrito,
+        sortBy,
+        setSortBy,
       }}
     >
       {children}

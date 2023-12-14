@@ -7,11 +7,14 @@ import "../../../components/Header/Header.css";
 const RegistroPedidos = () => {
   const [selectedPedido, setSelectedPedido] = useState(null);
   const [transacciones, setTransacciones] = useState({});
+  const [sortOrder, setSortOrder] = useState("desc");
+  const [filterEstado, setFilterEstado] = useState("");
   const {
     obtenerUsuarios,
     usuariosOriginales,
     obtenerPedidos,
     pedidos,
+    setPedidos,
     obtenerProductos,
     productosOriginales,
     obtenerDetallesPedido,
@@ -33,38 +36,46 @@ const RegistroPedidos = () => {
         setIsAuthenticated(false);
       });
     obtenerUsuarios();
-    obtenerPedidos();
     obtenerProductos();
   }, [isAuthenticated]);
 
+  useEffect(() => {
+    obtenerPedidos();
+    // Ordenar los pedidos según la opción seleccionada
+    const pedidosOrdenados = [...pedidos]
+    .filter(
+      (pedido) =>
+        filterEstado === "" || pedido.estado_pedido === filterEstado
+    )
+    
+      .sort((a, b) => {
+        const fechaA = new Date(a.createdAt);
+        const fechaB = new Date(b.createdAt);
+      
+        // Ordenar de más reciente a más antiguo si el orden es 'desc'
+        // Ordenar de más antiguo a más reciente si el orden es 'asc'
+        return sortOrder === "desc" ? fechaB - fechaA : fechaA - fechaB;
+      });
+
+    setPedidos(pedidosOrdenados);
+  }, [obtenerPedidos, sortOrder, pedidos]);
+
   // Función para formatear la hora
   const formatTime = (createdAt) => {
-    const fecha = new Date(createdAt);
-
-    const opcionesDeFormato = {
+    return new Date(createdAt).toLocaleTimeString("es-PE", {
       hour: "numeric",
       minute: "2-digit",
-      hour12: true, // Mostrar en formato de 12 horas
-    };
-
-    const timeFormateado = fecha.toLocaleTimeString("es-PE", opcionesDeFormato);
-
-    return timeFormateado;
+      hour12: true,
+    });
   };
 
   // Función para formatear la fecha
   const formatDate = (createdAt) => {
-    const fecha = new Date(createdAt);
-
-    const opcionesDeFormato = {
+    return new Date(createdAt).toLocaleDateString("es-PE", {
       year: "numeric",
       month: "long",
       day: "numeric",
-    };
-
-    const dateFormateada = fecha.toLocaleDateString("es-PE", opcionesDeFormato);
-
-    return dateFormateada;
+    });
   };
 
   const obtenerTransaccion = async (pedidoId) => {
@@ -174,9 +185,39 @@ const RegistroPedidos = () => {
     actualizarEstadoPedido(pedidoId, nuevoEstado);
   };
 
+  const handleFilterChange = (e) => {
+    const newFilterEstado = e.target.value;
+    setFilterEstado(newFilterEstado);
+  };
+
+  const handleSortChange = (e) => {
+    const nuevoOrden = e.target.value;
+    setSortOrder(nuevoOrden);
+  };
+
   return (
     <div className="content-container">
       <h2>Registro de Pedidos</h2>
+      <label htmlFor="filtroEstadoSelect">Filtrar por Estado:</label>
+      <select
+        id="filtroEstadoSelect"
+        value={filterEstado}
+        onChange={handleFilterChange}
+      >
+        <option value="">Todos</option>
+        <option value="Activo">Nuevos</option>
+        <option value="En camino">En camino</option>
+        <option value="Finalizado">Entregado</option>
+        {/* Add more filter options as needed */}
+      </select>
+
+      <label htmlFor="ordenSelect">Ordenar por:</label>
+      <select id="ordenSelect" value={sortOrder} onChange={handleSortChange}>
+        <option value="desc">Más reciente</option>
+        <option value="asc">Más antiguo</option>
+        {/* <option value="userName">Nombre del usuario (A-Z)</option> */}
+        {/* Add more sorting options as needed */}
+      </select>
       <table className="tabla-registro-de-pedidos">
         <thead>
           <tr>
@@ -190,166 +231,177 @@ const RegistroPedidos = () => {
           </tr>
         </thead>
         <tbody>
-          {pedidos.map((pedido) => (
-            <React.Fragment key={pedido.id}>
-              <tr className={selectedPedido === pedido ? "selected" : ""}>
-                <td>{pedido.id}</td>
+          {pedidos
+            .filter(
+              (pedido) =>
+                filterEstado === "" || pedido.estado_pedido === filterEstado
+            )
+            .map((pedido) => (
+              <React.Fragment key={pedido.id}>
+                <tr
+                  key={pedido.id}
+                  className={selectedPedido === pedido ? "selected" : ""}
+                >
+                  <td>{pedido.id}</td>
 
-                <td>
-                  {pedido.user_id === 0
-                    ? "Sin usuario"
-                    : buscarInformacionUsuario(pedido.user_id)?.email}
-                </td>
+                  <td>
+                    {pedido.user_id === 0
+                      ? "Sin usuario"
+                      : buscarInformacionUsuario(pedido.user_id)?.email}
+                  </td>
 
-                <td>
-                  <button onClick={() => handlePedidoClick(pedido)}>
-                    Detalles del pedido aquí
-                  </button>
-                </td>
-                <td>
-                  <b>S/. {pedido.monto_total.toFixed(2)}</b>
-                </td>
-                <td>creado el {formatDate(pedido.createdAt)}</td>
-                <td>
-                  <p> {formatTime(pedido.createdAt)}</p>
-                </td>
-                <td>
-                  <select
-                    value={pedido.estado_pedido || ""}
-                    onChange={handleEstadoChange}
-                    onClick={() => handlePedidoClick(pedido)}
-                  >
-                    <option value="Activo">Recibido</option>
-                    <option value="En camino">En camino</option>
-                    <option value="Finalizado">Entregado</option>
-                  </select>
-                  <p> {formatTime(pedido.updatedAt)}</p>
-                </td>
-              </tr>
-              {selectedPedido === pedido && (
-                <tr>
-                  <td colSpan="7">
-                    <div className="detalle-pedido">
-                      <h3>Detalles del pedido ID {selectedPedido.id}</h3>
-                      <ul>
-                        <li>
-                          Método de pago:{" "}
-                          {transacciones[pedido.id]?.metodo_pago}
-                        </li>
-                        <li>
-                          Estado de Pago:{" "}
-                          <select
-                            value={transacciones[pedido.id]?.estado_transaccion}
-                            onChange={handleTransaccionChange}
-                          >
-                            <option value="Pendiente">Pendiente</option>
-                            <option value="Pagado">Pagado</option>
-                            <option value="Rechazada">Rechazada</option>
-                          </select>
-                        </li>
-                        <li>
-                          Monto total: S/.{" "}
-                          {transacciones[pedido.id]?.monto_transaccion
-                            ? transacciones[
-                                pedido.id
-                              ].monto_transaccion.toFixed(2)
-                            : "N/A"}
-                        </li>
-                        <li>Nombre del cliente: {selectedPedido.nombre}</li>
-                        <li>Teléfono: {selectedPedido.telefono}</li>
-                        <li>
-                          <a
-                            target="_blank"
-                            rel="noreferrer"
-                            href={`https://api.whatsapp.com/send?phone=${
-                              selectedPedido.telefono
-                            }&text=Estimado cliente ${
-                              selectedPedido.nombre
-                            }, es un placer saludarte desde webo.pe. Hemos recibido tu pedido y estamos emocionados de atenderte.%0D%0A %0D%0APedido ${
-                              pedido.estado_pedido
-                            }%0D%0A ID de pedido: ${
-                              selectedPedido.id
-                            }%0D%0ANombre: ${
-                              selectedPedido.nombre
-                            }%0D%0ADirección de entrega: ${
-                              selectedPedido.direccion_envio
-                            }%0D%0AEstado de pago: ${
-                              transacciones[pedido.id]?.estado_transaccion
-                            }`}
-                          >
-                            Enviar mensaje por WhatsApp
-                          </a>
-                        </li>
-                        <li>Email: {selectedPedido.email}</li>
-                        <li>
-                          Dirección de envío: {selectedPedido.direccion_envio}
-                        </li>
-                      </ul>
-                      <table>
-                        <thead>
-                          <th>Producto</th>
-                          <th>Precio unitario</th>
-                        </thead>
-                        <tbody>
-                          {detallesPedido &&
-                          detallesPedido.detalles &&
-                          detallesPedido.detalles.length > 0 ? (
-                            detallesPedido.detalles.map((detalle, index) => {
-                              const productoDelDetalle =
-                                productosOriginales.find(
-                                  (producto) =>
-                                    producto.producto_id === detalle.producto_id
-                                );
-                              return (
-                                <>
-                                <tr>
-                                  <td
-                                    className="flex"
-                                    style={{ alignItems: "center" }}
-                                  >
-                                    <img
-                                      src={productoDelDetalle?.img}
-                                      alt="imagen del producto"
-                                    />
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "flex-start",
-                                        marginLeft: "8px",
-                                      }}
-                                    >
-                                      <span className="product-name">
-                                        {productoDelDetalle?.nombre}
-                                      </span>
-                                      <b className="product-quantity">
-                                        x{detalle.cantidad}
-                                      </b>
-                                    </div>
-                                  </td>
-
-                                  <td>
-                                    S/. {detalle.precio_unitario.toFixed(2)}
-                                  </td>
-                                </tr>
-                                </>
-                              );
-                            })
-                          ) : (
-                            <tr>
-                              <td colSpan="5">
-                                No hay detalles disponibles para este pedido.
-                              </td>
-                            </tr>
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
+                  <td>
+                    <button onClick={() => handlePedidoClick(pedido)}>
+                      Detalles del pedido aquí
+                    </button>
+                  </td>
+                  <td>
+                    <b>S/. {pedido.monto_total.toFixed(2)}</b>
+                  </td>
+                  <td>creado el {formatDate(pedido.createdAt)}</td>
+                  <td>
+                    <p> {formatTime(pedido.createdAt)}</p>
+                  </td>
+                  <td>
+                    <select
+                      value={pedido.estado_pedido || ""}
+                      onChange={handleEstadoChange}
+                      onClick={() => handlePedidoClick(pedido)}
+                    >
+                      <option value="Activo">Recibido</option>
+                      <option value="En camino">En camino</option>
+                      <option value="Finalizado">Entregado</option>
+                    </select>
+                    <p> {formatTime(pedido.updatedAt)}</p>
                   </td>
                 </tr>
-              )}
-            </React.Fragment>
-          ))}
+                {selectedPedido === pedido && detallesPedido && (
+                  <tr key={`${pedido.id}-details`}>
+                    <td colSpan="7">
+                      <div className="detalle-pedido">
+                        <h3>Detalles del pedido ID {selectedPedido.id}</h3>
+                        <ul>
+                          <li>
+                            Método de pago:{" "}
+                            {transacciones[pedido.id]?.metodo_pago}
+                          </li>
+                          <li>
+                            Estado de Pago:{" "}
+                            <select
+                              value={
+                                transacciones[pedido.id]?.estado_transaccion
+                              }
+                              onChange={handleTransaccionChange}
+                            >
+                              <option value="Pendiente">Pendiente</option>
+                              <option value="Pagado">Pagado</option>
+                              <option value="Rechazada">Rechazada</option>
+                            </select>
+                          </li>
+                          <li>
+                            Monto total: S/.{" "}
+                            {transacciones[pedido.id]?.monto_transaccion
+                              ? transacciones[
+                                  pedido.id
+                                ].monto_transaccion.toFixed(2)
+                              : "N/A"}
+                          </li>
+                          <li>Nombre del cliente: {selectedPedido.nombre}</li>
+                          <li>Teléfono: {selectedPedido.telefono}</li>
+                          <li>
+                            <a
+                              target="_blank"
+                              rel="noreferrer"
+                              href={`https://api.whatsapp.com/send?phone=${
+                                selectedPedido.telefono
+                              }&text=Estimado cliente ${
+                                selectedPedido.nombre
+                              }, es un placer saludarte desde webo.pe. Hemos recibido tu pedido y estamos emocionados de atenderte.%0D%0A %0D%0APedido ${
+                                pedido.estado_pedido
+                              }%0D%0A ID de pedido: ${
+                                selectedPedido.id
+                              }%0D%0ANombre: ${
+                                selectedPedido.nombre
+                              }%0D%0ADirección de entrega: ${
+                                selectedPedido.direccion_envio
+                              }%0D%0AEstado de pago: ${
+                                transacciones[pedido.id]?.estado_transaccion
+                              }`}
+                            >
+                              Enviar mensaje por WhatsApp
+                            </a>
+                          </li>
+                          <li>Email: {selectedPedido.email}</li>
+                          <li>
+                            Dirección de envío: {selectedPedido.direccion_envio}
+                          </li>
+                        </ul>
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>Producto</th>
+                              <th>Precio unitario</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {detallesPedido &&
+                            detallesPedido.detalles &&
+                            detallesPedido.detalles.length > 0 ? (
+                              detallesPedido.detalles.map((detalle, index) => {
+                                const productoDelDetalle =
+                                  productosOriginales.find(
+                                    (producto) =>
+                                      producto.producto_id ===
+                                      detalle.producto_id
+                                  );
+                                return (
+                                  <tr key={`${detalle.producto_id}-${index}`}>
+                                    <td
+                                      className="flex"
+                                      style={{ alignItems: "center" }}
+                                    >
+                                      <img
+                                        src={productoDelDetalle?.img}
+                                        alt="imagen del producto"
+                                      />
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "column",
+                                          alignItems: "flex-start",
+                                          marginLeft: "8px",
+                                        }}
+                                      >
+                                        <span className="product-name">
+                                          {productoDelDetalle?.nombre}
+                                        </span>
+                                        <b className="product-quantity">
+                                          x{detalle.cantidad}
+                                        </b>
+                                      </div>
+                                    </td>
+
+                                    <td>
+                                      S/. {detalle.precio_unitario.toFixed(2)}
+                                    </td>
+                                  </tr>
+                                );
+                              })
+                            ) : (
+                              <tr>
+                                <td colSpan="2">
+                                  No hay detalles disponibles para este pedido.
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            ))}
         </tbody>
       </table>
     </div>

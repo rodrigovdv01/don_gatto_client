@@ -10,6 +10,7 @@ import {
   faTimes,
   faCopy,
   faCheckCircle,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../AuthContext";
 import { Link } from "react-router-dom";
@@ -56,9 +57,9 @@ const MisPedidos = () => {
   const [sortOrder, setSortOrder] = useState("desc");
   const [filterEstado, setFilterEstado] = useState("");
 
-  const [circleColor, setCircleColor] = useState("#ffcccb"); // Inicializado con el mismo color que el fondo seleccionado
-
   const { authenticatedUser } = useAuth();
+
+  
   const handleSortChange = () => {
     const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
     setSortOrder(newSortOrder);
@@ -217,16 +218,25 @@ const MisPedidos = () => {
         )}
         <p>Haz click en un pedido para ver sus detalles</p>
         <div>
-          <button
-            onClick={(e) => handleForceUpdate(e)}
-            className={
-              filteredPedidos.length === 0
-                ? "red-background"
-                : "black-background"
-            }
-          >
-            Cargar historial
-          </button>
+          <div className="mis-pedidos-actions">
+            <button
+              onClick={(e) => handleForceUpdate(e)}
+              className={
+                filteredPedidos.length === 0
+                  ? "red-background"
+                  : "black-background"
+              }
+            >
+              {filteredPedidos.length === 0 && "Cargar Pedidos"}
+              {filteredPedidos.length !== 0 && "Actualizar"}
+            </button>
+            <button
+              
+              className="nuevo-pedido"
+            >
+             <Link to="/menu" target="_blank"><FontAwesomeIcon icon={faPlus} /> Nuevo Pedido</Link> 
+            </button>
+          </div>
           <label>
             Ordenar por:{" "}
             <select value={sortOrder} onChange={handleSortChange}>
@@ -458,7 +468,9 @@ const MisPedidos = () => {
                     {selectedPedido === pedido && (
                       <div>
                         <ul>
-                          <h3 className="resumen-detalles">Detalles del pedido</h3>
+                          <h3 className="resumen-detalles">
+                            Detalles del pedido
+                          </h3>
                           {detallesPedido &&
                           detallesPedido.detalles &&
                           detallesPedido.detalles.length > 0 ? (

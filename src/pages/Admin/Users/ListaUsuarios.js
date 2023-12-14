@@ -99,7 +99,6 @@ const ListaUsuarios = () => {
       const usuariosActualizados = response.data;
       setUsuariosOriginales(usuariosActualizados);
       filtrarUsuarios();
-      window.location.reload();
     } catch (error) {
       console.error("Error al actualizar los usuarios:", error);
     }

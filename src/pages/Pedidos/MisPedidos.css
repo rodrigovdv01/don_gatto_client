@@ -1,11 +1,15 @@
 /* MisPedidos.css */
 .section-title {
-  background-color: #3498db;
+  background-color: #000000ed;
   color: #fff;
   padding: 20px;
   border-radius: 8px;
   text-align: center;
   margin-bottom: 20px;
+}
+
+.green-bg {
+  background-color: green !important;
 }
 
 .section-title h1 {
@@ -36,8 +40,9 @@
 .section-title button {
   padding: 10px;
   border: none;
-  cursor: pointer;
   color: #fff;
+  cursor: pointer;
+  font-weight: bold;
   font-size: 1rem;
   border-radius: 4px;
   transition: background-color 0.3s ease;
@@ -190,8 +195,8 @@
   margin-top: 20px;
 }
 
-.green {
-  color: #2ecc71;
+.nuevo-pedido {
+  background-color: #2ecc71;
 }
 
 
@@ -201,4 +206,12 @@
 
 .direccion {
   min-height: 100px;
+}
+
+.mis-pedidos-actions{
+  display: flex;
+}
+
+.mis-pedidos-actions button{
+  margin-right: 10px;
 }

@@ -18,9 +18,10 @@ const PedidoDetalle = () => {
   const [pedidoConfirmado, setPedidoConfirmado] = useState(null);
   const [transacciones, setTransacciones] = useState({});
   const [loading, setLoading] = useState(true);
-  const pagaConYape = transacciones[pedidoId]?.metodo_pago === "Yape" &&
-  (transacciones[pedidoId]?.estado_transaccion === "Rechazada" 
-  || transacciones[pedidoId]?.estado_transaccion === "Pendiente");
+  const pagaConYape =
+    transacciones[pedidoId]?.metodo_pago === "Yape" &&
+    (transacciones[pedidoId]?.estado_transaccion === "Rechazada" ||
+      transacciones[pedidoId]?.estado_transaccion === "Pendiente");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,14 +91,19 @@ const PedidoDetalle = () => {
                   <div>
                     <b>{yapeNumber}</b>
                     <button className="copiar" onClick={handleCopyToClipboard}>
-                      <FontAwesomeIcon icon={faCopy} /> Copiar
+                      {!copiedToClipboard && (
+                        <span>
+                            <FontAwesomeIcon icon={faCopy} /> Copiar
+                         
+                        </span>
+                      )}
+                      {copiedToClipboard && (
+                        <span className="numero-copiado">
+                          Número copiado al portapapeles{" "}
+                          <FontAwesomeIcon icon={faCheckCircle} />
+                        </span>
+                      )}
                     </button>
-                    {copiedToClipboard && (
-                      <div className="numero-copiado">
-                        Número copiado al portapapeles{" "}
-                        <FontAwesomeIcon icon={faCheckCircle} />
-                      </div>
-                    )}
                   </div>
                 </>
               )}
@@ -134,14 +140,19 @@ const PedidoDetalle = () => {
                   <div>
                     <b>{yapeNumber}</b>
                     <button className="copiar" onClick={handleCopyToClipboard}>
-                      <FontAwesomeIcon icon={faCopy} /> Copiar
+                      {!copiedToClipboard && (
+                        <span>
+                            <FontAwesomeIcon icon={faCopy} /> Copiar
+                          
+                        </span>
+                      )}
+                      {copiedToClipboard && (
+                        <span className="numero-copiado">
+                          Número copiado al portapapeles{" "}
+                          <FontAwesomeIcon icon={faCheckCircle} />
+                        </span>
+                      )}
                     </button>
-                    {copiedToClipboard && (
-                      <div className="numero-copiado">
-                        Número copiado al portapapeles{" "}
-                        <FontAwesomeIcon icon={faCheckCircle} />
-                      </div>
-                    )}
                   </div>
                 </>
               )}
@@ -178,14 +189,18 @@ const PedidoDetalle = () => {
                   <div>
                     <b>{yapeNumber}</b>
                     <button className="copiar" onClick={handleCopyToClipboard}>
-                      <FontAwesomeIcon icon={faCopy} /> Copiar
+                      {!copiedToClipboard && (
+                        <span>
+                          <FontAwesomeIcon icon={faCopy} /> Copiar
+                        </span>
+                      )}
+                      {copiedToClipboard && (
+                        <span className="numero-copiado">
+                          Número copiado al portapapeles{" "}
+                          <FontAwesomeIcon icon={faCheckCircle} />
+                        </span>
+                      )}
                     </button>
-                    {copiedToClipboard && (
-                      <div className="numero-copiado">
-                        Número copiado al portapapeles{" "}
-                        <FontAwesomeIcon icon={faCheckCircle} />
-                      </div>
-                    )}
                   </div>
                 </>
               )}
@@ -331,20 +346,24 @@ const PedidoDetalle = () => {
                           className="copiar"
                           onClick={handleCopyToClipboard}
                         >
-                          <FontAwesomeIcon icon={faCopy} /> Copiar
+                          {!copiedToClipboard && (
+                            <span>
+                                <FontAwesomeIcon icon={faCopy} /> Copiar
+                              
+                            </span>
+                          )}
+                          {copiedToClipboard && (
+                            <span className="numero-copiado">
+                              Número copiado al portapapeles{" "}
+                              <FontAwesomeIcon icon={faCheckCircle} />
+                            </span>
+                          )}
                         </button>
-                        {copiedToClipboard && (
-                          <div className="numero-copiado">
-                            Número copiado al portapapeles{" "}
-                            <FontAwesomeIcon icon={faCheckCircle} />
-                          </div>
-                        )}
                       </>
                     ) : (
                       ""
                     )}{" "}
                   </p>
-                  
                 </div>
               ) : (
                 <span>{transacciones[pedidoId]?.metodo_pago}</span>

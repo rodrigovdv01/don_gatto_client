@@ -2,24 +2,18 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./form.css";
 
-
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
+import { useAuth } from "../../AuthContext";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    nombre: "",
-    apellido: "",
-    telefono: "",
-    email: "",
-    direccion_envio: "",
-    password: "",
-  });
+  const {loginData, setLoginData} = useAuth();
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setLoginData({ ...loginData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -28,7 +22,7 @@ const SignUpForm = () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/users/createUser`,
-        formData
+        loginData
       );
       console.log("Respuesta del servidor:", response.data);
       // Puedes redirigir al usuario o mostrar un mensaje de éxito aquí
@@ -47,7 +41,7 @@ const SignUpForm = () => {
           <input
             type="text"
             name="nombre"
-            value={formData.nombre}
+            value={loginData.nombre}
             onChange={handleChange}
             className="form-input"
           />
@@ -57,7 +51,7 @@ const SignUpForm = () => {
           <input
             type="text"
             name="apellido"
-            value={formData.apellido}
+            value={loginData.apellido}
             onChange={handleChange}
             className="form-input"
           />
@@ -67,7 +61,7 @@ const SignUpForm = () => {
           <input
             type="text"
             name="telefono"
-            value={formData.telefono}
+            value={loginData.telefono}
             onChange={handleChange}
             className="form-input"
           />
@@ -77,7 +71,7 @@ const SignUpForm = () => {
           <input
             type="email"
             name="email"
-            value={formData.email}
+            value={loginData.email}
             onChange={handleChange}
             className="form-input"
           />
@@ -87,7 +81,7 @@ const SignUpForm = () => {
           <input
             type="text"
             name="direccion_envio"
-            value={formData.direccion_envio}
+            value={loginData.direccion_envio}
             onChange={handleChange}
             className="form-input"
           />
@@ -97,7 +91,7 @@ const SignUpForm = () => {
           <input
             type="password"
             name="password"
-            value={formData.password}
+            value={loginData.password}
             onChange={handleChange}
             className="form-input"
           />
