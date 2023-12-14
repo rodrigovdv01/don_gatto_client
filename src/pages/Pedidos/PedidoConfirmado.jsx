@@ -27,6 +27,8 @@ const PedidoDetalle = () => {
       try {
         const [
           pedidoResponse,
+          detallesResponse,
+          productosResponse,
           transaccionResponse,
         ] = await Promise.all([
           axios.get(`${process.env.REACT_APP_API_URL}/pedidos/${pedidoId}`),
