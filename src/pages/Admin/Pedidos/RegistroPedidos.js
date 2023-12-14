@@ -37,6 +37,36 @@ const RegistroPedidos = () => {
     obtenerProductos();
   }, [isAuthenticated]);
 
+  // Función para formatear la hora
+  const formatTime = (createdAt) => {
+    const fecha = new Date(createdAt);
+
+    const opcionesDeFormato = {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true, // Mostrar en formato de 12 horas
+    };
+
+    const timeFormateado = fecha.toLocaleTimeString("es-PE", opcionesDeFormato);
+
+    return timeFormateado;
+  };
+
+  // Función para formatear la fecha
+  const formatDate = (createdAt) => {
+    const fecha = new Date(createdAt);
+
+    const opcionesDeFormato = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+
+    const dateFormateada = fecha.toLocaleDateString("es-PE", opcionesDeFormato);
+
+    return dateFormateada;
+  };
+
   const obtenerTransaccion = async (pedidoId) => {
     try {
       const response = await axios.get(
@@ -147,16 +177,16 @@ const RegistroPedidos = () => {
   return (
     <div className="content-container">
       <h2>Registro de Pedidos</h2>
-      <table>
+      <table className="tabla-registro-de-pedidos">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Estado de envío</th>
-            <th>usuario</th>
+            <th>Usuario</th>
             <th>Detalles del Pedido</th>
             <th>Total</th>
-            <th>Fecha de Pedido</th>
+            <th>Fecha de creación</th>
             <th>Hora de Pedido</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -164,18 +194,7 @@ const RegistroPedidos = () => {
             <React.Fragment key={pedido.id}>
               <tr className={selectedPedido === pedido ? "selected" : ""}>
                 <td>{pedido.id}</td>
-                <td>
-                  <select
-                    value={pedido.estado_pedido || ""}
-                    onChange={handleEstadoChange}
-                    onClick={() => handlePedidoClick(pedido)}
-                  >
-                    <option value="Activo">Recibido</option>
-                    <option value="En camino">En camino</option>
-                    <option value="Finalizado">Entregado</option>
-                  </select>
-                  <p>{pedido.updatedAt.slice(11, 19)}</p>
-                </td>
+
                 <td>
                   {pedido.user_id === 0
                     ? "Sin usuario"
@@ -190,8 +209,22 @@ const RegistroPedidos = () => {
                 <td>
                   <b>S/. {pedido.monto_total.toFixed(2)}</b>
                 </td>
-                <td>creado el: {pedido.createdAt.slice(0, 10)}</td>
-                <td>{pedido.createdAt.slice(11, 19)}</td>
+                <td>creado el {formatDate(pedido.createdAt)}</td>
+                <td>
+                  <p> {formatTime(pedido.createdAt)}</p>
+                </td>
+                <td>
+                  <select
+                    value={pedido.estado_pedido || ""}
+                    onChange={handleEstadoChange}
+                    onClick={() => handlePedidoClick(pedido)}
+                  >
+                    <option value="Activo">Recibido</option>
+                    <option value="En camino">En camino</option>
+                    <option value="Finalizado">Entregado</option>
+                  </select>
+                  <p> {formatTime(pedido.updatedAt)}</p>
+                </td>
               </tr>
               {selectedPedido === pedido && (
                 <tr>
@@ -228,7 +261,21 @@ const RegistroPedidos = () => {
                           <a
                             target="_blank"
                             rel="noreferrer"
-                            href={`https://api.whatsapp.com/send?phone=${selectedPedido.telefono}&text=Estimado cliente ${selectedPedido.nombre}, es un placer saludarte desde webo.pe. Hemos recibido tu pedido y estamos emocionados de atenderte.%0D%0A %0D%0APedido ${pedido.estado_pedido}%0D%0A ID de pedido: ${selectedPedido.id}%0D%0ANombre: ${selectedPedido.nombre}%0D%0ADirección de entrega: ${selectedPedido.direccion_envio}%0D%0AEstado de pago: ${transacciones[pedido.id]?.estado_transaccion}`}
+                            href={`https://api.whatsapp.com/send?phone=${
+                              selectedPedido.telefono
+                            }&text=Estimado cliente ${
+                              selectedPedido.nombre
+                            }, es un placer saludarte desde webo.pe. Hemos recibido tu pedido y estamos emocionados de atenderte.%0D%0A %0D%0APedido ${
+                              pedido.estado_pedido
+                            }%0D%0A ID de pedido: ${
+                              selectedPedido.id
+                            }%0D%0ANombre: ${
+                              selectedPedido.nombre
+                            }%0D%0ADirección de entrega: ${
+                              selectedPedido.direccion_envio
+                            }%0D%0AEstado de pago: ${
+                              transacciones[pedido.id]?.estado_transaccion
+                            }`}
                           >
                             Enviar mensaje por WhatsApp
                           </a>
@@ -240,12 +287,8 @@ const RegistroPedidos = () => {
                       </ul>
                       <table>
                         <thead>
-                          <tr>
-                            
-                          <th>Producto</th><th></th>
-                            <th>Cantidad</th>
-                            <th>Precio Unitario</th>
-                          </tr>
+                          <th>Producto</th>
+                          <th>Precio unitario</th>
                         </thead>
                         <tbody>
                           {detallesPedido &&
@@ -258,14 +301,38 @@ const RegistroPedidos = () => {
                                     producto.producto_id === detalle.producto_id
                                 );
                               return (
-                                <tr key={index}>
-                                  <td><img alt="imagen del producto" src={productoDelDetalle?.img}></img></td>
-                                  <td>{productoDelDetalle?.nombre}</td>
-                                  <td>{detalle.cantidad}</td>
+                                <>
+                                <tr>
+                                  <td
+                                    className="flex"
+                                    style={{ alignItems: "center" }}
+                                  >
+                                    <img
+                                      src={productoDelDetalle?.img}
+                                      alt="imagen del producto"
+                                    />
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "flex-start",
+                                        marginLeft: "8px",
+                                      }}
+                                    >
+                                      <span className="product-name">
+                                        {productoDelDetalle?.nombre}
+                                      </span>
+                                      <b className="product-quantity">
+                                        x{detalle.cantidad}
+                                      </b>
+                                    </div>
+                                  </td>
+
                                   <td>
                                     S/. {detalle.precio_unitario.toFixed(2)}
                                   </td>
                                 </tr>
+                                </>
                               );
                             })
                           ) : (

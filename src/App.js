@@ -28,8 +28,6 @@ import { ShoppingProvider } from "./ShoppingContext";
 import { useIsUserAdmin } from "./AuthContext";
 // import AgeConfirmation from "./AgeConfirmation";
 
-import "./styles.css";
-
 function App() {
   const isUserAdmin = useIsUserAdmin();
   const location = useLocation();
@@ -43,9 +41,14 @@ function App() {
     "/registro-de-pedidos",
     "/administrar-productos",
     "/administrar-usuarios",
-    "/checkout/cart",
-    "/checkout/shipping",
-    "/checkout/payment",
+  ].includes(location.pathname);
+
+  const shouldShowWhatsapp = ![
+    "/login",
+    "/registrarse",
+    "/registro-de-pedidos",
+    "/administrar-productos",
+    "/administrar-usuarios",
   ].includes(location.pathname);
 
  
@@ -86,15 +89,16 @@ function App() {
           }
         />
 
+        
+<Route path="/checkout/" element={<Checkout />} />
         <Route path="/checkout/cart" element={<CheckoutCart />} />
-        <Route path="/checkout/shipping" element={<Checkout />} />
         <Route path="/checkout/payment" element={<CheckoutPayment />} />
         <Route
           path="/pedido-confirmado/:pedidoId"
           element={<PedidoConfirmado />}
         />
       </Routes>
-      <WhatsAppButton />
+      {shouldShowWhatsapp && <WhatsAppButton />}
       {shouldShowFooter && <Footer />}
     </div>
   );

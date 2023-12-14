@@ -119,7 +119,7 @@ const ListaUsuarios = () => {
   };
 
   return (
-    <div className="content-container">
+    <div>
       <h2>Lista de Usuarios</h2>
       <div className="busqueda-container">
         <input

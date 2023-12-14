@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ListaProductos from "./ListaProductos";
-import "../../../styles.css";
+import SignInForm from "../../../components/User/SignInForm";
+
 
 const AgregarMenu = () => {
   const [formData, setFormData] = useState({
@@ -13,8 +14,22 @@ const AgregarMenu = () => {
   });
 
   const [productos, setProductos] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
+    // Verificar la autenticación al cargar el componente
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/verify-auth`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setIsAuthenticated(response.data.isAuthenticated);
+      })
+      .catch((error) => {
+        console.error("Error al verificar la autenticación:", error);
+        setIsAuthenticated(false);
+      });
+
     cargarProductos();
   }, []);
 
@@ -36,14 +51,12 @@ const AgregarMenu = () => {
     e.preventDefault();
 
     try {
-      await axios.post(
+      const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/products/`,
         formData,
-        
         {
           withCredentials: true,
         }
-        
       );
 
       setFormData({
@@ -59,6 +72,14 @@ const AgregarMenu = () => {
       console.error("Error al enviar la solicitud:", error);
     }
   };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="content-container">
+        <SignInForm/>
+      </div>
+    );
+  }
 
   return (
     <div className="content-container">
@@ -121,8 +142,11 @@ const AgregarMenu = () => {
               onChange={handleChange}
             >
               <option value="">Selecciona una categoría</option>
-              <option value="0">Relx</option>
-              <option value="1">Waka</option>
+              <option value="0">Ofertas</option>
+              <option value="1">Categoría 1</option>
+              <option value="2">Categoría 2</option>
+              <option value="3">Categoría 3</option>
+              <option value="4">Categoría 4</option>
             </select>
           </label>
           <button type="submit">Registrar producto</button>

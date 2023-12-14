@@ -4,9 +4,18 @@ import axios from "axios";
 import "./MisPedidos.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDown,
+  faAngleUp,
+  faTimes,
+  faCopy,
+  faCheckCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../../AuthContext";
+import { Link } from "react-router-dom";
 
 const MisPedidos = () => {
+  const yapeNumber = 913687390;
   const [selectedPedido, setSelectedPedido] = useState(null);
   const [transacciones, setTransacciones] = useState({});
   const {
@@ -17,7 +26,27 @@ const MisPedidos = () => {
     productosOriginales,
     obtenerDetallesPedido,
     detallesPedido,
+    costoEnvio,
   } = useShoppingContext();
+
+  const [copiedToClipboard, setCopiedToClipboard] = useState(false);
+
+  const handleCopyToClipboard = () => {
+    const copyText = yapeNumber;
+    const textArea = document.createElement("textarea");
+    textArea.value = copyText;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+
+    setCopiedToClipboard(true);
+
+    // Después de un tiempo, restablecer el estado para ocultar el mensaje
+    setTimeout(() => {
+      setCopiedToClipboard(false);
+    }, 2000);
+  };
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [filteredPedidos, setFilteredPedidos] = useState([]);
@@ -29,6 +58,7 @@ const MisPedidos = () => {
 
   const [circleColor, setCircleColor] = useState("#ffcccb"); // Inicializado con el mismo color que el fondo seleccionado
 
+  const { authenticatedUser } = useAuth();
   const handleSortChange = () => {
     const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
     setSortOrder(newSortOrder);
@@ -39,7 +69,9 @@ const MisPedidos = () => {
     setFilterEstado(newFilterEstado);
   };
 
-  const handleForceUpdate = () => {
+  const handleForceUpdate = (e) => {
+    e.preventDefault(); // Prevents the default form submission behavior
+
     setForceUpdate((prevForceUpdate) => !prevForceUpdate);
   };
 
@@ -82,7 +114,7 @@ const MisPedidos = () => {
         }
 
         setIsAuthenticated(response.data.isAuthenticated);
-        authenticatedUserId = response.data.user.id; // Modifica esta línea
+        authenticatedUserId = response.data.user.id;
 
         if (response.data.isAuthenticated) {
           const filteredPedidos = authenticatedUserId
@@ -100,7 +132,7 @@ const MisPedidos = () => {
     };
 
     fetchData();
-  }, [forceUpdate]); // Dependencia añadida para forzar la actualización
+  }, [forceUpdate]);
 
   const obtenerTransaccion = async (pedidoId) => {
     try {
@@ -168,25 +200,35 @@ const MisPedidos = () => {
   return (
     <div className="content-container">
       <div className="section-title">
+        <h1>
+          <span style={{ fontWeight: "normal" }}>Bienvenido</span>,{" "}
+          <b>{authenticatedUser.nombre}</b>
+        </h1>
         {filteredPedidos.length > 0 ? (
-          <h2>Historial de pedidos: {filteredPedidos.length}</h2>
+          <h2>Pedidos realizados: {filteredPedidos.length}</h2>
+        ) : filteredPedidos.some(
+            (pedido) => pedido.estado_pedido === "Activo"
+          ) ? (
+          <div>Hola</div>
         ) : (
-          <h2>No tienes pedidos aún. Haz click para cargarlos.</h2>
+          <h2>
+            Revisa tu historial de pedidos aquí. Haz click para cargarlos.
+          </h2>
         )}
         <p>Haz click en un pedido para ver sus detalles</p>
         <div>
           <button
-            onClick={handleForceUpdate}
+            onClick={(e) => handleForceUpdate(e)}
             className={
               filteredPedidos.length === 0
                 ? "red-background"
                 : "black-background"
             }
           >
-            Cargar Pedidos
+            Cargar historial
           </button>
           <label>
-            Ordenar por:
+            Ordenar por:{" "}
             <select value={sortOrder} onChange={handleSortChange}>
               <option value="desc">Más reciente</option>
               <option value="asc">Más antiguo</option>
@@ -195,10 +237,10 @@ const MisPedidos = () => {
         </div>
         <div>
           <label>
-            Filtrar por estado:
+            Filtrar por estado:{" "}
             <select value={filterEstado} onChange={handleFilterChange}>
               <option value="">Todos</option>
-              <option value="Activo">En proceso</option>
+              <option value="Activo">Pedidos activos</option>
               <option value="En camino">En camino</option>
               <option value="Finalizado">Finalizado</option>
             </select>
@@ -240,14 +282,19 @@ const MisPedidos = () => {
                 <li className="monto_total">
                   <b>S/. {pedido.monto_total.toFixed(2)}</b>
                 </li>
+                <li>
+                  <button>
+                    <Link to={`/pedido-confirmado/${pedido.id}`}>
+                      Ver Pedido
+                    </Link>
+                  </button>
+                </li>
                 <li className="ver-detalles">
                   <button
                     id="ver-detalles"
                     onClick={() => handlePedidoClick(pedido)}
                   >
-                    {pedido.estado_pedido === "Activo"
-                      ? "detalles del pedido"
-                      : "detalles del pedido"}{" "}
+                    {pedido.estado_pedido === "Activo" ? "resumen" : "resumen"}{" "}
                     <FontAwesomeIcon
                       icon={
                         selectedPedido && selectedPedido.id === pedido.id
@@ -258,11 +305,25 @@ const MisPedidos = () => {
                   </button>
                 </li>
               </div>
+            </ul>
 
-              {selectedPedido === pedido && (
-                <li>
+            {selectedPedido === pedido && (
+              <div
+                className="detalles-card-container"
+                onClick={() => setSelectedPedido(null)}
+              >
+                <div className="detalles-card">
+                  <div className="c-b-container">
+                    <button
+                      className="detalles-card-close-btn"
+                      onClick={() => setSelectedPedido(null)}
+                    >
+                      <FontAwesomeIcon icon={faTimes} />
+                    </button>
+                  </div>
+
                   <ul>
-                    <div className="flex-space-between">
+                    <div className="flex-space-between mg-r-10">
                       <li>
                         <strong>Método:</strong>{" "}
                         {transacciones[pedido.id]?.metodo_pago ===
@@ -294,9 +355,9 @@ const MisPedidos = () => {
                     </div>
 
                     <div className="datos-pedido">
-                      <li>{selectedPedido.nombre}</li>
+                      {/* <li>{selectedPedido.nombre}</li>
                       <li>{selectedPedido.telefono}</li>
-                      <li>{selectedPedido.email}</li>
+                      <li>{selectedPedido.email}</li> */}
                       <li>{selectedPedido.direccion_envio}</li>
                       <li>
                         <strong>Realizado el:</strong>{" "}
@@ -305,6 +366,11 @@ const MisPedidos = () => {
                       <li>
                         <strong>a las:</strong>{" "}
                         {formatTime(selectedPedido.createdAt)}
+                      </li>
+                      <li>
+                        <p className="flex-end">
+                          <b>total:</b> S/. {pedido.monto_total.toFixed(2)}
+                        </p>
                       </li>
                       {selectedPedido.estado_pedido === "En camino" && (
                         <>
@@ -330,9 +396,69 @@ const MisPedidos = () => {
                       )}
                     </div>
 
+                    {transacciones[pedido.id]?.metodo_pago === "Yape" &&
+                    (transacciones[pedido.id]?.estado_transaccion ===
+                      "Pendiente" ||
+                      transacciones[pedido.id]?.estado_transaccion ===
+                        "Rechazada") ? (
+                      <>
+                        <img
+                          src="/images/yape.jpg"
+                          width={200}
+                          alt="Yape"
+                          className="yape-image"
+                        />
+                      </>
+                    ) : (
+                      ""
+                    )}
+
+                    {transacciones[pedido.id]?.estado_transaccion ===
+                      "Pendiente" ||
+                    transacciones[pedido.id]?.estado_transaccion ===
+                      "Rechazada" ? (
+                      <div>
+                        <b>{yapeNumber}</b>
+                        <button
+                          className="copiar"
+                          onClick={handleCopyToClipboard}
+                        >
+                          <FontAwesomeIcon icon={faCopy} /> Copiar
+                        </button>
+                        {copiedToClipboard && (
+                          <div className="numero-copiado">
+                            Número copiado al portapapeles{" "}
+                            <FontAwesomeIcon icon={faCheckCircle} />
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      ""
+                    )}
+
+                    {transacciones[pedido.id]?.estado_transaccion ===
+                      "Pendiente" ||
+                    transacciones[pedido.id]?.estado_transaccion ===
+                      "Rechazada" ? (
+                      <div>
+                        <button className="enviar-comprobante">
+                          <a
+                            target="_blank"
+                            rel="noreferrer"
+                            href={`https://api.whatsapp.com/send?phone=+51913687390&text=ID de pedido: ${selectedPedido.id}%0D%0ANombre: ${selectedPedido.nombre}%0D%0ADirección de entrega: ${selectedPedido.direccion_envio}`}
+                          >
+                            Enviar comprobante
+                          </a>
+                        </button>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+
                     {selectedPedido === pedido && (
-                      <li>
+                      <div>
                         <ul>
+                          <h3 className="resumen-detalles">Detalles del pedido</h3>
                           {detallesPedido &&
                           detallesPedido.detalles &&
                           detallesPedido.detalles.length > 0 ? (
@@ -386,50 +512,33 @@ const MisPedidos = () => {
                             detallesPedido.detalles.some(
                               (detalle) => detalle.cantidad > 1
                             ) ? (
-                              <span className="flex-end">
-                                total S/. {pedido.monto_total.toFixed(2)}
-                              </span>
+                              <div className="costo-envio-total">
+                                <p className="subtotal">
+                                  <b>Subtotal:</b> S/.{" "}
+                                  {(
+                                    pedido.monto_total - pedido.costo_envio
+                                  ).toFixed(2)}
+                                </p>
+                                <p className="costo-envio">
+                                  <b>Costo de envío:</b> S/.{" "}
+                                  {pedido.costo_envio.toFixed(2)}
+                                </p>
+                                <p className="flex-end">
+                                  <b>total:</b> S/.{" "}
+                                  {pedido.monto_total.toFixed(2)}
+                                </p>
+                              </div>
                             ) : (
                               ""
                             )}
                           </>
                         )}
-                      </li>
-                    )}
-                    {transacciones[pedido.id]?.metodo_pago === "Yape" &&
-                    (transacciones[pedido.id]?.estado_transaccion ===
-                      "Pendiente" ||
-                      transacciones[pedido.id]?.estado_transaccion ===
-                        "Rechazada") ? (
-                      <img
-                        src="/images/yape.jpg"
-                        width={200}
-                        alt="Yape"
-                        className="yape-image"
-                      />
-                    ) : (
-                      ""
-                    )}
-                    {transacciones[pedido.id]?.estado_transaccion ===
-                      "Pendiente" ||
-                    transacciones[pedido.id]?.estado_transaccion ===
-                      "Rechazada" ? (
-                      <div className="enviar-comprobante">
-                        <a
-                          target="_blank"
-                          rel="noreferrer"
-                          href={`https://api.whatsapp.com/send?phone=+51913687390&text=ID de pedido: ${selectedPedido.id}%0D%0ANombre: ${selectedPedido.nombre}%0D%0ADirección de entrega: ${selectedPedido.direccion_envio}`}
-                        >
-                          Enviar comprobante
-                        </a>
                       </div>
-                    ) : (
-                      ""
                     )}
                   </ul>
-                </li>
-              )}
-            </ul>
+                </div>
+              </div>
+            )}
           </React.Fragment>
         ))}
       </div>

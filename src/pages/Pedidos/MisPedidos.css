@@ -1,218 +1,204 @@
 /* MisPedidos.css */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-table,
-th,
-td {
-  border: 1px solid #ccc;
-}
-
-.selected {
-  background-color: #a0d3e8;
-}
-
-.detalles {
-  min-height: 50vh;
-}
-.detalle-pedido {
-  padding: 20px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-}
-
-.detalle-pedido h3 {
-  margin-top: 0;
-}
-
-.detalle-pedido ul {
-  list-style: none;
-  padding: 0;
-}
-
-.detalle-pedido li {
-  margin-bottom: 10px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 6px;
-}
-
-table,
-th,
-td {
-  border: 1px solid #ccc;
-}
-
 .section-title {
-  background-color: #f2f2f2;
+  background-color: #3498db;
+  color: #fff;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 8px;
+  text-align: center;
   margin-bottom: 20px;
 }
 
+.section-title h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
 .section-title h2 {
-  font-size: 24px;
-  margin: 0;
-  padding: 0;
-  color: #333;
+  font-size: 1.5rem;
+  margin-top: 10px;
 }
 
 .section-title p {
-  font-size: 16px;
-  margin: 10px 0;
-  color: #777;
-}
-
-.datos-del-comprador {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  font-size: 1rem;
   margin-top: 10px;
 }
 
-.datos-del-comprador li {
-  text-align: justify;
-  margin-bottom: 8px;
-  font-size: 16px;
-  line-height: 1.2;
+.mg-r-10{
+  margin-right: 40px;
+}
+.section-title div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
 }
 
-.flex {
-  align-items: center;
+.section-title button {
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+.detalles-card-container {
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1999;
+  width: 100%;
+  height: 100%;
+  background: #000000bb;
+}
+
+.detalles-card {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding:  15px 25px;
+  z-index: 3000;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  min-width: 320px;
+  max-height: 80%; /* Set the maximum height as needed */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border-radius: 20px;
+
+}
+
+
+
+/* Add a close button to the popup */
+.detalles-card-close-btn {
+  /* Add styling for the close button */
+  background: none;
+  border: none;
+  color: rgb(0, 0, 0);
+  font-size: 20px; /* Adjust the font size as needed */
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1100; /* Set a higher z-index to ensure it appears above the card */
+}
+
+
+
+.detalles-card li {
+  text-align: justify;
+}
+
+.section-title button.red-background {
+  background-color: #e74c3c;
+}
+
+.section-title button.black-background {
+  background-color: #2c3e50;
+}
+
+.section-title label {
+  margin-left: 10px;
+}
+
+.section-title select {
+  padding: 8px;
+  font-size: 1rem;
 }
 
 .pedido-card-container {
-  display: flex;
-  margin: 0 auto;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
 }
 
 .pedido-card {
-  margin: 10px auto;
-  width: 320px;
-  border: 1px solid rgba(0, 0, 0, 0.177);
-  display: flex;
-  flex-direction: column;
-  padding: 5px 15px 10px;
-}
-
-#id-pedido {
-  display: flex;
-  flex-direction: row;
-}
-
-#status-circle {
-  display: block;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  margin-left: 8px; /* Ajusta el margen según sea necesario */
-}
-
-.id-estado {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.activo {
+  list-style: none;
   background-color: #fff;
-  border: 3px solid #3f9a1e;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
-.detalles-productos {
-  
-  margin: "0 auto";
-  text-align: "center",
-}
-
-.en-camino {
-  background-color: #fff;
-  border: 3px solid rgb(255, 221, 0);
-}
-
-
-.red {
-  color: #c82333;
-}
-
-.finalizado {
-  background-color: #3c97cb;
-}
-
-.red-background {
-  background: #c82333;
-}
-
-.black-background {
-  background: #000000;
-}
-#ver-detalles {
-  background-color: #fac458;
-  color: #000;
-  font-size: 0.8em;
-  font-weight: 600;
-  border-radius: 10px;
-  margin-top: 10px;
-  border: 2px solid #000;
-}
-
-.enviar-comprobante {
-  margin-top: 20px; /* Espacio en la parte superior para separar de los detalles del pedido */
-}
-
-.enviar-comprobante a {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #4caf50; /* Color de fondo */
-  color: #fff; /* Color del texto */
-  text-decoration: none; /* Eliminar subrayado del enlace */
-  border-radius: 5px; /* Bordes redondeados */
-  transition: background-color 0.3s ease; /* Transición de color de fondo */
-}
-
-.enviar-comprobante a:hover {
-  background-color: #45a049; /* Cambiar color de fondo al pasar el ratón */
-  text-decoration: none; /* Eliminar subrayado del enlace */
-}
-
-.datos-pedido{
-  padding: 10px;
-}
-
-.datos-pedido li{
-  text-align: left;
-}
-
-.detalle-mi-pedido {
-  display: table;
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0 auto;
-  background: #fff;
-}
-
-.detalle-mi-pedido > div {
-  display: table-row;
-}
-
-.detalle-mi-pedido > div > span {
-  display: table-cell;
-  padding: 8px; /* Ajusta según sea necesario */
-  border: 1px solid #ddd; /* Añade bordes para simular celdas */
-}
-
-
-.direccion {
-  font-size: 1.3rem;
+.pedido-card:hover {
+  transform: scale(1.05);
 }
 
 .pedido-preview {
-  padding: 5px 0 10px;
+  padding: 16px;
+}
+
+.pedido-preview li {
+  margin-bottom: 10px;
+}
+
+#status-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.activo {
+  background-color: #2ecc71;
+}
+
+.en-camino {
+  background-color: #f39c12;
+}
+
+.finalizado {
+  background-color: #3498db;
+}
+
+.selected {
+  border: 2px solid #000;
+}
+
+.detalle-mi-pedido {
+  margin-top: 10px;
+}
+
+.yape-image {
+  margin-top: 10px;
+  max-width: 100%;
+}
+
+.enviar-comprobante {
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.enviar-comprobante:hover {
+  background-color: #2980b9;
+}
+
+.costo-envio-total {
+  text-align: right;
+}
+
+.red {
+  color: red;
+}
+
+.resumen-detalles {
+  margin-top: 20px;
+}
+
+.green {
+  color: #2ecc71;
+}
+
+
+.pedido-details, .transaccion-details {
+  text-align: left;
+}
+
+.direccion {
+  min-height: 100px;
 }

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useShoppingContext } from "../../../ShoppingContext";
-import "../../../styles.css";
+
 import whooshSound from "../../../audio/whoosh.mp3";
 
 const MenuCategory = ({ category, menuItems, agregarAlCarrito, menuCount }) => {
@@ -9,7 +9,7 @@ const MenuCategory = ({ category, menuItems, agregarAlCarrito, menuCount }) => {
     (menuItem) => menuItem.activo === true
   );
   const whooshRef = useRef(null);
-  const { toggleCart, cartOpen, carrito } = useShoppingContext();
+  const { toggleCart, cartOpen } = useShoppingContext();
 
   const handleAgregarClick = (menuItem) => {
     // Aquí debes llamar a la función agregarAlCarrito con un nombre personalizado

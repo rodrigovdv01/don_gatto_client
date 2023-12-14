@@ -5,8 +5,18 @@ import "./Details.css";
 import "./Checkout.css";
 
 const Details = () => {
-  const { carrito, setSelectedItems, selectedItemsOriginales } =
-    useShoppingContext();
+  const location = useLocation();
+  const {
+    carrito,
+    setSelectedItems,
+    selectedItemsOriginales,
+    costoEnvio,
+    setCostoEnvio,
+    setMontoTotal,
+    distrito,
+  } = useShoppingContext();
+
+  const { shippingInfo } = location.state || {};
 
   useEffect(() => {
     // Cargar los datos del localStorage al estado cuando se monta el componente
@@ -14,6 +24,13 @@ const Details = () => {
     if (savedSelectedItems) {
       setSelectedItems(JSON.parse(savedSelectedItems));
     }
+
+    // Calcular el costo de envío y el total después de cargar los datos del localStorage
+    const costoEnvioCalculado = calcularEnvío();
+    setCostoEnvio(costoEnvioCalculado);
+
+    const total = calcularSubtotal() + costoEnvioCalculado;
+    setMontoTotal(total);
   }, []);
 
   const calcularSubtotal = () => {
@@ -22,63 +39,88 @@ const Details = () => {
     }, 0);
   };
 
+  // Función para calcular el envío por distrito
+  const calcularEnvío = () => {
+    // Define los costos de envío por distrito
+    const costosEnvioPorDistrito = {
+      Barranco: 1,
+      Chorrillos: 2,
+      "La Molina": 3,
+      Magdalena: 4,
+      Miraflores: 5,
+      "San Borja": 6,
+      "San Isidro": 7,
+      "San Miguel": 8,
+      "Santiago de Surco": 9,
+    };
+
+    // Verifica si el distrito está en la lista, si no, usa un valor predeterminado
+    const CostoEnvioPorDistrito = costosEnvioPorDistrito[distrito] || 0;
+    return CostoEnvioPorDistrito;
+  };
+
+  const costoEnvioActual = calcularEnvío();
+
   const calcularTotal = () => {
-    const total = calcularSubtotal();
+    const total = calcularSubtotal() + calcularEnvío();
+    setMontoTotal(total);
     return total;
   };
 
   return (
-    <div className="">
-      <table className="product-table">
-        <thead>
+    <table className="product-table">
+      <thead>
+        <tr>
           <th>Producto</th>
           <th>Subtotal</th>
-        </thead>
-        <tbody>
-          {carrito.map((item, index) => {
-            const monto_total = item.precio * item.cantidad;
-            return (
-              <tr key={`${item.producto_id}-${index}`}>
-                <td className="flex" style={{ alignItems: "center" }}>
-                  <img src={item.img} alt="imagen del producto" />
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "flex-start",
-                      marginLeft: "8px",
-                    }}
-                  >
-                    <span className="product-name">{item.nombre}</span>
-                    <b className="product-quantity">x{item.cantidad}</b>
-                  </div>
-                </td>
+        </tr>
+      </thead>
+      <tbody>
+        {carrito.map((item, index) => {
+          const monto_total = item.precio * item.cantidad;
+          return (
+            <tr key={`${item.producto_id}-${index}`}>
+              <td className="flex" style={{ alignItems: "center" }}>
+                <img src={item.img} alt="imagen del producto" />
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    marginLeft: "8px",
+                  }}
+                >
+                  <span className="product-name">{item.nombre}</span>
+                  <b className="product-quantity">x{item.cantidad}</b>
+                </div>
+              </td>
 
-                <td>S/. {monto_total}</td>
-              </tr>
-            );
-          })}
-          <tr className="cart-subtotal">
-            <td>
-              <b>Subtotal</b>
-            </td>
+              <td>S/. {monto_total}</td>
+            </tr>
+          );
+        })}
+        <tr className="cart-subtotal">
+          <td>
+            <b>Subtotal</b>
+          </td>
 
-            <td>S/. {calcularSubtotal()}</td>
-          </tr>
-          <tr className="cart-shipping">
-            <td colSpan="2">
-              <b>Envío</b>
-            </td>
-          </tr>
-          <tr className="cart-total">
-            <td>
-              <b>Total</b>
-            </td>
-            <td>S/. {calcularTotal()}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+          <td>S/. {calcularSubtotal()}</td>
+        </tr>
+        <tr className="cart-shipping">
+          <td className="flex-space-between">
+            <b>Envío</b> {shippingInfo && distrito ? <b>({distrito})</b> : ""}
+          </td>
+          <td>S/. {shippingInfo && distrito ? costoEnvioActual : "Por calcular"}</td>
+        </tr>
+
+        <tr className="cart-total">
+          <td>
+            <b>Total</b>
+          </td>
+          <td>S/. {calcularTotal()}</td>
+        </tr>
+      </tbody>
+    </table>
   );
 };
 

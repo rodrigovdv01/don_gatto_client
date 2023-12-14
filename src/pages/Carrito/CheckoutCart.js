@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useShoppingContext } from "../../ShoppingContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
-import "./Checkout.css";
+import axios from "axios";
+import "./CheckoutCart.css";
 import "./Details.css";
 
 const CheckoutCart = () => {
@@ -14,14 +15,15 @@ const CheckoutCart = () => {
     eliminarDelCarrito,
     selectedItems,
     setSelectedItems,
-    eliminarMenu,
-    modificarCantidadMenu,
+    handleItemSelectedChange,
+    productos,
     calcularSubtotal,
     calcularTotal,
+    vaciarCarrito,
   } = useShoppingContext();
 
   const handleCheckout = () => {
-    navigate("/checkout/shipping");
+    navigate("/checkout");
   };
 
   useEffect(() => {
@@ -32,32 +34,63 @@ const CheckoutCart = () => {
     }
 
     // Puedes agregar más lógica aquí si es necesario
-  }, [setSelectedItems]);
+  }, []);
 
   useEffect(() => {
     const storedSelectedItems = localStorage.getItem("selectedItems");
     if (storedSelectedItems !== null) {
       setSelectedItems(JSON.parse(storedSelectedItems));
     }
-  }, [setSelectedItems]);
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("selectedItems", JSON.stringify(selectedItems));
   }, [selectedItems]);
 
   const handleModificarCantidad = (itemId, cantidad, id_categoria) => {
-    if (id_categoria === 0) {
-      modificarCantidadMenu(itemId, cantidad);
-    } else {
-      modificarCantidad(itemId, cantidad);
-    }
+    // Ensure the quantity doesn't go below 1
+    const newQuantity = Math.max(
+      1,
+      selectedItems.find((item) => item.producto_id === itemId).cantidad +
+        cantidad
+    );
+
+    modificarCantidad(itemId, newQuantity);
+
+    // Update localStorage after modifying the quantity
+    const updatedSelectedItems = selectedItems.map((item) => {
+      if (item.producto_id === itemId) {
+        return { ...item, cantidad: newQuantity };
+      }
+      return item;
+    });
+
+    setSelectedItems(updatedSelectedItems);
   };
+
+  if (carrito.length === 0) {
+    return (
+      <div className="content-container">
+        <h2 className="heading">Carrito de Compras</h2>
+        <p>Tu carrito de compras está vacío.</p>
+        <Link to="/menu" className="continue-shopping">
+          Seguir comprando
+        </Link>
+      </div>
+    );
+  }
+
 
   return (
     <div className="content-container">
       <h2 className="heading">Carrito de Compras</h2>
-
       <p className="total">Total: S/. {calcularTotal(carrito)}</p>
+      <button
+                className="carrito-button carrito-button-pedido"
+                onClick={vaciarCarrito}
+              >
+                Vaciar Carrito
+              </button>
       <form className="table-container">
         <table className="table">
           <thead>
@@ -84,82 +117,47 @@ const CheckoutCart = () => {
                 </td>
                 <td className="item-name">
                   <h3>{item.nombre}</h3>
-                 
                 </td>
-
                 <td className="price-cell">S/. {item.precio}</td>
                 <td className="quantity-cell">
-                  {item.id_categoria === 0 ? (
-                    <>
+                  <div>
+                    <div className="cantidad">
                       <div
-                        className="quantity-button"
-                        onClick={() =>
-                          handleModificarCantidad(index, -1, item.id_categoria)
-                        }
+                        className={`carrito-button ${
+                          item.cantidad === 0 ? "carrito-button-disabled" : ""
+                        }`}
+                        onClick={() => modificarCantidad(item.producto_id, -1)}
+                        disabled={item.cantidad === 0}
                       >
                         <FontAwesomeIcon icon={faMinus} />
                       </div>
-                      <span className="item-quantity">{item.cantidad}</span>
+                      <span className="carrito-quantity">{item.cantidad}</span>
                       <div
-                        className="quantity-button"
-                        onClick={() =>
-                          handleModificarCantidad(index, 1, item.id_categoria)
-                        }
+                        className="carrito-button"
+                        onClick={() => modificarCantidad(item.producto_id, 1)}
                       >
                         <FontAwesomeIcon icon={faPlus} />
                       </div>
-                    </>
-                  ) : (
-                    <>
-                      <div
-                        className="quantity-button"
-                        onClick={() =>
-                          handleModificarCantidad(
-                            item.producto_id,
-                            -1,
-                            item.id_categoria
-                          )
-                        }
-                      >
-                        <FontAwesomeIcon icon={faMinus} />
-                      </div>
-                      <span className="item-quantity">{item.cantidad}</span>
-                      <div
-                        className="quantity-button"
-                        onClick={() =>
-                          handleModificarCantidad(
-                            item.producto_id,
-                            1,
-                            item.id_categoria
-                          )
-                        }
-                      >
-                        <FontAwesomeIcon icon={faPlus} />
-                      </div>
-                    </>
-                  )}
+                    </div>
+                  </div>
                 </td>
 
                 <td className="subtotal">
                   S/. {calcularSubtotal(item.precio, item.cantidad)}
-                  {item.id_categoria === 0 ? (
-                    <span
-                      className="delete"
-                      onClick={() => eliminarMenu(index)}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </span>
-                  ) : (
-                    <span
-                      className="delete"
-                      onClick={() => eliminarDelCarrito(item.producto_id)}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </span>
-                  )}
+                  <span
+                    className="delete"
+                    onClick={() => eliminarDelCarrito(item.producto_id)}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </span>
+                  
+              
                 </td>
+                
               </tr>
+              
             ))}
+            
           </tbody>
         </table>
       </form>
@@ -169,9 +167,9 @@ const CheckoutCart = () => {
         </Link>
         <input
           type="submit"
-          value="Siguiente paso"
+          value="CONTINUAR"
           onClick={handleCheckout}
-          className="btn"
+          className="next-step-button"
         />
       </div>
     </div>

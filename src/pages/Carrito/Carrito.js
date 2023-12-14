@@ -4,8 +4,7 @@ import "./Carrito.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import "../../styles.css";
-import { useAuth } from "../../AuthContext"; // Importa el contexto de autenticación
+
 
 const Carrito = ({
   carrito,
@@ -18,18 +17,8 @@ const Carrito = ({
 }) => {
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    toggleCart();
-    navigate("/checkout/shipping");
-  };
-
   return (
-    <form
-      className={`carrito-sidebar ${cartOpen ? "open" : ""}`}
-      onSubmit={handleSubmit}
-    >
+    <div className={`carrito-sidebar ${cartOpen ? "open" : ""}`}>
       <div className="carrito-close-button" onClick={toggleCart}>
         <FontAwesomeIcon icon={faTimes} className="close-icon" />
       </div>
@@ -57,7 +46,6 @@ const Carrito = ({
                   ></img>
                   <div className="texto">
                     <h4>{item.nombre}</h4>
-
                     <p>Cantidad: {item.cantidad}</p>
                     <p>S/. {item.precio.toFixed(2)}</p>
                   </div>
@@ -67,11 +55,15 @@ const Carrito = ({
             <div>
               <p className="total">Total: S/. {calcularTotal(carrito)}</p>
               <div className="opciones-carrito">
-                <input
-                  type="submit"
+                <button
                   className="carrito-button carrito-button-pedido"
-                  value="PAGAR"
-                />
+                  onClick={() => {
+                    toggleCart();
+                    navigate("/checkout");
+                  }}
+                >
+                  PAGAR
+                </button>
                 <Link to="/checkout/cart" onClick={toggleCart}>
                   <button className="carrito-button --pedido">
                     editar carrito
@@ -82,7 +74,7 @@ const Carrito = ({
           </>
         )}
       </div>
-    </form>
+    </div>
   );
 };
 

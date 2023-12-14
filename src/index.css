@@ -10,3 +10,113 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.content-container {
+  margin-top: 61px;
+  text-align: center;
+  padding: 20px 50px;
+}
+
+@media screen and (max-width: 650px) {
+  .content-container {
+    margin-top: 61px;
+    text-align: center;
+    padding: 20px 10px;
+  }
+}
+
+/* styles.css */
+/* Estilo para la tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para los encabezados de columna */
+table th {
+  background-color: #000000;
+  color: #fff;
+  font-weight: bold;
+  text-align: left;
+  border: none;
+  text-align: center;
+}
+
+/* Estilo para las celdas de datos */
+
+table tr {
+  max-height: 50px;
+}
+
+/* Estilo para las celdas de encabezado de columna específicas (si es necesario) */
+table th.producto-header {
+  /* Estilo específico para encabezado "Producto" si es necesario */
+}
+
+.img {
+  height: 100px;
+}
+
+/* Estilo para las imágenes (ajustar al tamaño de la fila) */
+tbody img {
+  max-width: 100%;
+  max-height: 100px; /* Establece la altura máxima de la imagen */
+  height: auto;
+}
+
+/* Estilo para las filas (establece la altura máxima) */
+tbody tr {
+  max-height: 100px; /* Establece la altura máxima de las filas */
+  overflow: hidden; /* Oculta el contenido que supere la altura máxima */
+}
+
+/* Estilo para botones en las celdas (si es necesario) */
+table td button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Estilo para botones en las celdas al pasar el mouse (si es necesario) */
+table td button:hover {
+  background-color: #0056b3;
+}
+
+
+/* ListaProductos.css */
+  
+  /* Estilo para los botones */
+  button {
+    background-color: #dc3545; 
+    color: white; 
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+  
+  .green {
+    color: #00b306;
+  }
+
+  button a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  label {
+    display: block;
+  }

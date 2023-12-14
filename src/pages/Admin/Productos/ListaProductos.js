@@ -170,12 +170,12 @@ const ListaProductos = () => {
       </div>
       <button onClick={handleActualizarProductos}>Actualizar</button>
       {productosFiltrados.length === 0 ? (
-        <div>Cargando productos...</div>
+        <div>No has agregado productos.</div>
       ) : (
         <table>
           <thead>
             <tr>
-              <th>ID de Producto</th>
+              <th>Id de producto</th>
               <th>Nombre</th>
               <th>Descripción</th>
               <th>Stock</th>

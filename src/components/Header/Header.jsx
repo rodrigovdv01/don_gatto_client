@@ -16,12 +16,14 @@ import { useAuth, useIsUserAdmin } from "../../AuthContext";
 import { useLocation } from "react-router-dom";
 import Carrito from "../../pages/Carrito/Carrito";
 import { useShoppingContext } from "../../ShoppingContext";
+import CartDiv from "./CartDiv";
 
 const Header = () => {
   const { authenticatedUser, handleLogout } = useAuth();
   const isUserAdmin = useIsUserAdmin();
   const location = useLocation();
 
+  const isHomePage = location.pathname === "/";
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -110,8 +112,8 @@ const Header = () => {
   const [cartItemCount, setCartItemCount] = useState(0);
 
   const [isHovered, setIsHovered] = useState(false);
-  const isHomePage = location.pathname === "/";
 
+  const headerBlanco = isHomePage && !isScrolled && !userMenuOpen && !cartOpen;
   return (
     <>
       {!(isLoginPage || isSignUpPage) && (
@@ -216,56 +218,11 @@ const Header = () => {
                       </span>
                     )}
                   </li>
-                  <button
-                    style={{
-                      backgroundColor:
-                        isHomePage && !isScrolled ? "#fff" : "#000",
-                    }}
-                    className="cart-div"
-                    onClick={() => {
-                      toggleCart();
-                      if (userMenuOpen) {
-                        toggleUserMenu();
-                      }
-                    }}
-                  >
-                    <FontAwesomeIcon
-                      style={{
-                        color: isHomePage && !isScrolled ? "#000" : "#fff",
-                      }}
-                      icon={faShoppingCart}
-                    />
-                    {cartItemCount > 0 && (
-                      <span
-                        style={{
-                          color: isHomePage && !isScrolled ? "#000" : "#fff",
-                        }}
-                        className="cart-item-count"
-                      >
-                        {cartItemCount}
-                      </span>
-                    )}
-                  </button>
-                  {!isTablet && (
-                    <li>
-                      <button
-                        className="pide-online"
-                        style={{
-                          backgroundColor:
-                            isHomePage && !isScrolled ? "#fff" : "#000",
-                        }}
-                      >
-                        <Link
-                          style={{
-                            color: isHomePage && !isScrolled ? "#000" : "#fff",
-                          }}
-                          to="/menu"
-                        >
-                          ¡Pide Online!
-                        </Link>
-                      </button>
-                    </li>
-                  )}
+                  <CartDiv
+                    toggleCart={toggleCart}
+                    cartItemCount={cartItemCount}
+                    headerBlanco={headerBlanco}
+                  />
                 </>
               ) : (
                 <>
@@ -312,33 +269,31 @@ const Header = () => {
                         </li>
                       </>
                     )}
-                  <li>
-                    <button
-                      style={{
-                        backgroundColor:
-                          isHomePage && !isScrolled ? "#fff" : "#000",
-                      }}
-                      onClick={toggleCart}
-                      className="cart-div"
-                    >
-                      <FontAwesomeIcon
+                  {!isTablet && (
+                    <li>
+                      <button
+                        className="pide-online"
                         style={{
-                          color: isHomePage && !isScrolled ? "#000" : "#fff",
+                          backgroundColor:
+                            isHomePage && !isScrolled ? "#fff" : "#000",
                         }}
-                        icon={faShoppingCart}
-                      />
-                      {cartItemCount > 0 && (
-                        <span
-                          className="cart-item-count"
+                      >
+                        <Link
                           style={{
                             color: isHomePage && !isScrolled ? "#000" : "#fff",
                           }}
+                          to="/menu"
                         >
-                          {cartItemCount}
-                        </span>
-                      )}
-                    </button>
-                  </li>
+                          ¡Pide Online!
+                        </Link>
+                      </button>
+                    </li>
+                  )}
+                  <CartDiv
+                    toggleCart={toggleCart}
+                    cartItemCount={cartItemCount}
+                    headerBlanco={headerBlanco}
+                  />
                 </>
               )}
             </ul>
