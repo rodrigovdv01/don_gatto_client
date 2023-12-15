@@ -59,7 +59,6 @@ const MisPedidos = () => {
 
   const { authenticatedUser } = useAuth();
 
-  
   const handleSortChange = () => {
     const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
     setSortOrder(newSortOrder);
@@ -230,11 +229,10 @@ const MisPedidos = () => {
               {filteredPedidos.length === 0 && "Cargar Pedidos"}
               {filteredPedidos.length !== 0 && "Actualizar"}
             </button>
-            <button
-              
-              className="nuevo-pedido"
-            >
-             <Link to="/menu" target="_blank"><FontAwesomeIcon icon={faPlus} /> Nuevo Pedido</Link> 
+            <button className="nuevo-pedido">
+              <Link to="/menu" target="_blank">
+                <FontAwesomeIcon icon={faPlus} /> Nuevo Pedido
+              </Link>
             </button>
           </div>
           <label>
@@ -318,10 +316,11 @@ const MisPedidos = () => {
             </ul>
 
             {selectedPedido === pedido && (
-              <div
-                className="detalles-card-container"
-                onClick={() => setSelectedPedido(null)}
-              >
+              <>
+                <div
+                  className="detalles-card-container"
+                  onClick={() => setSelectedPedido(null)}
+                ></div>
                 <div className="detalles-card">
                   <div className="c-b-container">
                     <button
@@ -366,8 +365,8 @@ const MisPedidos = () => {
 
                     <div className="datos-pedido">
                       {/* <li>{selectedPedido.nombre}</li>
-                      <li>{selectedPedido.telefono}</li>
-                      <li>{selectedPedido.email}</li> */}
+                  <li>{selectedPedido.telefono}</li>
+                  <li>{selectedPedido.email}</li> */}
                       <li>{selectedPedido.direccion_envio}</li>
                       <li>
                         <strong>Realizado el:</strong>{" "}
@@ -549,7 +548,7 @@ const MisPedidos = () => {
                     )}
                   </ul>
                 </div>
-              </div>
+              </>
             )}
           </React.Fragment>
         ))}
