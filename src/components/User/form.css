@@ -1,14 +1,13 @@
 /* form.css */
 .form-container {
   color: #ccc;
-  display: grid;
-  grid-template-rows: 1fr;
-  width: 50%;
-  height: 50%;
   margin: 0 auto;
-  background-color: #cccccc0e;
-  border-radius: 50px;
+  background-color: #200861c8;
+  border: solid 2px #fff;
   padding-top: 30px;
+  max-height: 80%;
+  z-index: 2000;
+  border-radius: 10px;
 }
 
 .form-title {
@@ -28,6 +27,49 @@
   border-radius: 18px;
 }
 
+.flex-login-container {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background: #00000094;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.close-form-container {
+  position: absolute;
+  top: 20px; /* Ajusta la posición superior según sea necesario */
+  right: 20px; /* Ajusta la posición derecha según sea necesario */
+  cursor: pointer;
+  z-index: 3000;
+}
+
+.close-form {
+  color: #fff;
+  font-size: 32px;
+}
+
+@media screen and (min-width: 768px) {
+  .close-form-container {
+    right: 40px; 
+  }
+}
+
+@media screen and (min-width: 1254px) {
+  .close-form-container {
+    top: 40px;
+    right: 80px; 
+  }
+}
+
+.login-container {
+  
+  flex: 1;
+}
+
 .form-label {
   font-size: 18px;
   margin-bottom: 10px;
@@ -45,7 +87,7 @@
 }
 
 .form-button {
-  color: #fff;
+  color: #000000;
   font-size: 18px;
   padding: 10px 15px;
   border: none;

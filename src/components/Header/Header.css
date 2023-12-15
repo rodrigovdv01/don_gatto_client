@@ -24,7 +24,16 @@
 }
 
 .login-logout {
-  color: black;
+  background: none;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-weight: bold;
+  font-size: 1rem;
+  
+}
+
+.login-logout:hover {
+  transform: scale(1.1);
+  
 }
 
 /* Estilo para la barra de navegación */

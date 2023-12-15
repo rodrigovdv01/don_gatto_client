@@ -37,28 +37,33 @@ const RegistroPedidos = () => {
       });
     obtenerUsuarios();
     obtenerProductos();
+    obtenerPedidos();
+
   }, [isAuthenticated]);
 
-  useEffect(() => {
-    obtenerPedidos();
+  const sortPedidos = async () => {
+    // Wait for obtenerPedidos to complete
+
     // Ordenar los pedidos según la opción seleccionada
     const pedidosOrdenados = [...pedidos]
-    .filter(
-      (pedido) =>
-        filterEstado === "" || pedido.estado_pedido === filterEstado
-    )
-    
+      .filter(
+        (pedido) => filterEstado === "" || pedido.estado_pedido === filterEstado
+      )
       .sort((a, b) => {
         const fechaA = new Date(a.createdAt);
         const fechaB = new Date(b.createdAt);
-      
+
         // Ordenar de más reciente a más antiguo si el orden es 'desc'
         // Ordenar de más antiguo a más reciente si el orden es 'asc'
         return sortOrder === "desc" ? fechaB - fechaA : fechaA - fechaB;
       });
 
     setPedidos(pedidosOrdenados);
-  }, [obtenerPedidos, sortOrder, pedidos]);
+  };
+
+  useEffect(() => {
+    sortPedidos();
+  }, [pedidos, sortOrder]);
 
   // Función para formatear la hora
   const formatTime = (createdAt) => {

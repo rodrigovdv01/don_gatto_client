@@ -1,5 +1,5 @@
 // Importa las librerías y componentes necesarios
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -32,7 +32,6 @@ function App() {
   const isUserAdmin = useIsUserAdmin();
   const location = useLocation();
   // const [isAgeConfirmed, setIsAgeConfirmed] = useState(false);
-  
 
   // Comprueba si la ubicación actual coincide con "/login" o "/registrarse"
   const shouldShowFooter = ![
@@ -50,8 +49,6 @@ function App() {
     "/administrar-productos",
     "/administrar-usuarios",
   ].includes(location.pathname);
-
- 
 
   // if (!isAgeConfirmed) {
   // Si la edad no está confirmada, mostrar la pantalla de confirmación
@@ -89,8 +86,7 @@ function App() {
           }
         />
 
-        
-<Route path="/checkout/" element={<Checkout />} />
+        <Route path="/checkout/" element={<Checkout />} />
         <Route path="/checkout/cart" element={<CheckoutCart />} />
         <Route path="/checkout/payment" element={<CheckoutPayment />} />
         <Route

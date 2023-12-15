@@ -18,7 +18,7 @@
 }
 
 /* Estilo para el título h2 */
-h2 {
+.text-container h2 {
   font-size: 24px;
   margin: 0;
   color: #fff;

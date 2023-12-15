@@ -1,10 +1,15 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import { useAuth } from "../../AuthContext"; // Importa useAuth
+import { useShoppingContext } from "../../ShoppingContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+
 import "./form.css";
 
 const SignInForm = () => {
   const { handleLogin, loginData, setLoginData, error } = useAuth();
+  const { showLoginForm, showSignUpForm, setShowLoginForm, setShowSignUpForm, setIsAuthenticated } =
+    useShoppingContext();
 
   // const clientID =
   //   "268839054721-rfc2c4nafgmkkhcj0fefq41rsd1ojq82.apps.googleusercontent.com";
@@ -16,7 +21,7 @@ const SignInForm = () => {
   // const onFailure = (res) => {
   //   console.log("LOGIN FAILED! res: ", res);
   // };
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLoginData({ ...loginData, [name]: value });
@@ -29,14 +34,29 @@ const SignInForm = () => {
     } catch (error) {
       console.error("Error during login:", error);
     }
-
+    if (showLoginForm) {
+      setShowLoginForm(false);
+    }
+    if (showSignUpForm) {
+      setShowSignUpForm(false);
+    }
     console.log(error);
   };
 
   return (
-    <div className="flex-login-container">
-      <div className="login-container">
+    <>
+      <div className="flex-login-container">
         <div className="form-container">
+          <div className="close-form-container">
+            <FontAwesomeIcon
+              icon={faTimes}
+              className="close-form"
+              onClick={() => {
+                setShowLoginForm(false);
+                setShowSignUpForm(false);
+              }}
+            />
+          </div>
           <form onSubmit={handleSubmit} className="login-form">
             <h1 className="form-title">Iniciar sesión</h1>
             <label className="form-label">
@@ -66,20 +86,29 @@ const SignInForm = () => {
               Iniciar sesión
             </button>
             {/* <div>
-              <GoogleLogin
-                clientId={clientID}
-                buttonText="Login"
-                onSuccess={onSuccess}
-                onFailure={onFailure}
-                cookiePolicy={"single_host_origin"}
-                isSigned={true}
-              />
-            </div> */}
+                <GoogleLogin
+                  clientId={clientID}
+                  buttonText="Login"
+                  onSuccess={onSuccess}
+                  onFailure={onFailure}
+                  cookiePolicy={"single_host_origin"}
+                  isSigned={true}
+                />
+              </div> */}
             <ul>
               <li>ó</li>
               <li>
-                <p>
-                  <Link to="/registrarse">Registrarse</Link>
+                <p
+                  onClick={() => {
+                    if (showLoginForm) {
+                      setShowLoginForm(false);
+                    }
+                    if (!showSignUpForm) {
+                      setShowSignUpForm(true);
+                    }
+                  }}
+                >
+                  Registrarse
                 </p>
               </li>
             </ul>
@@ -88,7 +117,7 @@ const SignInForm = () => {
 
         {error === "null" && <div className="error-message">{error}</div>}
       </div>
-    </div>
+    </>
   );
 };
 

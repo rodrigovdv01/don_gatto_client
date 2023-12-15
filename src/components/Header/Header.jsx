@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faShoppingCart,
   faHistory,
   faAngleDown,
   faAngleUp,
@@ -17,11 +16,16 @@ import { useLocation } from "react-router-dom";
 import Carrito from "../../pages/Carrito/Carrito";
 import { useShoppingContext } from "../../ShoppingContext";
 import CartDiv from "./CartDiv";
+import SignInForm from "../User/SignInForm";
+import SignUpForm from "../User/SignUpForm";
 
 const Header = () => {
   const { authenticatedUser, handleLogout } = useAuth();
   const isUserAdmin = useIsUserAdmin();
   const location = useLocation();
+
+  const { showLoginForm, showSignUpForm, setShowLoginForm, setShowSignUpForm } =
+    useShoppingContext();
 
   const isHomePage = location.pathname === "/";
   const [isScrolled, setIsScrolled] = useState(false);
@@ -114,6 +118,7 @@ const Header = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   const headerBlanco = isHomePage && !isScrolled && !userMenuOpen && !cartOpen;
+
   return (
     <>
       {!(isLoginPage || isSignUpPage) && (
@@ -230,7 +235,7 @@ const Header = () => {
                     location.pathname !== "/registrarse" && (
                       <>
                         <li className="log">
-                          <Link
+                          <button
                             style={{
                               color:
                                 isHomePage && !isScrolled ? "#fff" : "#000",
@@ -238,18 +243,27 @@ const Header = () => {
                             className={`login-logout ${
                               isScrolled ? "scrolled" : ""
                             }`}
-                            to="/registrarse"
                             onClick={() => {
                               if (cartOpen) {
                                 toggleCart();
                               }
+
+                              if (showLoginForm) {
+                                setShowLoginForm(false);
+                              }
+
+                              if (!showSignUpForm) {
+                                setShowSignUpForm(true);
+                              } else {
+                                setShowSignUpForm(false);
+                              }
                             }}
                           >
                             Registrarse
-                          </Link>
+                          </button>
                         </li>
                         <li className="log">
-                          <Link
+                          <button
                             className={`login-logout ${
                               isScrolled ? "scrolled" : ""
                             }`}
@@ -262,10 +276,20 @@ const Header = () => {
                               if (cartOpen) {
                                 toggleCart();
                               }
+
+                              if (!showLoginForm) {
+                                setShowLoginForm(true);
+                              } else {
+                                setShowLoginForm(false);
+                              }
+
+                              if (showSignUpForm) {
+                                setShowSignUpForm(false);
+                              }
                             }}
                           >
                             Iniciar Sesión
-                          </Link>
+                          </button>
                         </li>
                       </>
                     )}
@@ -338,7 +362,11 @@ const Header = () => {
                       <li>
                         <Link
                           to="/administrar-productos"
-                          onClick={toggleUserMenu}
+                          onClick={() => {
+                            toggleUserMenu();
+                            setShowLoginForm(false);
+                            setShowSignUpForm(false);
+                          }}
                         >
                           <FontAwesomeIcon
                             style={{ color: "#000" }}
@@ -350,7 +378,12 @@ const Header = () => {
                       <li>
                         <Link
                           to="/administrar-usuarios"
-                          onClick={toggleUserMenu}
+                          onClick={() => {
+                            setShowLoginForm(false);
+                            setShowSignUpForm(false);
+                            toggleUserMenu();
+                          }
+                          }
                         >
                           <FontAwesomeIcon
                             style={{ color: "#000" }}
@@ -399,6 +432,8 @@ const Header = () => {
           {cartOpen && <div className="overlay" onClick={closeCart}></div>}
         </header>
       )}
+      {!authenticatedUser && showLoginForm && <SignInForm />}
+      {!authenticatedUser && showSignUpForm && <SignUpForm />}
     </>
   );
 };

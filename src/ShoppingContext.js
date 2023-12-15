@@ -44,9 +44,9 @@ export const ShoppingProvider = ({ children }) => {
   const [cartItemCount, setCartItemCount] = useState(0);
   const [isRotated, setRotated] = useState(false);
   const [detailsVisible, setDetailsVisible] = useState(false);
-  
+  const [showLoginForm, setShowLoginForm] = useState(false);
+  const [showSignUpForm, setShowSignUpForm] = useState(false);
   const [distrito, setDistrito] = useState("");
-  
   const [showLoginSection, setShowLoginSection] = useState(true);
 
   // Cargar el carrito desde localStorage al inicio o crear un carrito vacío si no existe
@@ -323,11 +323,7 @@ export const ShoppingProvider = ({ children }) => {
         pedidosOriginales,
         pedidosFiltrados,
         pedidos,
-        setSelectedBebida,
         setSelectedItems,
-        setSelectedEntrada,
-        setSelectedSegundo,
-        setSelectedPostre,
         setPedidoId,
         setHijosOriginales,
         setUsuariosOriginales,
@@ -342,7 +338,6 @@ export const ShoppingProvider = ({ children }) => {
         setDetallesPedido,
         obtenerDetallesPedido,
         obtenerUsuarios,
-        obtenerHijos,
         obtenerProductos,
         obtenerPedidos,
         obtenerMisPedidos,
@@ -373,6 +368,10 @@ export const ShoppingProvider = ({ children }) => {
         setDistrito,
         sortBy,
         setSortBy,
+        showLoginForm,
+        setShowLoginForm,
+        showSignUpForm,
+        setShowSignUpForm,
       }}
     >
       {children}

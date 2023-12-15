@@ -118,3 +118,8 @@ table td button:hover {
   label {
     display: block;
   }
+
+  .flex-space-around {
+    display: flex;
+    justify-content: space-around;
+  }
