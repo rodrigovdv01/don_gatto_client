@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../AuthContext";
@@ -11,6 +11,7 @@ import "./form.css";
 const SignUpForm = () => {
   const navigate = useNavigate();
   const { loginData, setLoginData } = useAuth();
+  const [selectedDistrict, setSelectedDistrict] = useState("");
   const { showLoginForm, showSignUpForm, setShowLoginForm, setShowSignUpForm } =
     useShoppingContext();
 
@@ -80,7 +81,6 @@ const SignUpForm = () => {
                 />
               </label>
             </div>
-
             <div className="flex-space-around">
               <label className="form-label">
                 Email:
@@ -103,17 +103,39 @@ const SignUpForm = () => {
                 />
               </label>
             </div>
+            <div className="flex">
+              <label className="form-label">
+                Direccion:
+                <input
+                  type="text"
+                  name="direccion_envio"
+                  value={loginData.direccion_envio}
+                  onChange={handleChange}
+                  className="form-input"
+                />
+              </label>
+              <label className="form-label">
+                Distrito:
+                <select
+                  name="distrito"
+                  value={selectedDistrict}
+                  onChange={(e) => setSelectedDistrict(e.target.value)}
+                  className="form-input"
+                >
+                  <option value="">Selecciona un distrito</option>
+                  <option value="Barranco">Barranco</option>
+                  <option value="Chorrillos">Chorrillos</option>
+                  <option value="La Molina">La Molina</option>
+                  <option value="Magdalena">Magdalena</option>
+                  <option value="Miraflores">Miraflores</option>
+                  <option value="San Borja">San Borja</option>
+                  <option value="San Isidro">San Isidro</option>
+                  <option value="San Miguel">San Miguel</option>
+                  <option value="Santiago de Surco">Santiago de Surco</option>
+                </select>
+              </label>
+            </div>
 
-            <label className="form-label">
-              Direccion:
-              <input
-                type="text"
-                name="direccion_envio"
-                value={loginData.direccion_envio}
-                onChange={handleChange}
-                className="form-input"
-              />
-            </label>
             <div className="flex">
               <label className="form-label">
                 Contraseña:
@@ -126,7 +148,6 @@ const SignUpForm = () => {
                 />
               </label>
             </div>
-
             <button type="submit" className="form-button">
               Registrarse
             </button>

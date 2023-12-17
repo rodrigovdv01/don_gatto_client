@@ -293,7 +293,7 @@ const MisPedidos = () => {
                 <li>
                   <button>
                     <Link to={`/pedido-confirmado/${pedido.id}`}>
-                      Ver Pedido
+                      Seguir Pedido
                     </Link>
                   </button>
                 </li>
@@ -427,19 +427,23 @@ const MisPedidos = () => {
                     transacciones[pedido.id]?.estado_transaccion ===
                       "Rechazada" ? (
                       <div>
-                        <b>{yapeNumber}</b>
+                        {!copiedToClipboard && <b>{yapeNumber}</b>}
                         <button
                           className="copiar"
                           onClick={handleCopyToClipboard}
                         >
-                          <FontAwesomeIcon icon={faCopy} /> Copiar
+                          {!copiedToClipboard && (
+                            <span>
+                              <FontAwesomeIcon icon={faCopy} /> Copiar
+                            </span>
+                          )}
+                          {copiedToClipboard && (
+                            <span className="numero-copiado">
+                              <FontAwesomeIcon icon={faCheckCircle} /> Número
+                              copiado
+                            </span>
+                          )}
                         </button>
-                        {copiedToClipboard && (
-                          <div className="numero-copiado">
-                            Número copiado al portapapeles{" "}
-                            <FontAwesomeIcon icon={faCheckCircle} />
-                          </div>
-                        )}
                       </div>
                     ) : (
                       ""

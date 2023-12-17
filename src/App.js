@@ -26,6 +26,7 @@ import PedidoConfirmado from "./pages/Pedidos/PedidoConfirmado";
 import { AuthProvider } from "./AuthContext";
 import { ShoppingProvider } from "./ShoppingContext";
 import { useIsUserAdmin } from "./AuthContext";
+import SolicitarTrackId from "./SolicitarTrackId";
 // import AgeConfirmation from "./AgeConfirmation";
 
 function App() {
@@ -90,8 +91,12 @@ function App() {
         <Route path="/checkout/cart" element={<CheckoutCart />} />
         <Route path="/checkout/payment" element={<CheckoutPayment />} />
         <Route
-          path="/pedido-confirmado/:pedidoId"
+          path="/pedido-confirmado/:pedidoId/:trackId"
           element={<PedidoConfirmado />}
+        />
+        <Route
+          path="/tracking"
+          element={<SolicitarTrackId />}
         />
       </Routes>
       {shouldShowWhatsapp && <WhatsAppButton />}

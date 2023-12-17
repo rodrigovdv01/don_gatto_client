@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useShoppingContext } from "../../ShoppingContext";
 import axios from "axios";
 import "./PedidoConfirmado.css";
@@ -14,10 +14,11 @@ const PedidoDetalle = () => {
     obtenerProductos,
     productosOriginales,
   } = useShoppingContext();
-  const { pedidoId } = useParams();
   const [pedidoConfirmado, setPedidoConfirmado] = useState(null);
   const [transacciones, setTransacciones] = useState({});
   const [loading, setLoading] = useState(true);
+  const { pedidoId, trackId } = useParams();
+  const navigate = useNavigate();
   const pagaConYape =
     transacciones[pedidoId]?.metodo_pago === "Yape" &&
     (transacciones[pedidoId]?.estado_transaccion === "Rechazada" ||
@@ -55,7 +56,7 @@ const PedidoDetalle = () => {
     };
 
     fetchData();
-  }, [pedidoId, obtenerDetallesPedido, obtenerProductos]);
+  }, [pedidoId, obtenerDetallesPedido, obtenerProductos, trackId, navigate]);
 
   const renderPedidoStatus = () => {
     if (!loading) {
@@ -89,18 +90,17 @@ const PedidoDetalle = () => {
                   </div>
 
                   <div>
-                    <b>{yapeNumber}</b>
+                    {!copiedToClipboard && <b>{yapeNumber}</b>}
                     <button className="copiar" onClick={handleCopyToClipboard}>
                       {!copiedToClipboard && (
                         <span>
-                            <FontAwesomeIcon icon={faCopy} /> Copiar
-                         
+                          <FontAwesomeIcon icon={faCopy} /> Copiar
                         </span>
                       )}
                       {copiedToClipboard && (
                         <span className="numero-copiado">
-                          Número copiado al portapapeles{" "}
-                          <FontAwesomeIcon icon={faCheckCircle} />
+                          <FontAwesomeIcon icon={faCheckCircle} /> Número
+                          copiado
                         </span>
                       )}
                     </button>
@@ -138,18 +138,17 @@ const PedidoDetalle = () => {
                   </div>
 
                   <div>
-                    <b>{yapeNumber}</b>
+                    {!copiedToClipboard && <b>{yapeNumber}</b>}
                     <button className="copiar" onClick={handleCopyToClipboard}>
                       {!copiedToClipboard && (
                         <span>
-                            <FontAwesomeIcon icon={faCopy} /> Copiar
-                          
+                          <FontAwesomeIcon icon={faCopy} /> Copiar
                         </span>
                       )}
                       {copiedToClipboard && (
                         <span className="numero-copiado">
-                          Número copiado al portapapeles{" "}
-                          <FontAwesomeIcon icon={faCheckCircle} />
+                          <FontAwesomeIcon icon={faCheckCircle} /> Número
+                          copiado
                         </span>
                       )}
                     </button>
@@ -187,7 +186,7 @@ const PedidoDetalle = () => {
                   </div>
 
                   <div>
-                    <b>{yapeNumber}</b>
+                    {!copiedToClipboard && <b>{yapeNumber}</b>}
                     <button className="copiar" onClick={handleCopyToClipboard}>
                       {!copiedToClipboard && (
                         <span>
@@ -196,8 +195,8 @@ const PedidoDetalle = () => {
                       )}
                       {copiedToClipboard && (
                         <span className="numero-copiado">
-                          Número copiado al portapapeles{" "}
-                          <FontAwesomeIcon icon={faCheckCircle} />
+                          <FontAwesomeIcon icon={faCheckCircle} /> Número
+                          copiado
                         </span>
                       )}
                     </button>
@@ -306,6 +305,7 @@ const PedidoDetalle = () => {
           pedidoConfirmado?.monto_total.toFixed(2) || "-"
         } con yape.%0D%0A%0D%0A
         ID de pedido: ${pedidoConfirmado?.id}%0D%0A
+        Track ID: ${pedidoConfirmado?.trackId}%0D%0A
         Nombre: ${pedidoConfirmado?.nombre}%0D%0A
         Dirección de entrega: ${pedidoConfirmado?.direccion_envio}%0D%0A
       `}
@@ -324,6 +324,10 @@ const PedidoDetalle = () => {
                 <span className="s1">ID de pedido: </span>
                 <span className="s2">{pedidoConfirmado?.id}</span>
               </div>
+              <div>
+                <span className="s1">track ID: </span>
+                <span className="s2">{pedidoConfirmado?.trackId}</span>
+              </div>
             </dt>
             <dd></dd>
 
@@ -341,21 +345,20 @@ const PedidoDetalle = () => {
                     {transacciones[pedidoId]?.estado_transaccion ===
                     "Pendiente" ? (
                       <>
-                        <b>{yapeNumber}</b>
+                        {!copiedToClipboard && <b>{yapeNumber}</b>}
                         <button
                           className="copiar"
                           onClick={handleCopyToClipboard}
                         >
                           {!copiedToClipboard && (
                             <span>
-                                <FontAwesomeIcon icon={faCopy} /> Copiar
-                              
+                              <FontAwesomeIcon icon={faCopy} /> Copiar
                             </span>
                           )}
                           {copiedToClipboard && (
                             <span className="numero-copiado">
-                              Número copiado al portapapeles{" "}
-                              <FontAwesomeIcon icon={faCheckCircle} />
+                              <FontAwesomeIcon icon={faCheckCircle} /> Número
+                              copiado
                             </span>
                           )}
                         </button>

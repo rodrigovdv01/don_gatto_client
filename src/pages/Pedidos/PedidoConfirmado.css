@@ -139,7 +139,6 @@ dd {
   
 .numero-copiado {
     color: #007bff;
-    font-weight: bold;
 }
 
 /* PedidoConfirmado.css */
@@ -214,11 +213,6 @@ dt {
   dl {
     grid-template-columns: 1fr; /* Switch to a single column layout */
   }
-}
-
-.numero-copiado {
-  color: #007bff;
-  font-weight: bold;
 }
 
 .id-pedido {
