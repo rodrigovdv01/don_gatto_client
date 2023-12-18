@@ -6,10 +6,15 @@ import Details from "./Details";
 import { useLocation } from "react-router-dom";
 import { useShoppingContext } from "../../ShoppingContext";
 import { useAuth } from "../../AuthContext";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import paymentSound from "../../audio/payment.wav";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import WhatsAppButton from "../../components/WhatsappButton/WhatsappButton";
 
 const CheckoutPayment = () => {
+  const yapeNumber = 913687390;
+  const [copiedToClipboard, setCopiedToClipboard] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { shippingInfo } = location.state || {};
@@ -34,13 +39,30 @@ const CheckoutPayment = () => {
     setShowLoginSection,
   } = useShoppingContext();
 
-  const [metodoPago, setMetodoPago] = useState("TarjetaDebitoCredito");
+  const [metodoPago, setMetodoPago] = useState("Yape");
   const [metodoPagoError, setMetodoPagoError] = useState("");
   const [formattedNumeroTarjeta, setFormattedNumeroTarjeta] = useState("");
   const [fechaVencimiento, setFechaVencimiento] = useState("");
   const [trackId, setTrackId] = useState(null);
 
   const soundRef = useRef(null);
+
+  const handleCopyToClipboard = () => {
+    const copyText = yapeNumber;
+    const textArea = document.createElement("textarea");
+    textArea.value = copyText;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+
+    setCopiedToClipboard(true);
+
+    // Después de un tiempo, restablecer el estado para ocultar el mensaje
+    setTimeout(() => {
+      setCopiedToClipboard(false);
+    }, 2000);
+  };
 
   const handleNumeroTarjetaChange = (e) => {
     const inputNumeroTarjeta = e.target.value.replace(/\D/g, "");
@@ -64,6 +86,13 @@ const CheckoutPayment = () => {
       setFechaVencimiento(sanitizedInput);
     }
   };
+
+  // Número de WhatsApp y mensaje
+  const phoneNumber = "+51986734669";
+  const message = "¡Hola Don Gatto! te envío el pago de mi pedido";
+
+  // Crear la URL de WhatsApp
+  const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
 
   const handleMetodoPagoChange = (e) => {
     setMetodoPago(e.target.value);
@@ -109,7 +138,7 @@ const CheckoutPayment = () => {
 
       if (pedidoResponse.status === 201) {
         const nuevoPedidoId = pedidoResponse.data.pedido.id;
-        
+
         const fecha_transaccion = new Date().toISOString();
         let estado_transaccion = "Pendiente";
 
@@ -205,18 +234,20 @@ const CheckoutPayment = () => {
             </div>
           </div>
           <div className="flex-order-1">
-            <h2 className="heading">Método de Pago</h2>
+            <h2 className="heading">Realizar Pago</h2>
             <div className="payment-options">
-              <label className="tarjetaDebitoCredito">
+              <label className="tarjetaDebitoCredito" disabled={true}>
                 <input
                   type="radio"
                   name="metodoPago"
                   value="TarjetaDebitoCredito"
                   checked={metodoPago === "TarjetaDebitoCredito"}
                   onChange={handleMetodoPagoChange}
+                  disabled={true}
                 />
                 Tarjeta de Débito/Crédito
               </label>
+
               <label className="yape">
                 <input
                   type="radio"
@@ -237,11 +268,38 @@ const CheckoutPayment = () => {
                   alt="Yape"
                   className="yape-image"
                 />
-                <h3>
-                  Después de realizar tu pedido, recibirás un enlace para
-                  enviarnos el comprobante de la transacción de Yape a través de
-                  WhatsApp.
-                </h3>
+                <div>
+                  {!copiedToClipboard && <b>{yapeNumber}</b>}
+                  <div className="copiar" onClick={handleCopyToClipboard}>
+                    {!copiedToClipboard && (
+                      <span>
+                        <FontAwesomeIcon icon={faCopy} /> Copiar
+                      </span>
+                    )}
+                    {copiedToClipboard && (
+                      <span className="numero-copiado">
+                        <FontAwesomeIcon icon={faCheckCircle} /> Número copiado
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <ol className="instruction-list">
+                  <li>
+                    Copia el número que aparece en pantalla o escanea el QR para
+                    completar el pago.
+                  </li>
+                  <li>
+                    Comparte el comprobante de tu transacción a través de
+                    WhatsApp.
+                    <div className="enviar-comprobante">
+                    <a href={whatsappUrl} className="" target="_blank" rel="noopener noreferrer">
+                        Enviar comprobante
+                      </a>
+                    </div>
+                  </li>
+                  <li>Realiza tu pedido. ¡Estamos ansiosos por prepararlo!</li>
+                </ol>
               </div>
             )}
 

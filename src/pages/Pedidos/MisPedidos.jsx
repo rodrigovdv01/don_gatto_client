@@ -230,7 +230,7 @@ const MisPedidos = () => {
               {filteredPedidos.length !== 0 && "Actualizar"}
             </button>
             <button className="nuevo-pedido">
-              <Link to="/menu" target="_blank">
+              <Link to="/menu">
                 <FontAwesomeIcon icon={faPlus} /> Nuevo Pedido
               </Link>
             </button>
@@ -263,10 +263,15 @@ const MisPedidos = () => {
               <div className="pedido-preview">
                 <li className="id-estado">
                   <div className="flex">
-                    <div>{pedido.estado_pedido}</div>
+                    <div
+                    >
+                      {pedido.estado_pedido === "Activo"
+                        ? "En revisión"
+                        : pedido.estado_pedido}
+                    </div>
 
                     <div
-                      id="status-circle"
+                      id="status-circle-2"
                       className={`${
                         selectedPedido === pedido ? "selected " : ""
                       } ${
@@ -274,9 +279,24 @@ const MisPedidos = () => {
                           ? "finalizado"
                           : ""
                       } ${
-                        pedido.estado_pedido === "En camino" ? "en-camino" : ""
+                        pedido.estado_pedido === "En camino" ? "animar2" : ""
                       }${pedido.estado_pedido === "Activo" ? "activo" : ""}`}
-                    ></div>
+                    >
+                      <div
+                        id="status-circle"
+                        className={`${
+                          selectedPedido === pedido ? "selected " : ""
+                        } ${
+                          pedido.estado_pedido === "Finalizado"
+                            ? "finalizado"
+                            : ""
+                        } ${
+                          pedido.estado_pedido === "En camino"
+                            ? "en-camino animar"
+                            : ""
+                        }${pedido.estado_pedido === "Activo" ? "activo" : ""}`}
+                      ></div>
+                    </div>
                   </div>
 
                   <div className="">
@@ -292,7 +312,9 @@ const MisPedidos = () => {
                 </li>
                 <li>
                   <button>
-                    <Link to={`/pedido-confirmado/${pedido.id}`}>
+                    <Link
+                      to={`/pedido-confirmado/${pedido.id}/${pedido.track_id}}`}
+                    >
                       Seguir Pedido
                     </Link>
                   </button>

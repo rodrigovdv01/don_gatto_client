@@ -89,6 +89,8 @@ function App() {
 
         <Route path="/checkout/" element={<Checkout />} />
         <Route path="/checkout/cart" element={<CheckoutCart />} />
+        
+        <Route path="/carrito" element={<CheckoutCart />} />
         <Route path="/checkout/payment" element={<CheckoutPayment />} />
         <Route
           path="/pedido-confirmado/:pedidoId/:trackId"

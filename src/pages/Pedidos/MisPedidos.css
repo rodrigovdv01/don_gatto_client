@@ -27,7 +27,7 @@
   margin-top: 10px;
 }
 
-.mg-r-10{
+.mg-r-10 {
   margin-right: 40px;
 }
 .section-title div {
@@ -64,7 +64,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  padding:  15px 25px;
+  padding: 15px 25px;
   z-index: 3000;
   border: 1px solid #ccc;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
@@ -72,10 +72,7 @@
   max-height: 80%; /* Set the maximum height as needed */
   overflow-y: auto; /* Enable vertical scrolling */
   border-radius: 20px;
-
 }
-
-
 
 /* Add a close button to the popup */
 .detalles-card-close-btn {
@@ -90,8 +87,6 @@
   right: 10px;
   z-index: 1100; /* Set a higher z-index to ensure it appears above the card */
 }
-
-
 
 .detalles-card li {
   text-align: justify;
@@ -146,19 +141,65 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
+}
+#status-circle-2 {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
   margin-left: 10px;
 }
 
+#status-circle-2 {
+  background-color: #8cf8b9;
+ 
+}
+
 .activo {
-  background-color: #2ecc71;
+  background-color: #ffffff;
+  transform: scale(0.6);
+}
+
+@keyframes pulsar {
+  0% {
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.5);
+  }
+}
+
+@keyframes pulsar2 {
+  0% {
+    transform: scale(0.7);
+  }
+  50% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(0.7);
+  }
 }
 
 .en-camino {
-  background-color: #f39c12;
+  background-color: #2ecc71;
+  
+}
+
+.animar {
+  animation: pulsar 2s infinite; /* 2s es la duración del ciclo, puedes ajustarla según tus necesidades */
+}
+
+.animar2 {
+  animation: pulsar2 2s infinite; /* 2s es la duración del ciclo, puedes ajustarla según tus necesidades */
 }
 
 .finalizado {
   background-color: #3498db;
+  
+  transform: scale(0.7);
 }
 
 .selected {
@@ -199,8 +240,8 @@
   background-color: #2ecc71;
 }
 
-
-.pedido-details, .transaccion-details {
+.pedido-details,
+.transaccion-details {
   text-align: left;
 }
 
@@ -208,10 +249,10 @@
   min-height: 100px;
 }
 
-.mis-pedidos-actions{
+.mis-pedidos-actions {
   display: flex;
 }
 
-.mis-pedidos-actions button{
+.mis-pedidos-actions button {
   margin-right: 10px;
 }

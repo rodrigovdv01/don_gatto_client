@@ -65,7 +65,6 @@
   background-color: #000;
   color: #fff;
   text-align: center;
-  width: 150px;
   margin: 0 auto;
   border-radius: 5px;
 }
@@ -86,12 +85,11 @@
   text-align: center;
   color: #fff;
   text-decoration: none;
-  width: 220px;
   margin: 0 auto;
   border-radius: 5px;
   text-align: center;
   align-self: center;
-  padding: 4px;
+  padding: 6px 10px;
 }
 .estado a {
   font-family: "Poppins", sans-serif;

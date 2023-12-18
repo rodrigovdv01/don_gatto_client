@@ -123,3 +123,15 @@ table td button:hover {
     display: flex;
     justify-content: space-around;
   }
+
+  .copiar {
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 10px;
+  }
+
+  .flex-space-between {
+    display: flex;
+    justify-content: space-between;
+  }
+  

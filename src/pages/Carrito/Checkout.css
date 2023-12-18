@@ -1,5 +1,6 @@
 /* CheckoutShipping.css */
 
+/* Estilos generales */
 .heading {
   font-size: 24px;
   text-align: justify;
@@ -10,13 +11,13 @@
   padding: 20px;
 }
 
+/* Flexbox */
 .flex {
   display: flex;
   align-items: left;
   align-self: center;
   flex: 1;
 }
-
 .flex-1 {
   flex: 1;
 }
@@ -24,17 +25,18 @@
   flex: 2;
 }
 
+/* Contenedores de nombre y apellidos */
 #nombre-container {
   margin-right: 8px;
   flex: 1.4;
   width: 100%;
 }
-
 #apellidos-container {
   flex: 2;
   width: 100%;
 }
 
+/* Enlaces y botones */
 .ver-pedido {
   font-size: 1.5rem;
   -webkit-user-select: none;
@@ -46,74 +48,25 @@
   cursor: pointer;
 }
 
-.continue-shopping {
+.continue-shopping,
+.flex-space-between {
   color: #353535;
   font-weight: 300;
   font-size: 1rem;
 }
-
-.continue-shopping:hover {
+.continue-shopping:hover,
+.flex-space-between:hover {
   cursor: pointer;
+  color: #3c3c3c;
 }
 
+/* Formularios y campos de entrada */
 .flex-form-input label,
 .input-group {
   margin-right: 10px;
   margin-bottom: 8px;
   color: #000;
   font-size: 14px;
-}
-
-.color-red-bold {
-  color: red;
-  font-weight: bold;
-}
-
-.color-red {
-  color: red;
-}
-
-.row {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-self: center;
-  flex: 1;
-  margin-bottom: 15px;
-}
-
-.flex-space-between {
-  display: flex;
-  align-items: center;
-  align-self: center;
-  justify-content: space-between;
-}
-
-.flex-space-between:hover {
-  cursor: pointer;
-  color: #3c3c3c;
-}
-
-.content-box {
-  margin: 20px auto;
-}
-
-.checkout-form-container {
-  width: 100%;
-  align-items: center;
-  text-align: justify;
-}
-
-.form {
-  border-collapse: collapse;
-  justify-content: center;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  flex: 1;
 }
 
 .input {
@@ -124,7 +77,9 @@
   width: 100%;
 }
 
-.submit-button {
+/* Botón de enviar y estilos relacionados */
+.submit-button,
+.next-step-button {
   background-color: #000000;
   color: #fff;
   padding: 10px 20px;
@@ -137,145 +92,124 @@
   margin: 0 auto;
   justify-content: center;
 }
+.submit-button:hover,
+.next-step-button:hover {
+  background-color: #9adaff;
+}
 
+/* Rotación del icono de cierre */
 .rotate {
   transform: rotate(45deg);
-  transition: transform 0.3s ease; /* Agrega una transición suave */
+  transition: transform 0.3s ease;
 }
-
-.close-div {
-  background: none;
-}
-.close-div:hover {
-  background: none;
-}
-
-.close-icon {
-  font-size: 24px;
-  color: black;
-}
-.close-icon:hover {
-  color: rgb(136, 136, 136);
-}
-
 .rotate.reverse {
   transform: rotate(0deg);
 }
 
-.submit-button:hover {
-  background-color: #9adaff; /* Cambia el color al pasar el mouse */
-}
-
+/* Estilos para tablas y diseño responsivo */
 .form {
   width: 100%;
-
   margin: 0;
 }
 
+/* Título y estilos relacionados */
 .title {
   text-align: center;
   font-size: 3rem;
 }
 
+/* Tarjeta de débito/crédito y estilos relacionados */
 .tarjeta-debito-credito {
   margin-top: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 .tarjeta-debito-credito label {
   display: block;
   margin-bottom: 8px;
+  font-weight: bold;
 }
-
 .tarjeta-debito-credito input {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   margin-bottom: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
 }
-
-.next-step-button {
-  background-color: #000000;
-  color: #fff;
-  padding: 10px 20px;
+.tarjeta-debito-credito button {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 16px;
+}
+.tarjeta-debito-credito button:hover {
+  background-color: #45a049;
 }
 
-.next-step-button:hover {
-  background-color: rgb(28, 28, 28); /* Change color on hover */
-}
-
-/* Media query for responsive design */
+/* Estilos específicos para dispositivos más pequeños */
 @media (min-width: 768px) {
   .row {
     flex-direction: row;
   }
-
   .flex-form-input {
     display: flex;
     flex-direction: column;
     align-items: justify;
     flex: 1;
   }
-
   .next-step-button {
     right: 0;
   }
-
   .input {
     margin-bottom: 10px;
   }
-
   .submit-button {
     margin-top: 10px;
   }
   .item-container {
-    height: auto; /* Adjust height for responsive design */
+    height: auto;
   }
-
   .checkout-form-container {
     flex-direction: row;
     width: 95%;
     margin: 0 auto;
-    max-height: 80vh; /* Set a maximum height for the table container */
-    position: relative; /* Add this to establish a stacking context */
+    max-height: 80vh;
+    position: relative;
   }
-
   .form {
     width: 100%;
-
     margin: 0;
   }
 }
 
+/* Sección de inicio de sesión y estilos relacionados */
 .login-section {
   text-align: left;
   margin-bottom: 20px;
 }
-
 .omitir,
 .cambiar {
-  font-size: 12px; /* O ajusta el tamaño según tus preferencias */
-  vertical-align: top; /* Alinea arriba */
-  color: rgb(81, 81, 81); /* Cambia el color según tus preferencias */
+  font-size: 12px;
+  vertical-align: top;
+  color: rgb(81, 81, 81);
   margin-left: 15px;
-  /* Otros estilos que desees agregar */
 }
 .omitir:hover {
   cursor: pointer;
-  color: rgb(200, 200, 200); /* Cambia el color según tus preferencias */
-  /* Otros estilos que desees agregar */
+  color: rgb(200, 200, 200);
 }
-
 .email-de-usuario {
   font-size: 1rem;
   padding: 10px;
 }
-
 .login-section a,
 .cambiar {
   color: royalblue;
@@ -288,96 +222,39 @@
   text-decoration: none;
 }
 
+/* Sección de pago y estilos relacionados */
 .pagar-buttons {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 10px;
 }
-/* Estilos generales para la pasarela de pago */
-.tarjeta-debito-credito {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilos para etiquetas y campos de entrada */
-.tarjeta-debito-credito label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-.tarjeta-debito-credito input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-/* Estilo para el botón de enviar */
-.tarjeta-debito-credito button {
-  background-color: #4caf50;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.tarjeta-debito-credito button:hover {
-  background-color: #45a049;
-}
-
 .payment-options {
   display: flex;
   justify-content: space-around;
   padding: 10px;
 }
-
 .checkout-payment-options {
   padding: 3px;
   display: flex;
   justify-content: space-around;
 }
 
-.payment-box {
-  display: flex;
-  margin: 0 auto;
-  width: 90%;
-  justify-content: center;
+/* Estilos para la lista de instrucciones de pago */
+.instruction-list {
+  list-style-type: decimal;
+  padding: 16px;
+}
+.instruction-list li {
+  margin-bottom: 12px;
 }
 
-.flex-order-1 {
-  flex: 1;
+/* Estilos para el enlace de WhatsApp */
+.enviar-comprobante {
+  margin-top: 8px;
 }
-
-.flex-order-2 {
-  flex: 1;
-  order: -1;
-}
-
-@media screen and (max-width: 915px) {
-  .payment-box {
-    flex-direction: column;
-  }
-
-  .flex-order-1 {
-    flex: 1;
-    order: -1;
-  }
-
-  .flex-order-2 {
-    flex: 1;
-  }
-  .shipping-details,
-  .heading {
-    text-align: center;
-  }
+.whatsapp-link {
+  color: #25d366;
+  text-decoration: none;
+  font-weight: bold;
 }

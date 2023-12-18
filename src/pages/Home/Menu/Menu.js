@@ -3,7 +3,7 @@ import axios from "axios";
 import MenuCategory from "./MenuCategory";
 import "./Menu.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart, faHistory } from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart, faHistory, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { useShoppingContext } from "../../../ShoppingContext";
 import { Link } from "react-router-dom";
 
@@ -38,11 +38,11 @@ const Menu = () => {
       <div className="ver-carrito-container">
         <button className="estado">
           <Link to="/mis-pedidos">
-            Estado de mi pedido <FontAwesomeIcon icon={faHistory} />
+            MIS PEDIDOS <FontAwesomeIcon icon={faCheckCircle} />
           </Link>
         </button>
         <button className="ver-carrito" onClick={toggleCart}>
-          Ver Carrito <FontAwesomeIcon icon={faShoppingCart} />
+          VER CARRITO <FontAwesomeIcon icon={faShoppingCart} />
         </button>
       </div>
 
