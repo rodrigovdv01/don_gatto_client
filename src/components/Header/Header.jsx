@@ -9,11 +9,14 @@ import {
   faList,
   faEdit,
   faUsers,
+  faHeadset,
+  faStore,
+  faHome,
 } from "@fortawesome/free-solid-svg-icons";
 import "./Header.css";
 import { useAuth, useIsUserAdmin } from "../../AuthContext";
 import { useLocation } from "react-router-dom";
-import Carrito from "../../pages/Carrito/Carrito";
+import Carrito from "../../components/Carrito/Carrito";
 import { useShoppingContext } from "../../ShoppingContext";
 import CartDiv from "./CartDiv";
 import SignInForm from "../User/SignInForm";
@@ -119,6 +122,15 @@ const Header = () => {
 
   const headerBlanco = isHomePage && !isScrolled && !userMenuOpen && !cartOpen;
 
+  // Número de WhatsApp y mensaje
+  const phoneNumber = "+51986734669";
+  const message = "¡Hola Don Gatto! Necesito ayuda con un pedido.";
+
+  // Crear la URL de WhatsApp
+  const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(
+    message
+  )}`;
+
   return (
     <>
       {!(isLoginPage || isSignUpPage) && (
@@ -212,7 +224,7 @@ const Header = () => {
                             color: isHomePage && !isScrolled ? "#fff" : "#000",
                           }}
                         >
-                          Bienvenido, {authenticatedUser.nombre}{" "}
+                          Mi cuenta
                         </b>
                         <FontAwesomeIcon
                           style={{
@@ -306,7 +318,7 @@ const Header = () => {
                           style={{
                             color: isHomePage && !isScrolled ? "#000" : "#fff",
                           }}
-                          to="/menu"
+                          to="/shop"
                         >
                           ¡Pide Online!
                         </Link>
@@ -324,7 +336,27 @@ const Header = () => {
 
             {userMenuOpen && (
               <div className="user-menu">
-                <ul>
+                <ul className="user-menu-flex">
+                  <li>
+                    <Link
+                      to="/"
+                      className="links-principales"
+                      onClick={() => {
+                        if (cartOpen) {
+                          toggleCart();
+                        }
+                        if (userMenuOpen) {
+                          toggleUserMenu();
+                        }
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        style={{ color: "#000" }}
+                        icon={faHome}
+                      />{" "}
+                      Home
+                    </Link>
+                  </li>
                   <li>
                     <Link
                       to="/mis-pedidos"
@@ -343,6 +375,26 @@ const Header = () => {
                         icon={faHistory}
                       />{" "}
                       Mis Pedidos
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/shop"
+                      className="links-principales"
+                      onClick={() => {
+                        if (cartOpen) {
+                          toggleCart();
+                        }
+                        if (userMenuOpen) {
+                          toggleUserMenu();
+                        }
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        style={{ color: "#000" }}
+                        icon={faStore}
+                      />{" "}
+                      Tienda Online
                     </Link>
                   </li>
                   {isUserAdmin && (
@@ -382,8 +434,7 @@ const Header = () => {
                             setShowLoginForm(false);
                             setShowSignUpForm(false);
                             toggleUserMenu();
-                          }
-                          }
+                          }}
                         >
                           <FontAwesomeIcon
                             style={{ color: "#000" }}
@@ -394,6 +445,41 @@ const Header = () => {
                       </li>
                     </>
                   )}
+
+                  <li className="flex circles">
+                    <div className="soporte">
+                      <div>
+                        <a
+                          href={whatsappUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <FontAwesomeIcon
+                            className="headset-icon"
+                            icon={faHeadset}
+                          />
+                        </a>
+                      </div>
+                    </div>
+                  </li>
+
+                  <li className="datos-personales">
+                    <Link to="/cuenta/datos-personales">
+                      <button className="editar-dp" onClick={toggleUserMenu}>
+                        editar
+                      </button>
+                    </Link>
+                    <p>
+                      {authenticatedUser.nombre} {authenticatedUser.apellido}
+                    </p>
+                    <p>{authenticatedUser.telefono}</p>
+                    <p>{authenticatedUser.email}</p>
+                    <p>
+                      {authenticatedUser.direccion_envio},{" "}
+                      {authenticatedUser.distrito}
+                    </p>
+                  </li>
+
                   <li>
                     <button
                       onClick={() => {
@@ -402,6 +488,7 @@ const Header = () => {
                         vaciarCarrito();
                         setSelectedItems([...selectedItemsOriginales]);
                       }}
+                      className="logout-btn"
                     >
                       Cerrar sesión
                     </button>

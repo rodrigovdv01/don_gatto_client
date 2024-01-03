@@ -81,14 +81,6 @@ const AgregarUsuarios = () => {
     }
   };
 
-  if (!isAuthenticated) {
-    return (
-      <div className="content-container">
-        <SignInForm />
-      </div>
-    );
-  }
-
   return (
     <div className="content-container">
       <ListaUsuarios usuarios={usuarios} />

@@ -20,14 +20,12 @@ code {
 .content-container {
   margin-top: 61px;
   text-align: center;
-  padding: 20px 50px;
 }
 
 @media screen and (max-width: 650px) {
   .content-container {
     margin-top: 61px;
     text-align: center;
-    padding: 20px 10px;
   }
 }
 
@@ -135,3 +133,6 @@ table td button:hover {
     justify-content: space-between;
   }
   
+  .mg-bottom-20 {
+    margin-bottom: 20px;
+  }

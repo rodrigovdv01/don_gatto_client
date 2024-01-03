@@ -2,6 +2,13 @@
   border-radius: 0;
 }
 
+@media screen and (min-width: 800px) {
+  .product-table {
+    width: 70%;
+    margin: 0 auto;
+  }
+}
+
 .product-table thead,
 .product-table tbody,
 .cart-subtotal,
@@ -12,7 +19,7 @@
 
 .cart-subtotal td,
 .cart-shipping td,
-.cart-total td{
+.cart-total td {
   padding: 15px;
 }
 

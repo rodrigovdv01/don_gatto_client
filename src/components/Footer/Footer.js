@@ -19,7 +19,7 @@ function Footer() {
           <img  height={400} alt="anuncios" src="/images/anuncios/rescate_de_la_pandilla.jpg"></img>
         </div>
         <div className="footer-section">
-          <Link to="/menu"><h3>Tienda Online</h3></Link>
+          <Link to="/shop"><h3>Tienda Online</h3></Link>
             <p>Waka </p>
             <p>Relx</p>
             <p>Relx pod</p>
@@ -36,7 +36,7 @@ function Footer() {
         </div>
       </div>
       <ul className="footer-bottom">
-          <li>&copy; 2023 Don Gatto.</li>
+          <li>&copy; 2024 Don Gatto.</li>
           <li><a href="/">Términos y condiciones</a></li>
           <li><a href="/">Política de privacidad</a></li>
       </ul>

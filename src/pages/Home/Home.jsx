@@ -1,7 +1,7 @@
 // Home.js
 import React, { useState } from "react";
 import "./Home.css";
-import Banner from "./Banner/Banner";
+import Banner from "../../components/Banner/Banner";
 import HomeSection from "./HomeSection";
 
 function Home() {

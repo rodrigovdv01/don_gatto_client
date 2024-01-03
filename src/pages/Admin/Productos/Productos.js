@@ -73,14 +73,6 @@ const AgregarMenu = () => {
     }
   };
 
-  if (!isAuthenticated) {
-    return (
-      <div className="content-container">
-        <SignInForm/>
-      </div>
-    );
-  }
-
   return (
     <div className="content-container">
       <h2>Agregar Producto</h2>

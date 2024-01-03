@@ -1,0 +1,300 @@
+/* RegistroPedidos.css */
+
+  .registro-pedidos-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .tabla-registro-de-pedidos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .tabla-registro-de-pedidos tr {
+    transition: background-color 0.3s;
+  }
+  
+  .tabla-registro-de-pedidos tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .tabla-registro-de-pedidos .selected {
+    background-color: #cce5ff;
+  }
+  
+  .registro-pedidos-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .registro-pedidos-button:hover {
+    background-color: #0056b3;
+  }
+  
+  
+  .detalles-pedido-overlay h3 {
+    color: #dc3545;
+    font-size: 2rem;
+    transition: color 0.3s ease;
+  }
+  
+  .detalles-pedido-overlay ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .detalles-pedido-overlay a {
+    color: #17a2b8;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .detalles-pedido-overlay a:hover {
+    color: #138496;
+  }
+
+  
+
+  
+  .detalles-pedido-overlay th {
+    background-color: #dc3545;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .detalles-pedido-overlay th:hover {
+    background-color: #c82333;
+  }
+  
+  .detalles-pedido-overlay td {
+    font-size: 1.2rem;
+  }
+  
+  /* Estilo para el botón de WhatsApp */
+  .detalles-pedido-overlay a.btn-whatsapp {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 1.8rem;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 15px;
+  }
+  
+  
+  .detalles-pedido-overlay a.btn-whatsapp:hover {
+    background-color: #218838;
+  }
+  
+  /* Estilo para el select */
+  .detalles-pedido-overlay select {
+    padding: 10px;
+    font-size: 1.3rem;
+    border: 1px solid #495057;
+    border-radius: 5px;
+    background-color: #343a40;
+    color: #fff;
+    outline: none;
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .detalles-pedido-overlay select:hover,
+  .detalles-pedido-overlay select:focus {
+    border-color: #17a2b8;
+    background-color: #495057;
+    color: #fff;
+  }
+  
+  .detalles-pedido-overlay select option {
+    background-color: #343a40;
+    color: #fff;
+  }
+  
+  .detalles-pedido-overlay select option:hover {
+    background-color: #495057;
+    color: #fff;
+  }
+  
+  .registro-pedidos-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .tabla-registro-de-pedidos {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .tabla-registro-de-pedidos th, .tabla-registro-de-pedidos td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+
+  .tabla-registro-de-pedidos td {
+    color: #292b2c;
+  }
+
+  .registro-pedidos-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+
+  .id-number {
+    font-size: 1.4rem;
+    color: #fff;
+    background-color: #495057;
+    padding: 10px;
+    border-radius: 40px;
+  }
+
+  .id, .number {
+    color: #fff;
+    background-color: #495057;
+    padding: 10px;
+    border-radius: 40px;
+  }
+
+  .id {
+    border-right: 2px solid #838383a3;
+  }
+
+  .estado-de-pago-title {
+    color: #000000;
+    font-size: 1.3rem;
+  }
+
+  .clock-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #3498db;
+  }
+  
+  .clock {
+    font-family: 'Roboto', sans-serif;
+    background-color: #fff;
+    color: #2c3e50;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .clock .date {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .clock .time {
+    font-size: 48px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+  
+  .clock .day {
+    font-size: 24px;
+    text-transform: uppercase;
+  }
+  
+  .clock .icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+    color: #3498db;
+  }
+  
+  /* Animación de fade-in */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .clock-container,
+  .clock {
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  /* Estilos para dispositivos móviles */
+  @media screen and (max-width: 600px) {
+    .clock {
+      width: 80%;
+    }
+  }
+  
+
+  /* RegistroPedidos.css */
+
+.detalles-pedido-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    
+    z-index: 1000;
+    overflow-y:scroll;
+    padding: 15px;
+  }
+
+  
+  .detalles-pedido-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .cerrar-detalles-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #333;
+  }
+  
+
+  /* Agrega esto a tu hoja de estilos CSS */
+.pedido-recibido {
+  background-color: #b3ffb3; /* Verde claro para el estado "Recibido" */
+}
+
+.pedido-confirmado {
+  background-color: #fcfcfc; /* Azul claro para el estado "Confirmado" */
+}
+
+.pedido-en-camino {
+  background-color: #ffffb3; /* Amarillo claro para el estado "En camino" */
+}
+
+.pedido-entregado {
+  background-color: #ffffff; /* Verde pastel para el estado "Entregado" */
+}

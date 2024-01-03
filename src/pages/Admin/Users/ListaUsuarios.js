@@ -104,9 +104,7 @@ const ListaUsuarios = () => {
     }
   };
 
-  const handleEditarUsuario = (usuario) => {
-    setUsuarioAEditar(usuario);
-  };
+ 
 
   const handleEliminarUsuario = async (id) => {
     try {
@@ -181,7 +179,7 @@ const ListaUsuarios = () => {
               <td>{usuario.direccion_envio}</td>
               <td>{usuario.level}</td>
               <td>
-                <button onClick={() => handleEditarUsuario(usuario)}>
+                <button onClick={() => setUsuarioAEditar(usuario)}>
                   Editar
                 </button>
                 <button onClick={() => handleEliminarUsuario(usuario.id)}>

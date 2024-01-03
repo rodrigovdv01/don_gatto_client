@@ -98,7 +98,8 @@ const SignInForm = () => {
             <ul>
               <li>ó</li>
               <li>
-                <p
+                <p 
+                className="pointer"
                   onClick={() => {
                     if (showLoginForm) {
                       setShowLoginForm(false);

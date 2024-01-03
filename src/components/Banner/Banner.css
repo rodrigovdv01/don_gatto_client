@@ -2,15 +2,38 @@
   margin: 0 auto;
   position: relative;
   text-align: center;
-  min-height: 100vh;
-  max-height: 120vh;
   background-color: #000000;
-  background-image: url('../../../images/banner-1.png');
+  background-image: url('../../images/banner-1.png');
   background-size:cover;
   background-position: center;
   background-repeat: no-repeat;
   margin-bottom: 30px;
   width: auto;
+}
+
+
+@media screen and (min-width: 870px) {
+  .banner-container {
+    height: 100vh;
+  }
+}
+
+@media screen and (max-width: 870px) {
+  .banner-container {
+    height: 60vh;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .banner-container {
+    height: 40vh;
+  }
+}
+
+@media screen and (max-width: 415px) {
+  .banner-container {
+    height: 25vh;
+  }
 }
 .banner-container img{
   max-height: 100%;

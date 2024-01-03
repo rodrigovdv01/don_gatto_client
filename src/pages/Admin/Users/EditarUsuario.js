@@ -89,6 +89,15 @@ const EditarUsuario = ({ usuario, onClose, onUpdate }) => {
             />
           </label>
           <label>
+            Distrito:
+            <input
+              type="text"
+              name="distrito"
+              value={formData.distrito}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
             Rol:
             <select name="level" value={formData.level} onChange={handleChange}>
               <option value="user">user</option>

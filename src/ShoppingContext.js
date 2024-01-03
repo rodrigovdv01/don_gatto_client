@@ -37,6 +37,7 @@ export const ShoppingProvider = ({ children }) => {
   const [productosOriginales, setProductosOriginales] = useState([]);
   const [hijosOriginales, setHijosOriginales] = useState([]);
   const [usuariosOriginales, setUsuariosOriginales] = useState([]);
+  const [transacciones, setTransacciones] = useState([]);
   const [pedidosFiltrados, setPedidosFiltrados] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -215,6 +216,17 @@ export const ShoppingProvider = ({ children }) => {
       console.error("Error al obtener los usuarios:", error);
     }
   };
+  const obtenerTransacciones = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/transacciones`
+      );
+      const transaccion = response.data;
+      setTransacciones(transaccion);
+    } catch (error) {
+      console.error("Error al obtener los usuarios:", error);
+    }
+  };
 
   const obtenerPedidos = async () => {
     try {
@@ -372,6 +384,7 @@ export const ShoppingProvider = ({ children }) => {
         setShowLoginForm,
         showSignUpForm,
         setShowSignUpForm,
+        obtenerTransacciones,
       }}
     >
       {children}

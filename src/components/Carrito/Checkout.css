@@ -1,5 +1,6 @@
 /* CheckoutShipping.css */
 
+
 /* Estilos generales */
 .heading {
   font-size: 24px;
@@ -36,35 +37,49 @@
   width: 100%;
 }
 
+.close-div {
+  background: none;
+  font-size: 1.6rem;
+}
+
 /* Enlaces y botones */
 .ver-pedido {
   font-size: 1.5rem;
   -webkit-user-select: none;
   user-select: none;
   margin-right: 10px;
+  transition: font-size 0.4s ease;
 }
 .ver-pedido:hover {
   font-size: 1.8rem;
   cursor: pointer;
 }
+.continue-shopping {
+  
+  color: #ffffff;
+  background: #000;
+}
 
 .continue-shopping,
 .flex-space-between {
-  color: #353535;
+  padding: 6px 10px;
+  border-radius: 15px;
   font-weight: 300;
   font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
-.continue-shopping:hover,
-.flex-space-between:hover {
-  cursor: pointer;
-  color: #3c3c3c;
+.continue-shopping:hover{
+  background-color: #ff6265;
 }
 
+.flex-space-between:hover {
+  cursor: pointer;
+
+}
 /* Formularios y campos de entrada */
 .flex-form-input label,
 .input-group {
   margin-right: 10px;
-  margin-bottom: 8px;
   color: #000;
   font-size: 14px;
 }
@@ -86,17 +101,29 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 1.6rem;
   font-weight: bold;
   display: flex;
   margin: 0 auto;
   justify-content: center;
+  margin-top: 10px;
+  width: 100%;
 }
 .submit-button:hover,
 .next-step-button:hover {
-  background-color: #9adaff;
+  background-color: #ff6265;
 }
 
+.content-box {
+  padding-bottom: 15px;
+}
+
+@media screen and (min-width: 800px) {
+  .content-box {
+    width: 70%;
+    margin: 0 auto;
+  }
+}
 /* Rotación del icono de cierre */
 .rotate {
   transform: rotate(45deg);
@@ -115,7 +142,7 @@
 /* Título y estilos relacionados */
 .title {
   text-align: center;
-  font-size: 3rem;
+  font-size: 1.6rem;
 }
 
 /* Tarjeta de débito/crédito y estilos relacionados */
@@ -223,11 +250,18 @@
 }
 
 /* Sección de pago y estilos relacionados */
+
+.buttons {
+  display: flex ;
+  padding: 10px;
+  gap: 10px;
+}
 .pagar-buttons {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 10px;
+  gap: 10px;
 }
 .payment-options {
   display: flex;
@@ -243,7 +277,7 @@
 /* Estilos para la lista de instrucciones de pago */
 .instruction-list {
   list-style-type: decimal;
-  padding: 16px;
+  padding: 27px;
 }
 .instruction-list li {
   margin-bottom: 12px;
@@ -251,10 +285,33 @@
 
 /* Estilos para el enlace de WhatsApp */
 .enviar-comprobante {
-  margin-top: 8px;
+  padding: 12px;
+  
+  background-color: #000000;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  margin: 10px auto;
+  justify-content: center;
 }
+
+.enviar-comprobante a{
+  color: #fff;
+  font-size: 1.5rem;
+}
+
 .whatsapp-link {
   color: #25d366;
   text-decoration: none;
   font-weight: bold;
+}
+
+
+.copy-container {
+  margin-top: 15px;
 }

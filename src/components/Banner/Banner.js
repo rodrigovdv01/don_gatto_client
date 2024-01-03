@@ -12,7 +12,7 @@ function Banner() {
   return (
     <>
       <div className="banner-container">
-        <Link to="/menu" className="banner-button">
+        <Link to="/shop" className="banner-button">
           ORDENA AQUÍ
         </Link>
       </div>

@@ -73,24 +73,25 @@ const CheckoutCart = () => {
       <div className="content-container">
         <h2 className="heading">Carrito de Compras</h2>
         <p>Tu carrito de compras está vacío.</p>
-        <Link to="/menu" className="continue-shopping">
-          Seguir comprando
-        </Link>
+        <div className="ver-carrito-container">
+          <Link to="/shop" className="continue-shopping">
+            Seguir comprando
+          </Link>
+        </div>
       </div>
     );
   }
 
-
   return (
     <div className="content-container">
       <h2 className="heading">Carrito de Compras</h2>
-      <p className="total">Total: S/. {calcularTotal(carrito)}</p>
+      
       <button
-                className="carrito-button carrito-button-pedido"
-                onClick={vaciarCarrito}
-              >
-                Vaciar Carrito
-              </button>
+        className="carrito-button carrito-button-pedido"
+        onClick={vaciarCarrito}
+      >
+        Vaciar Carrito
+      </button>
       <form className="table-container">
         <table className="table">
           <thead>
@@ -150,24 +151,20 @@ const CheckoutCart = () => {
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </span>
-                  
-              
                 </td>
-                
               </tr>
-              
             ))}
-            
           </tbody>
         </table>
       </form>
+      <p className="total">Total: S/. {calcularTotal(carrito)}</p>
       <div className="buttons">
-        <Link to="/menu" className="continue-shopping">
+        <Link to="/shop" className="continue-shopping">
           Agregar productos
         </Link>
         <input
           type="submit"
-          value="CONTINUAR"
+          value="SIGUIENTE"
           onClick={handleCheckout}
           className="next-step-button"
         />

@@ -22,3 +22,13 @@
     margin: 8px 0;
 
 }
+
+.modal {
+    margin: 0 auto;
+}
+
+@media  screen and (min-width: 600px) {
+    .modal {
+        width: 60%;
+    } 
+}

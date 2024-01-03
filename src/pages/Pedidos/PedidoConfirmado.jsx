@@ -18,6 +18,8 @@ const PedidoDetalle = () => {
   const [transacciones, setTransacciones] = useState({});
   const [loading, setLoading] = useState(true);
   const { pedidoId, trackId } = useParams();
+  const [pedidoValido, setPedidoValido] = useState(true);
+
   const navigate = useNavigate();
   const pagaConYape =
     transacciones[pedidoId]?.metodo_pago === "Yape" &&
@@ -48,8 +50,14 @@ const PedidoDetalle = () => {
             [pedidoId]: transaccionResponse.data,
           };
         });
+
+        // Verifica si el trackId coincide
+        if (transaccionResponse.data.trackId !== trackId) {
+          setPedidoValido(false);
+        }
       } catch (error) {
         console.error("Error al obtener los detalles del pedido:", error);
+        setPedidoValido(false);
       } finally {
         setLoading(false);
       }
@@ -70,6 +78,55 @@ const PedidoDetalle = () => {
               <h2 className="pedido-titulo activo-text">
                 ¡Hemos recibido tu pedido y está siendo revisado!
               </h2>
+              {pagaConYape && (
+                <>
+                  <div>
+                    <h3 className="">
+                      Envíanos una captura de pantalla de la transacción en Yape
+                      por WhatsApp. Espera la confirmación del pedido. Una vez
+                      recibido el pago, actualizaremos el estado del pedido para
+                      que lo veas en esta pantalla. ¡Gracias!
+                    </h3>
+                  </div>
+
+                  <div>
+                    <img
+                      src="/images/yape.jpg"
+                      width={200}
+                      alt="Yape"
+                      className="yape-image"
+                    />
+                  </div>
+
+                  <div>
+                    {!copiedToClipboard && <b>{yapeNumber}</b>}
+                    <button className="copiar" onClick={handleCopyToClipboard}>
+                      {!copiedToClipboard && (
+                        <span>
+                          <FontAwesomeIcon icon={faCopy} /> Copiar
+                        </span>
+                      )}
+                      {copiedToClipboard && (
+                        <span className="numero-copiado">
+                          <FontAwesomeIcon icon={faCheckCircle} /> Número
+                          copiado
+                        </span>
+                      )}
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        case "Confirmado":
+          return (
+            <div className="mg-b-10">
+              <h2 className="pedido-titulo en-camino-text">
+                Tu pedido ha sido confirmado y está siendo preparado!
+              </h2>
+              <b style={{ textAlign: "center" }}>
+                Pedido confirmado el {formattedUpdatedAt}
+              </b>
               {pagaConYape && (
                 <>
                   <div>
@@ -116,7 +173,7 @@ const PedidoDetalle = () => {
                 Tu pedido está en camino
               </h2>
               <b style={{ textAlign: "center" }}>
-                Pedido confirmado el {formattedUpdatedAt}
+                Salió de la tienda el {formattedUpdatedAt}
               </b>
               {pagaConYape && (
                 <>
@@ -215,6 +272,9 @@ const PedidoDetalle = () => {
 
   const renderTransaccionStatus = () => {
     if (!loading) {
+      if (!pedidoValido) {
+        return <h4>Pedido no encontrado</h4>;
+      }
       const { estado_transaccion } = transacciones[pedidoId];
 
       switch (estado_transaccion) {
@@ -436,6 +496,7 @@ const PedidoDetalle = () => {
       </div>
     </div>
   );
+  return null;
 };
 
 export default PedidoDetalle;

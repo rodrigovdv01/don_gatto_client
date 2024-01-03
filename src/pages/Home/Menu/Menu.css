@@ -44,10 +44,11 @@
   padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .agregar-button:hover {
-  background-color: #002b44; /* Cambia el color al pasar el cursor */
+  background-color: #ff6265; /* Cambia el color al pasar el cursor */
 }
 
 .ver-carrito-container {
@@ -57,8 +58,9 @@
   margin: 0 auto;
   margin-bottom: 20px;
   padding-top: 10px;
+  justify-content: center;
+  align-items: center;
 }
-
 
 
 .ver-carrito {
@@ -176,4 +178,20 @@
   .estado {
     margin-bottom: 10px; /* Agrega un espacio entre los elementos */
   }
+}
+
+.search-bar {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.search-bar input{
+  margin-left: 8px;
+  border-radius: 20px;
+  padding: 5px 10px;
+  width: 50%;
 }

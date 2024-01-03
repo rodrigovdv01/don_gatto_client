@@ -42,12 +42,14 @@ const Checkout = () => {
       setEmail(authenticatedUser.email || "");
       setTelefono(authenticatedUser.telefono || "");
       setDireccion(authenticatedUser.direccion_envio || "");
+      setDistrito(authenticatedUser.distrito || ""); // Establecer el distrito predeterminado
     } else {
-      setNombre(""); // Set initial state values here
+      setNombre("");
       setApellidos("");
       setEmail("");
       setTelefono("");
       setDireccion("");
+      setDistrito(""); // Establecer el distrito predeterminado como vacío
     }
   }, [authenticatedUser]);
 
@@ -71,6 +73,7 @@ const Checkout = () => {
         apellidos,
         telefono,
         direccion: formattedDireccion,
+        distrito: distrito,
       };
     } else if (
       changeEmail &&
@@ -85,6 +88,7 @@ const Checkout = () => {
         apellidos,
         telefono,
         direccion: formattedDireccion,
+        distrito: distrito,
       };
     }
 
@@ -107,16 +111,18 @@ const Checkout = () => {
   return (
     <div className="content-container">
       <h1 className="title">FINALIZAR COMPRA</h1>
-      <div className="content-box">
+      <div className="">
         <div className="flex-space-between" onClick={toggleDetails}>
           <div className="buttons">
             <a className="ver-pedido" onClick={toggleDetails}>
               VER PEDIDO
             </a>
             {detailsVisible && (
-              <Link to="/carrito" className="continue-shopping">
-                editar Carrito
-              </Link>
+              <div className="">
+                <Link to="/carrito" className="continue-shopping">
+                  editar Carrito
+                </Link>
+              </div>
             )}
           </div>
 
@@ -147,7 +153,6 @@ const Checkout = () => {
           </div>
         )}
         <form className="checkout-form-container" onSubmit={handleSubmit}>
-          <div className="form">
             <div className="row">
               <div id="nombre-container" className="flex-form-input">
                 <label htmlFor="nombre" className="label">
@@ -264,43 +269,30 @@ const Checkout = () => {
                   required
                 >
                   <option value="">Selecciona un distrito</option>
-                  <option value="Barranco">
-                    Barranco (+ S/. 1.00)
-                  </option>
-                  <option value="Chorrillos">
-                    Chorrillos (+ S/. 2.00)
-                  </option>
-                  <option value="La Molina">
-                    La Molina (+ S/. 3.00)
-                  </option>
-                  <option value="Magdalena">
-                    Magdalena (+ S/.4.00)
-                  </option>
-                  <option value="Miraflores">
-                    Miraflores (+ S/. 5.00)
-                  </option>
-                  <option value="San Borja">
-                    San Borja (+ S/. 6.00)
-                  </option>
-                  <option value="San Isidro">
-                    San Isidro (+ S/. 7.00)
-                  </option>
-                  <option value="San Miguel">
-                    San Miguel (+ S/. 8.00)
-                  </option>
+                  <option value="Barranco">Barranco (+ S/. 1.00)</option>
+                  <option value="Chorrillos">Chorrillos (+ S/. 2.00)</option>
+                  <option value="La Molina">La Molina (+ S/. 3.00)</option>
+                  <option value="Magdalena">Magdalena (+ S/.4.00)</option>
+                  <option value="Miraflores">Miraflores (+ S/. 5.00)</option>
+                  <option value="San Borja">San Borja (+ S/. 6.00)</option>
+                  <option value="San Isidro">San Isidro (+ S/. 7.00)</option>
+                  <option value="San Miguel">San Miguel (+ S/. 8.00)</option>
                   <option value="Santiago de Surco">
                     Santiago de Surco (+ S/. 9.00)
                   </option>
                 </select>
               </div>
+              
             </div>
 
+            <div className="input-group">
             <input
               type="submit"
               value="CONTINUAR"
               className="next-step-button"
             />
           </div>
+            
         </form>
       </div>
     </div>

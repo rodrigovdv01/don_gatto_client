@@ -24,19 +24,25 @@ const SignUpForm = () => {
     e.preventDefault();
 
     try {
+      // Añadir el distrito al objeto loginData
+      setLoginData({ ...loginData, distrito: selectedDistrict });
+      // Añadir el distrito al objeto loginData
+      const dataToSend = {
+        ...loginData,
+        distrito: selectedDistrict,
+      };
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/users/createUser`,
-        loginData
+        dataToSend
       );
+
       console.log("Respuesta del servidor:", response.data);
-      // Puedes redirigir al usuario o mostrar un mensaje de éxito aquí
       navigate("/login");
     } catch (error) {
       console.error("Error al enviar la solicitud:", error);
-      // Puedes mostrar un mensaje de error al usuario aquí
     }
-    setShowLoginForm(false);
 
+    setShowLoginForm(false);
     setShowSignUpForm(false);
   };
 
@@ -65,7 +71,6 @@ const SignUpForm = () => {
                 <input
                   type="text"
                   name="nombre"
-                  value={loginData.nombre}
                   onChange={handleChange}
                   className="form-input"
                 />
@@ -75,7 +80,6 @@ const SignUpForm = () => {
                 <input
                   type="text"
                   name="apellido"
-                  value={loginData.apellido}
                   onChange={handleChange}
                   className="form-input"
                 />
@@ -87,7 +91,6 @@ const SignUpForm = () => {
                 <input
                   type="email"
                   name="email"
-                  value={loginData.email}
                   onChange={handleChange}
                   className="form-input"
                 />
@@ -97,7 +100,6 @@ const SignUpForm = () => {
                 <input
                   type="text"
                   name="telefono"
-                  value={loginData.telefono}
                   onChange={handleChange}
                   className="form-input"
                 />
@@ -109,7 +111,6 @@ const SignUpForm = () => {
                 <input
                   type="text"
                   name="direccion_envio"
-                  value={loginData.direccion_envio}
                   onChange={handleChange}
                   className="form-input"
                 />
@@ -118,7 +119,6 @@ const SignUpForm = () => {
                 Distrito:
                 <select
                   name="distrito"
-                  value={selectedDistrict}
                   onChange={(e) => setSelectedDistrict(e.target.value)}
                   className="form-input"
                 >
@@ -142,7 +142,6 @@ const SignUpForm = () => {
                 <input
                   type="password"
                   name="password"
-                  value={loginData.password}
                   onChange={handleChange}
                   className="form-input"
                 />
@@ -155,6 +154,7 @@ const SignUpForm = () => {
               <li>ó</li>
               <li>
                 <p
+                className="pointer"
                   onClick={() => {
                     if (!showLoginForm) {
                       setShowLoginForm(true);

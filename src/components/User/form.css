@@ -132,3 +132,7 @@
 .center {
   text-align: center;
 }
+
+.pointer:hover {
+  cursor: pointer;
+}

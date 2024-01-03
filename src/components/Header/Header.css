@@ -17,6 +17,13 @@
   transition: background-color 0.3s ease; /* Agrega una transición suave */
 }
 
+.datos-personales {
+  font-size: 0.9rem;
+  padding: 5px;
+  text-align: justify;
+  background: #00000014;
+}
+
 /* Estilo de la barra de navegación con fondo blanco */
 .header-container.scrolled {
   background-color: #ffffff; /* Cambia el fondo a blanco */
@@ -136,7 +143,7 @@ li {
   }
 
   .user-menu {
-    top: 60px;
+    top: 59px;
     left: 50%;
     width: 80%;
     background: #ffffff;
@@ -169,9 +176,11 @@ li {
 .user-menu ul {
   /* Agrega estilos a los elementos dentro del menú */
   padding: 10px; /* Añade espacio entre elementos (ajusta según tus necesidades) */
+  padding-top: 30px;
   text-align: center;
   display: flex;
   flex-direction: column; /* Cambia la disposición a vertical */
+  gap: 20px;
 }
 .pide-online {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
@@ -197,3 +206,23 @@ li {
   text-decoration: none;
 }
 
+.datos-personales {
+  position: relative;
+}
+
+.editar-dp {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 1px solid #000;
+  background-color: #000;
+  color: #fff;
+  font-size: 1rem;
+}
+
+
+.logout-btn{
+  background-color: #000;
+  color: #fff;
+  font-size: 1rem;
+}

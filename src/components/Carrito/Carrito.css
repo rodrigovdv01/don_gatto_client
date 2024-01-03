@@ -1,5 +1,10 @@
 /* Carrito.css */
-
+.close-cart {
+  position: fixed;
+  width: calc(100vw - 420px);
+  left: 0;
+  height: 200vh;
+}
 
 /* Style for the sidebar container */
 .carrito-sidebar {

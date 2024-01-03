@@ -19,14 +19,16 @@ import SignInForm from "./components/User/SignInForm";
 import Productos from "./pages/Admin/Productos/Productos";
 import Usuarios from "./pages/Admin/Users/Usuarios";
 import MisPedidos from "./pages/Pedidos/MisPedidos";
-import CheckoutCart from "./pages/Carrito/CheckoutCart";
-import Checkout from "./pages/Carrito/Checkout";
-import CheckoutPayment from "./pages/Carrito/CheckoutPayment";
+import CheckoutCart from "./components/Carrito/CheckoutCart";
+import Checkout from "./components/Carrito/Checkout";
+import CheckoutPayment from "./components/Carrito/CheckoutPayment";
 import PedidoConfirmado from "./pages/Pedidos/PedidoConfirmado";
+import ErrorPedidoNoEncontrado from "./pages/Pedidos/ErrorPedidoNoEncontrado";
 import { AuthProvider } from "./AuthContext";
 import { ShoppingProvider } from "./ShoppingContext";
 import { useIsUserAdmin } from "./AuthContext";
 import SolicitarTrackId from "./SolicitarTrackId";
+import EditarDatosPersonales from "./pages/Cuenta/EditarDatosPersonales";
 // import AgeConfirmation from "./AgeConfirmation";
 
 function App() {
@@ -49,6 +51,11 @@ function App() {
     "/registro-de-pedidos",
     "/administrar-productos",
     "/administrar-usuarios",
+    "/shop",
+    "/carrito",
+    "/checkout",
+    "/checkout/payment",
+    "/mis-pedidos",
   ].includes(location.pathname);
 
   // if (!isAgeConfirmed) {
@@ -69,6 +76,8 @@ function App() {
 
         <Route path="/registrarse" element={<SignUpForm />} />
         <Route path="/login" element={<SignInForm />} />
+        
+        <Route path="cuenta/datos-personales" element={<EditarDatosPersonales />} />
 
         {isUserAdmin && (
           <>
@@ -79,7 +88,7 @@ function App() {
         )}
 
         <Route
-          path="/menu"
+          path="/shop"
           element={
             <div className="content-container">
               <Menu />
@@ -96,6 +105,7 @@ function App() {
           path="/pedido-confirmado/:pedidoId/:trackId"
           element={<PedidoConfirmado />}
         />
+        <Route path="/error-pedido-no-encontrado" element={<ErrorPedidoNoEncontrado />} />
         <Route
           path="/tracking"
           element={<SolicitarTrackId />}

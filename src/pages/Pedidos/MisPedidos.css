@@ -1,4 +1,15 @@
 /* MisPedidos.css */
+
+.mis-pedidos-container {
+  background: #d0d0d0;
+  padding: 20px 50px;
+}
+
+@media screen and (max-width: 650px) {
+  .mis-pedidos-container {
+    padding: 20px 10px;
+  }
+}
 .section-title {
   background-color: #000000ed;
   color: #fff;
@@ -34,7 +45,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
 }
 
 .section-title button {
@@ -72,6 +82,16 @@
   max-height: 80%; /* Set the maximum height as needed */
   overflow-y: auto; /* Enable vertical scrolling */
   border-radius: 20px;
+}
+
+.update {
+  background-color: #e74c3c;
+
+}
+
+.nuevo-pedido {
+  background-color: #2ecc71;
+
 }
 
 /* Add a close button to the popup */
@@ -215,14 +235,6 @@
   max-width: 100%;
 }
 
-.enviar-comprobante {
-  border-radius: 10px;
-  font-weight: bold;
-}
-
-.enviar-comprobante:hover {
-  background-color: #2980b9;
-}
 
 .costo-envio-total {
   text-align: right;
@@ -245,14 +257,43 @@
   text-align: left;
 }
 
-.direccion {
-  min-height: 100px;
-}
-
 .mis-pedidos-actions {
   display: flex;
 }
 
 .mis-pedidos-actions button {
   margin-right: 10px;
+}
+
+.soporte {
+  width: 40px; /* Ajusta el tamaño del círculo según tus necesidades */
+  height: 40px;
+  background-color: #3498db; /* Color de fondo del círculo */
+  border-radius: 50%; /* Hace que el elemento tenga forma de círculo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px; /* Ajusta el espacio entre el círculo y los otros elementos */
+  color: #fff; /* Ajusta el color del ícono */
+  cursor: pointer; /* Ajusta el cursor para indicar que es interactivo */
+}
+
+.soporte div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Asegura que el contenido se ajuste correctamente */
+  height: 100%; /* Asegura que el contenido se ajuste correctamente */
+}
+
+.soporte div a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Asegura que el contenido se ajuste correctamente */
+  height: 100%; /* Asegura que el contenido se ajuste correctamente */
+  color: #fff; /* Ajusta el color del ícono */
+}
+.headset-icon {
+  font-size: 1.3rem;
 }

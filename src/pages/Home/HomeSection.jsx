@@ -24,7 +24,7 @@ function HomeSection({ title, border, padding, backgroundColor, gradientBackgrou
           {media.type === "image" ? (
             <img src={`images/${media.src}.jpg`} alt="Imagen" className="home-media" />
           ) : media.type === "video" ? (
-            <video src={`videos/${media.src}.mp4`} autoPlay muted loop style={{ width: "100%", height: "100%" }} className="home-media">
+            <video src={`videos/${media.src}.mp4`} autoPlay playsInline muted loop style={{ width: "100%", height: "100%" }} className="home-media"  onContextMenu={(e) => e.preventDefault()} controlsList="nodownload">
               Tu navegador no admite la reproducción de video.
             </video>
           ) : null}

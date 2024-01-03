@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import paymentSound from "../../audio/payment.wav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import WhatsAppButton from "../../components/WhatsappButton/WhatsappButton";
 
 const CheckoutPayment = () => {
@@ -92,7 +93,9 @@ const CheckoutPayment = () => {
   const message = "¡Hola Don Gatto! te envío el pago de mi pedido";
 
   // Crear la URL de WhatsApp
-  const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+  const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(
+    message
+  )}`;
 
   const handleMetodoPagoChange = (e) => {
     setMetodoPago(e.target.value);
@@ -120,6 +123,8 @@ const CheckoutPayment = () => {
       const user_id = authenticatedUser ? authenticatedUser.id : "0";
       const pedidoTrackId = trackId || uuidv4();
 
+      console.log("Enviando solicitud para crear pedido...");
+
       const pedidoResponse = await axios.post(
         `${process.env.REACT_APP_API_URL}/pedidos/crear-pedido`,
         {
@@ -136,6 +141,8 @@ const CheckoutPayment = () => {
         }
       );
 
+      console.log("Respuesta del servidor al crear pedido:", pedidoResponse);
+
       if (pedidoResponse.status === 201) {
         const nuevoPedidoId = pedidoResponse.data.pedido.id;
 
@@ -146,7 +153,9 @@ const CheckoutPayment = () => {
           estado_transaccion = "Pagado";
         }
 
-        await axios.post(
+        console.log("Enviando solicitud para crear transacción de pago...");
+
+        const transaccionResponse = await axios.post(
           `${process.env.REACT_APP_API_URL}/transacciones_pago`,
           {
             user_id,
@@ -158,8 +167,19 @@ const CheckoutPayment = () => {
           }
         );
 
+        console.log(
+          "Respuesta del servidor al crear transacción de pago:",
+          transaccionResponse
+        );
+
         for (const [index, producto] of carrito.entries()) {
-          await axios.post(
+          console.log(
+            `Enviando solicitud para crear detalle de pedido (${index + 1}/${
+              carrito.length
+            })...`
+          );
+
+          const detallePedidoResponse = await axios.post(
             `${process.env.REACT_APP_API_URL}/pedidos/detalles-de-pedido`,
             {
               user_id,
@@ -168,6 +188,13 @@ const CheckoutPayment = () => {
               cantidad: producto.cantidad,
               precio_unitario: producto.precio,
             }
+          );
+
+          console.log(
+            `Respuesta del servidor al crear detalle de pedido (${index + 1}/${
+              carrito.length
+            }):`,
+            detallePedidoResponse
           );
         }
 
@@ -216,7 +243,6 @@ const CheckoutPayment = () => {
                   <p>Correo Electrónico: {shippingInfo.email}</p>
                   <div style={contentBoxStyle}>
                     <div>
-                      <Details />
                       <div className="checkout-payment-options">
                         <Link to="/checkout" className="continue-shopping">
                           editar información
@@ -225,6 +251,7 @@ const CheckoutPayment = () => {
                           editar Carrito
                         </Link>
                       </div>
+                      <Details />
                     </div>
                   </div>
                 </>
@@ -236,6 +263,18 @@ const CheckoutPayment = () => {
           <div className="flex-order-1">
             <h2 className="heading">Realizar Pago</h2>
             <div className="payment-options">
+
+              <label className="yape">
+                <input
+                  type="radio"
+                  name="metodoPago"
+                  value="Yape"
+                  checked={metodoPago === "Yape"}
+                  onChange={handleMetodoPagoChange}
+                />
+                Yape
+              </label>
+
               <label className="tarjetaDebitoCredito" disabled={true}>
                 <input
                   type="radio"
@@ -248,16 +287,6 @@ const CheckoutPayment = () => {
                 Tarjeta de Débito/Crédito
               </label>
 
-              <label className="yape">
-                <input
-                  type="radio"
-                  name="metodoPago"
-                  value="Yape"
-                  checked={metodoPago === "Yape"}
-                  onChange={handleMetodoPagoChange}
-                />
-                Yape
-              </label>
             </div>
 
             {metodoPago === "Yape" && (
@@ -268,37 +297,60 @@ const CheckoutPayment = () => {
                   alt="Yape"
                   className="yape-image"
                 />
-                <div>
-                  {!copiedToClipboard && <b>{yapeNumber}</b>}
-                  <div className="copiar" onClick={handleCopyToClipboard}>
-                    {!copiedToClipboard && (
-                      <span>
-                        <FontAwesomeIcon icon={faCopy} /> Copiar
-                      </span>
-                    )}
-                    {copiedToClipboard && (
-                      <span className="numero-copiado">
-                        <FontAwesomeIcon icon={faCheckCircle} /> Número copiado
-                      </span>
-                    )}
-                  </div>
-                </div>
 
                 <ol className="instruction-list">
                   <li>
-                    Copia el número que aparece en pantalla o escanea el QR para
-                    completar el pago.
+                    Ingresa en yape el número que aparece en pantalla o escanea
+                    el QR para completar el pago.
+                    <div className="copy-container">
+                      {!copiedToClipboard && <b>{yapeNumber}</b>}
+                      <div className="copiar" onClick={handleCopyToClipboard}>
+                        {!copiedToClipboard && (
+                          <span>
+                            <FontAwesomeIcon icon={faCopy} /> Copiar
+                          </span>
+                        )}
+                        {copiedToClipboard && (
+                          <span className="numero-copiado">
+                            <FontAwesomeIcon icon={faCheckCircle} /> Número
+                            copiado
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </li>
                   <li>
-                    Comparte el comprobante de tu transacción a través de
-                    WhatsApp.
+                    Comparte el comprobante a través de WhatsApp.
                     <div className="enviar-comprobante">
-                    <a href={whatsappUrl} className="" target="_blank" rel="noopener noreferrer">
-                        Enviar comprobante
+                      <a
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Enviar comprobante <FontAwesomeIcon icon={faWhatsapp} />
                       </a>
                     </div>
                   </li>
-                  <li>Realiza tu pedido. ¡Estamos ansiosos por prepararlo!</li>
+                  <li>
+                    Finaliza tu compra y podrás ver su estado en tiempo real.
+                    <div className="pagar-buttons">
+                      {metodoPagoError && (
+                        <div className="error-message">{metodoPagoError}</div>
+                      )}
+
+                      <button
+                        type="submit"
+                        className="submit-button"
+                        onClick={reproducirSonido}
+                      >
+                        {metodoPago === "Yape" ? (
+                          <p>Finalizar compra</p>
+                        ) : (
+                          <p>Pagar</p>
+                        )}
+                      </button>
+                    </div>
+                  </li>
                 </ol>
               </div>
             )}
@@ -351,20 +403,6 @@ const CheckoutPayment = () => {
                 />
               </div>
             )}
-
-            <div className="pagar-buttons">
-              {metodoPagoError && (
-                <div className="error-message">{metodoPagoError}</div>
-              )}
-
-              <button
-                type="submit"
-                className="submit-button"
-                onClick={reproducirSonido}
-              >
-                {metodoPago === "Yape" ? <p>Realizar Pedido</p> : <p>Pagar</p>}
-              </button>
-            </div>
           </div>
         </form>
       </div>
