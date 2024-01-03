@@ -580,6 +580,7 @@ const RegistroPedidos = () => {
               <li>
                 <button>
                   <Link
+                  target="_blank"
                     to={`/pedido-confirmado/${selectedPedido.id}/${selectedPedido.track_id}}`}
                   >
                     Seguimiento
