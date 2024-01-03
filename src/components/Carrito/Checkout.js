@@ -33,6 +33,12 @@ const Checkout = () => {
     setShowLoginSection,
     distrito,
     setDistrito,
+    toggleCart,
+    cartOpen,
+    showLoginForm,
+    showSignUpForm,
+    setShowLoginForm,
+    setShowSignUpForm,
   } = useShoppingContext();
 
   useEffect(() => {
@@ -42,14 +48,14 @@ const Checkout = () => {
       setEmail(authenticatedUser.email || "");
       setTelefono(authenticatedUser.telefono || "");
       setDireccion(authenticatedUser.direccion_envio || "");
-      setDistrito(authenticatedUser.distrito || ""); // Establecer el distrito predeterminado
+      setDistrito(authenticatedUser.distrito || ""); // Set distrito based on authenticatedUser
     } else {
       setNombre("");
       setApellidos("");
       setEmail("");
       setTelefono("");
       setDireccion("");
-      setDistrito(""); // Establecer el distrito predeterminado como vacío
+      setDistrito(""); // Set distrito to an initial value when there's no authenticatedUser
     }
   }, [authenticatedUser]);
 
@@ -73,7 +79,7 @@ const Checkout = () => {
         apellidos,
         telefono,
         direccion: formattedDireccion,
-        distrito: distrito,
+        distrito,
       };
     } else if (
       changeEmail &&
@@ -88,7 +94,7 @@ const Checkout = () => {
         apellidos,
         telefono,
         direccion: formattedDireccion,
-        distrito: distrito,
+        distrito,
       };
     }
 
@@ -111,18 +117,16 @@ const Checkout = () => {
   return (
     <div className="content-container">
       <h1 className="title">FINALIZAR COMPRA</h1>
-      <div className="">
+      <div className="content-box">
         <div className="flex-space-between" onClick={toggleDetails}>
           <div className="buttons">
             <a className="ver-pedido" onClick={toggleDetails}>
               VER PEDIDO
             </a>
             {detailsVisible && (
-              <div className="">
-                <Link to="/carrito" className="continue-shopping">
-                  editar Carrito
-                </Link>
-              </div>
+              <Link to="/carrito" className="continue-shopping">
+                editar Carrito
+              </Link>
             )}
           </div>
 
@@ -144,8 +148,47 @@ const Checkout = () => {
         {showLoginSection && !authenticatedUser && (
           <div className="login-section">
             <span>
-              ¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link> o{" "}
-              <Link to="/registrarse">Regístrate</Link>.
+              ¿Ya tienes una cuenta?{" "}
+              <a
+                onClick={() => {
+                  if (cartOpen) {
+                    toggleCart();
+                  }
+
+                  if (!showLoginForm) {
+                    setShowLoginForm(true);
+                  } else {
+                    setShowLoginForm(false);
+                  }
+
+                  if (showSignUpForm) {
+                    setShowSignUpForm(false);
+                  }
+                }}
+              >
+                Inicia sesión
+              </a>{" "}
+              o{" "}
+              <a
+                onClick={() => {
+                  if (cartOpen) {
+                    toggleCart();
+                  }
+
+                  if (showLoginForm) {
+                    setShowLoginForm(false);
+                  }
+
+                  if (!showSignUpForm) {
+                    setShowSignUpForm(true);
+                  } else {
+                    setShowSignUpForm(false);
+                  }
+                }}
+              >
+                Regístrate
+              </a>
+              .
             </span>
             <span className="omitir" type="button" onClick={handleSkipLogin}>
               <FontAwesomeIcon icon={faTimes} /> Comprar sin iniciar sesión{" "}
@@ -153,6 +196,7 @@ const Checkout = () => {
           </div>
         )}
         <form className="checkout-form-container" onSubmit={handleSubmit}>
+          <div className="form">
             <div className="row">
               <div id="nombre-container" className="flex-form-input">
                 <label htmlFor="nombre" className="label">
@@ -269,30 +313,43 @@ const Checkout = () => {
                   required
                 >
                   <option value="">Selecciona un distrito</option>
-                  <option value="Barranco">Barranco (+ S/. 1.00)</option>
-                  <option value="Chorrillos">Chorrillos (+ S/. 2.00)</option>
-                  <option value="La Molina">La Molina (+ S/. 3.00)</option>
-                  <option value="Magdalena">Magdalena (+ S/.4.00)</option>
-                  <option value="Miraflores">Miraflores (+ S/. 5.00)</option>
-                  <option value="San Borja">San Borja (+ S/. 6.00)</option>
-                  <option value="San Isidro">San Isidro (+ S/. 7.00)</option>
-                  <option value="San Miguel">San Miguel (+ S/. 8.00)</option>
+                  <option value="Barranco">
+                    Barranco <b>(+ S/. 1.00)</b>
+                  </option>
+                  <option value="Chorrillos">
+                    Chorrillos <b>(+ S/. 2.00)</b>
+                  </option>
+                  <option value="La Molina">
+                    La Molina <b>(+ S/. 3.00)</b>
+                  </option>
+                  <option value="Magdalena">
+                    Magdalena <b>(+ S/.4.00)</b>
+                  </option>
+                  <option value="Miraflores">
+                    Miraflores <b>(+ S/. 5.00)</b>
+                  </option>
+                  <option value="San Borja">
+                    San Borja <b>(+ S/. 6.00)</b>
+                  </option>
+                  <option value="San Isidro">
+                    San Isidro <b>(+ S/. 7.00)</b>
+                  </option>
+                  <option value="San Miguel">
+                    San Miguel <b>(+ S/. 8.00)</b>
+                  </option>
                   <option value="Santiago de Surco">
-                    Santiago de Surco (+ S/. 9.00)
+                    Santiago de Surco <b>(+ S/. 9.00)</b>
                   </option>
                 </select>
               </div>
-              
             </div>
 
-            <div className="input-group">
             <input
               type="submit"
               value="CONTINUAR"
               className="next-step-button"
             />
           </div>
-            
         </form>
       </div>
     </div>

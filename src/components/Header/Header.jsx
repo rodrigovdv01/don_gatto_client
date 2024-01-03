@@ -283,7 +283,6 @@ const Header = () => {
                               color:
                                 isHomePage && !isScrolled ? "#fff" : "#000",
                             }}
-                            to="/login"
                             onClick={() => {
                               if (cartOpen) {
                                 toggleCart();

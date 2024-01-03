@@ -72,11 +72,13 @@ const Details = () => {
       <thead>
         <tr>
           <th>Producto</th>
+          <th>Precio</th>
           <th>Subtotal</th>
         </tr>
       </thead>
       <tbody>
         {carrito.map((item, index) => {
+          const precioUnitario = item.precio.toFixed(2);
           const monto_total = item.precio * item.cantidad;
           return (
             <tr key={`${item.producto_id}-${index}`}>
@@ -94,8 +96,8 @@ const Details = () => {
                   <b className="product-quantity">x{item.cantidad}</b>
                 </div>
               </td>
-
-              <td>S/. {monto_total}</td>
+              <td>S/. {precioUnitario}</td>
+              <td>S/. {monto_total.toFixed(2)}</td>
             </tr>
           );
         })}
@@ -104,20 +106,20 @@ const Details = () => {
             <b>Subtotal</b>
           </td>
 
-          <td>S/. {calcularSubtotal()}</td>
+          <td>S/. {calcularSubtotal().toFixed(2)}</td>
         </tr>
         <tr className="cart-shipping">
           <td className="flex-space-between">
             <b>Envío</b> {shippingInfo && distrito ? <b>({distrito})</b> : ""}
           </td>
-          <td>S/. {shippingInfo && distrito ? costoEnvioActual : "Por calcular"}</td>
+          <td>S/. {calcularEnvío().toFixed(2)}</td>
         </tr>
 
         <tr className="cart-total">
           <td>
             <b>Total</b>
           </td>
-          <td>S/. {calcularTotal()}</td>
+          <td>S/. {calcularTotal().toFixed(2)}</td>
         </tr>
       </tbody>
     </table>

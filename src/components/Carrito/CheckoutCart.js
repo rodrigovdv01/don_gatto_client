@@ -73,11 +73,9 @@ const CheckoutCart = () => {
       <div className="content-container">
         <h2 className="heading">Carrito de Compras</h2>
         <p>Tu carrito de compras está vacío.</p>
-        <div className="ver-carrito-container">
-          <Link to="/shop" className="continue-shopping">
-            Seguir comprando
-          </Link>
-        </div>
+        <Link to="/shop" className="continue-shopping">
+          Seguir comprando
+        </Link>
       </div>
     );
   }
@@ -85,15 +83,9 @@ const CheckoutCart = () => {
   return (
     <div className="content-container">
       <h2 className="heading">Carrito de Compras</h2>
-      
-      <button
-        className="carrito-button carrito-button-pedido"
-        onClick={vaciarCarrito}
-      >
-        Vaciar Carrito
-      </button>
+
       <form className="table-container">
-        <table className="table">
+        <table className="product-table">
           <thead>
             <tr className="headers-container">
               <th className="header-cell">Producto</th>
@@ -119,7 +111,7 @@ const CheckoutCart = () => {
                 <td className="item-name">
                   <h3>{item.nombre}</h3>
                 </td>
-                <td className="price-cell">S/. {item.precio}</td>
+                <td className="price-cell">S/. {item.precio.toFixed(2)}</td>
                 <td className="quantity-cell">
                   <div>
                     <div className="cantidad">
@@ -144,7 +136,7 @@ const CheckoutCart = () => {
                 </td>
 
                 <td className="subtotal">
-                  S/. {calcularSubtotal(item.precio, item.cantidad)}
+                  S/. {calcularSubtotal(item.precio, item.cantidad).toFixed(2)}
                   <span
                     className="delete"
                     onClick={() => eliminarDelCarrito(item.producto_id)}
@@ -157,14 +149,23 @@ const CheckoutCart = () => {
           </tbody>
         </table>
       </form>
-      <p className="total">Total: S/. {calcularTotal(carrito)}</p>
+
       <div className="buttons">
+    <div>   
+        <p className="total">Subotal: S/. {calcularTotal(carrito).toFixed(2)}</p>
+        <button
+          className="carrito-button carrito-button-pedido"
+          onClick={vaciarCarrito}
+        >
+          Vaciar Carrito
+        </button>
+        </div>
         <Link to="/shop" className="continue-shopping">
           Agregar productos
         </Link>
         <input
           type="submit"
-          value="SIGUIENTE"
+          value="CONTINUAR"
           onClick={handleCheckout}
           className="next-step-button"
         />

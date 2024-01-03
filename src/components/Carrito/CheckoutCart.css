@@ -1,0 +1,117 @@
+/* CheckoutCart.css */
+
+.table-container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    overflow-x: auto;
+  }
+  
+  .shipping-details p {
+    text-align: left;
+    font-size: 14px;
+  }
+  
+  .checkout-form-container {
+    flex-direction: row;
+    width: 95%;
+    margin: 0 auto;
+    max-height: 80vh; /* Set a maximum height for the table container */
+    position: relative; /* Add this to establish a stacking context */
+  }
+  
+  .table {
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .headers-container {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .header-cell {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .price-cell,
+  .quantity-cell {
+    text-align: center;
+  }
+  
+  .item-container {
+    height: 200px;
+    background-color: #fff;
+    position: relative; /* Add this to make the delete icon positioning relative to this container */
+  }
+  
+  .item-container .delete {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    cursor: pointer;
+    color: #f00;
+  }
+  
+  .item-container td {
+    padding: 10px;
+    vertical-align: middle;
+  }
+  
+  .price-cell {
+    font-weight: bold;
+  }
+  
+  .quantity-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .quantity-button:hover {
+    color: #f00; /* Change color on hover */
+  }
+  
+  .delete {
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .delete:hover {
+    color: #f00; /* Change color on hover */
+  }
+  
+  .total {
+    font-size: 18px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .continue-shopping {
+    text-decoration: none;
+    color: #3c97cb;
+    font-weight: bold;
+  }
+  
+  .continue-shopping:hover {
+    color: #f00; /* Change color on hover */
+  }
+  
+  
+  
+  .red-text {
+    color: #f00;
+  }
+  
+  
+  
+  /* Media query for responsive design */
+  @media (min-width: 768px) {
+    .item-container {
+      height: auto; /* Adjust height for responsive design */
+    }
+  }
+  

@@ -284,7 +284,7 @@ const CheckoutPayment = () => {
                   onChange={handleMetodoPagoChange}
                   disabled={true}
                 />
-                Tarjeta de Débito/Crédito
+                <s style={{color:"gray"}}>Tarjeta de Débito/Crédito</s>
               </label>
 
             </div>
@@ -300,7 +300,7 @@ const CheckoutPayment = () => {
 
                 <ol className="instruction-list">
                   <li>
-                    Ingresa en yape el número que aparece en pantalla o escanea
+                    Ingresa en yape el número de abajo o escanea
                     el QR para completar el pago.
                     <div className="copy-container">
                       {!copiedToClipboard && <b>{yapeNumber}</b>}
@@ -332,7 +332,7 @@ const CheckoutPayment = () => {
                     </div>
                   </li>
                   <li>
-                    Finaliza tu compra y podrás ver su estado en tiempo real.
+                    Finaliza tu compra y revisa su estado en tiempo real.
                     <div className="pagar-buttons">
                       {metodoPagoError && (
                         <div className="error-message">{metodoPagoError}</div>

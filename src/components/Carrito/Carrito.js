@@ -58,7 +58,7 @@ const Carrito = ({
                 ))}
               </ul>
               <div>
-                <p className="total">Total: S/. {calcularTotal(carrito)}</p>
+                <p className="total">Subtotal: S/. {calcularTotal(carrito).toFixed(2)}</p>
                 <div className="opciones-carrito">
                   <button
                     className="carrito-button carrito-button-pedido"

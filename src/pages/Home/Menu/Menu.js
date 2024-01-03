@@ -41,7 +41,7 @@ const Menu = () => {
 
   return (
     <>
-      {location.pathname === "/menu" && <h1>Tienda Online</h1>}
+      {location.pathname === "/shop" && <h1>Tienda Online</h1>}
       <div className="search-bar">
         <FontAwesomeIcon icon={faSearch} />
         <input
