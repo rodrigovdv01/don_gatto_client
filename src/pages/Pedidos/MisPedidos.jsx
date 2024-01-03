@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 
 const MisPedidos = () => {
   const navigate = useNavigate();
-  const yapeNumber = 913687390;
+  const yapeNumber = 986734669;
   const [selectedPedido, setSelectedPedido] = useState(null);
   const {
     obtenerUsuarios,

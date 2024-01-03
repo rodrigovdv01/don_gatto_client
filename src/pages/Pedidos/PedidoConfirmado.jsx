@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 const PedidoDetalle = () => {
-  const yapeNumber = 913687390;
+  const yapeNumber = 986734669;
   const {
     obtenerDetallesPedido,
     detallesPedido,
@@ -18,7 +18,6 @@ const PedidoDetalle = () => {
   const [transacciones, setTransacciones] = useState({});
   const [loading, setLoading] = useState(true);
   const { pedidoId, trackId } = useParams();
-  const [pedidoValido, setPedidoValido] = useState(true);
 
   const navigate = useNavigate();
   const pagaConYape =
@@ -51,13 +50,10 @@ const PedidoDetalle = () => {
           };
         });
 
-        // Verifica si el trackId coincide
-        if (transaccionResponse.data.trackId !== trackId) {
-          setPedidoValido(false);
-        }
+      
       } catch (error) {
         console.error("Error al obtener los detalles del pedido:", error);
-        setPedidoValido(false);
+  
       } finally {
         setLoading(false);
       }
@@ -272,9 +268,7 @@ const PedidoDetalle = () => {
 
   const renderTransaccionStatus = () => {
     if (!loading) {
-      if (!pedidoValido) {
-        return <h4>Pedido no encontrado</h4>;
-      }
+      
       const { estado_transaccion } = transacciones[pedidoId];
 
       switch (estado_transaccion) {

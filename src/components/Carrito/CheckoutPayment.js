@@ -14,7 +14,7 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import WhatsAppButton from "../../components/WhatsappButton/WhatsappButton";
 
 const CheckoutPayment = () => {
-  const yapeNumber = 913687390;
+  const yapeNumber = 986734669;
   const [copiedToClipboard, setCopiedToClipboard] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();

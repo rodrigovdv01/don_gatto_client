@@ -31,6 +31,9 @@
     cursor: pointer;
     font-size: 14px;
   }
+
+  
+  
   
   .registro-pedidos-button:hover {
     background-color: #0056b3;
@@ -163,16 +166,17 @@
   
 
   .id-number {
-    font-size: 1.4rem;
-    color: #fff;
-    background-color: #495057;
-    padding: 10px;
+    background-color: #ffffff;
+    padding: 10px 0;
     border-radius: 40px;
+    width: 50%;
+    margin: 0 auto;
+    border-top: 2px solid #838383a3;
+    margin: 8px auto;
+    border-bottom: 2px solid #838383a3;
   }
 
   .id, .number {
-    color: #fff;
-    background-color: #495057;
     padding: 10px;
     border-radius: 40px;
   }
@@ -186,6 +190,11 @@
     font-size: 1.3rem;
   }
 
+  .details-card-table 
+  {
+    width: 100%;
+    margin: 0 auto;
+  }
   .clock-container {
     display: flex;
     justify-content: center;
@@ -288,17 +297,33 @@
 }
 
 .pedido-confirmado {
-  background-color: #fcfcfc; /* Azul claro para el estado "Confirmado" */
+  background-color: #ffffff;
 }
 
 .pedido-en-camino {
-  background-color: #ffffb3; /* Amarillo claro para el estado "En camino" */
+  background-color: #ffffb3;
 }
 
 .pedido-entregado {
-  background-color: #ffffff; /* Verde pastel para el estado "Entregado" */
+  background-color: #c8c8c8;
 }
 
+.registro-pedidos-button.entregado {
+  background-color: grey;
+}
+
+.registro-pedidos-button.en-camino {
+  background-color: #ffff55;
+  color: #000000;
+}
+
+.registro-pedidos-button.confirmado {
+  background-color: #6161ff;
+}
 .excel {
   color: #218838;
+}
+
+.google-maps-icon, .waze-icon{
+  margin-left: 5px;
 }

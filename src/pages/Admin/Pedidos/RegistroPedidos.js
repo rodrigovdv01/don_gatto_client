@@ -4,8 +4,8 @@ import axios from "axios";
 import "./RegistroPedidos.css";
 import "../../../components/Header/Header.css";
 import { Link } from "react-router-dom";
-import * as XLSX from 'xlsx';
-import FileSaver from 'file-saver';
+import * as XLSX from "xlsx";
+import FileSaver from "file-saver";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,7 +15,7 @@ import {
   faExclamationTriangle,
   faFileExcel,
 } from "@fortawesome/free-solid-svg-icons";
-
+import { faWaze, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 const RegistroPedidos = () => {
   const [selectedPedido, setSelectedPedido] = useState(null);
@@ -110,7 +110,7 @@ const RegistroPedidos = () => {
         `${process.env.REACT_APP_API_URL}/transacciones_pago/${pedidoId}`
       );
       const transaccionData = response.data;
-  
+
       setTransacciones((prevTransacciones) => ({
         ...prevTransacciones,
         [pedidoId]: transaccionData,
@@ -133,7 +133,7 @@ const RegistroPedidos = () => {
     } else {
       setSelectedPedido(pedido);
       setMostrarDetallesPedido(true);
-      
+
       try {
         await obtenerTransaccion(pedido.id); // Wait for the transaction to be fetched
         await obtenerDetallesPedido(pedido.id, "/registro-de-pedidos");
@@ -142,7 +142,6 @@ const RegistroPedidos = () => {
       }
     }
   };
-  
 
   // Dentro de la función handleTransaccionChange
   const handleTransaccionChange = async (e) => {
@@ -258,7 +257,6 @@ const RegistroPedidos = () => {
     return dateB - dateA;
   });
 
-  
   const exportToExcel = () => {
     const dataToExport = sortedPedidos.map((pedido) => {
       const detallesProductos = detallesPedido[pedido.id]?.detalles || [];
@@ -267,45 +265,69 @@ const RegistroPedidos = () => {
           (producto) => producto.producto_id === detalle.producto_id
         );
         return {
-          'Producto': productoDelDetalle?.nombre || 'Producto Desconocido',
-          'Cantidad': detalle.cantidad,
-          'Precio Unitario': `S/. ${detalle.precio_unitario.toFixed(2)}`,
+          Producto: productoDelDetalle?.nombre || "Producto Desconocido",
+          Cantidad: detalle.cantidad,
+          "Precio Unitario": `S/. ${detalle.precio_unitario.toFixed(2)}`,
         };
       });
-  
+
       return {
         ID: pedido.id,
-        'Fecha de Realización': formatDate(pedido.createdAt),
-        'Hora de Realización': formatTime(pedido.createdAt),
-        'Usuario': pedido.user_id === 0 ? 'Cliente sin usuario' : buscarInformacionUsuario(pedido.user_id)?.email,
-        'Distrito': pedido.distrito,
-        'Total del Pedido': `S/. ${pedido.monto_total.toFixed(2)}`,
-        'Estado del Pedido': pedido.estado_pedido || 'Desconocido',
+        "Fecha de Realización": formatDate(pedido.createdAt),
+        "Hora de Realización": formatTime(pedido.createdAt),
+        Usuario:
+          pedido.user_id === 0
+            ? "Cliente sin usuario"
+            : buscarInformacionUsuario(pedido.user_id)?.email,
+        Distrito: pedido.distrito,
+        "Total del Pedido": `S/. ${pedido.monto_total.toFixed(2)}`,
+        "Estado del Pedido": pedido.estado_pedido || "Desconocido",
       };
     });
-  
-    const ws = XLSX.utils.json_to_sheet(dataToExport, { header: Object.keys(dataToExport[0]) });
-  
+
+    const ws = XLSX.utils.json_to_sheet(dataToExport, {
+      header: Object.keys(dataToExport[0]),
+    });
+
     // Set the style for each column to be justified
     ws["!cols"] = Object.keys(dataToExport[0]).map(() => ({ wch: 20 }));
-  
+
     // Enable filters for each column
-    ws["!autofilter"] = { ref: XLSX.utils.encode_range(XLSX.utils.decode_range(ws['!ref'])) };
-  
+    ws["!autofilter"] = {
+      ref: XLSX.utils.encode_range(XLSX.utils.decode_range(ws["!ref"])),
+    };
+
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Registro_de_Pedidos_Don_Gatto');
-  
+    XLSX.utils.book_append_sheet(wb, ws, "Registro_de_Pedidos_Don_Gatto");
+
     // Create an array buffer from the workbook
-    const arrayBuffer = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' });
-  
+    const arrayBuffer = XLSX.write(wb, {
+      bookType: "xlsx",
+      bookSST: true,
+      type: "array",
+    });
+
     // Convert the array buffer to a Blob
-    const blob = new Blob([arrayBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-  
+    const blob = new Blob([arrayBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
     // Save the Blob as an Excel file using FileSaver.js
-    FileSaver.saveAs(blob, 'Registro_de_Pedidos_Don_Gatto.xlsx');
+    FileSaver.saveAs(blob, "Registro_de_Pedidos_Don_Gatto.xlsx");
   };
-  
-  
+
+  const abrirEnWaze = (direccion) => {
+    const direccionEncoded = encodeURIComponent(direccion);
+    const wazeURL = `https://waze.com/ul?q=${direccionEncoded}`;
+    window.open(wazeURL, "_blank");
+  };
+
+  const abrirEnGoogleMaps = (direccion) => {
+    const direccionEncoded = encodeURIComponent(direccion);
+    const googleMapsURL = `https://www.google.com/maps/search/?api=1&query=${direccionEncoded}`;
+    window.open(googleMapsURL, "_blank");
+  };
+
   return (
     <div className="content-container">
       <h2 className="registro-pedidos-heading">Registro de Pedidos</h2>
@@ -318,7 +340,12 @@ const RegistroPedidos = () => {
           <FontAwesomeIcon icon={faCalendar} /> <span>{formattedDate}</span>{" "}
         </div>
 
-        <button onClick={exportToExcel}>Exportar a Excel <span className="excel"><FontAwesomeIcon icon={faFileExcel} /></span></button>
+        <button onClick={exportToExcel}>
+          Exportar a Excel{" "}
+          <span className="excel">
+            <FontAwesomeIcon icon={faFileExcel} />
+          </span>
+        </button>
       </div>
 
       <table className="tabla-registro-de-pedidos">
@@ -361,7 +388,18 @@ const RegistroPedidos = () => {
                 </td>
                 <td>
                   <button
-                    className="registro-pedidos-button"
+                    className={`registro-pedidos-button ${(() => {
+                      switch (pedido.estado_pedido) {
+                        case "Finalizado":
+                          return "entregado";
+                        case "En camino":
+                          return "en-camino";
+                        case "Confirmado":
+                          return "confirmado";
+                        default:
+                          return "";
+                      }
+                    })()}`}
                     onClick={() => handlePedidoClick(pedido)}
                   >
                     Detalles del pedido{" "}
@@ -386,7 +424,7 @@ const RegistroPedidos = () => {
                       }
                     }}
                   >
-                    <option value="Activo">Recibido</option>
+                    <option value="Activo">Nuevo</option>
                     <option value="Confirmado">Confirmado</option>
                     <option value="En camino">En camino</option>
                     <option value="Finalizado">Entregado</option>
@@ -411,7 +449,7 @@ const RegistroPedidos = () => {
               <FontAwesomeIcon icon={faTimes} />
             </button>
             <div className="detalle-pedido"></div>
-            <div className="flex-space-between mg-bottom-20">
+            <div className=" mg-bottom-20">
               <div className="details-title">
                 <h3>
                   Detalles del pedido{" "}
@@ -424,26 +462,38 @@ const RegistroPedidos = () => {
                 </h3>
               </div>
               <div>
-                <select
-                  value={transacciones[selectedPedido.id]?.estado_transaccion}
-                  onChange={handleTransaccionChange}
-                  style={{
-                    backgroundColor:
-                      transacciones[selectedPedido.id]?.estado_transaccion ===
-                      "Pendiente"
-                        ? ""
-                        : transacciones[selectedPedido.id]
-                            ?.estado_transaccion === "Pagado"
-                        ? "green"
-                        : "red",
-                  }}
+                <Link
+                  to={`/pedido-confirmado/${selectedPedido.id}/${selectedPedido.track_id}`}
+                  target="_blank"
                 >
-                  <option value="Pendiente">Pago Pendiente</option>
-                  <option value="Pagado">Pagado</option>
-                  <option value="Rechazada">Pago Rechazado</option>
-                </select>
+                  <div className="id-number">
+                    <span className="id">ID </span>
+                    <span className="number">{selectedPedido.id}</span>
+                  </div>
+                </Link>
               </div>
               <div>
+                <div>
+                  <select
+                    value={transacciones[selectedPedido.id]?.estado_transaccion}
+                    onChange={handleTransaccionChange}
+                    style={{
+                      backgroundColor:
+                        transacciones[selectedPedido.id]?.estado_transaccion ===
+                        "Pendiente"
+                          ? ""
+                          : transacciones[selectedPedido.id]
+                              ?.estado_transaccion === "Pagado"
+                          ? "green"
+                          : "red",
+                    }}
+                  >
+                    <option value="Pendiente">Pago Pendiente</option>
+                    <option value="Pagado">Pagado</option>
+                    <option value="Rechazada">Pago Rechazado</option>
+                  </select>
+                </div>
+
                 <select
                   value={selectedPedido.estado_pedido || ""}
                   onChange={(e) => {
@@ -455,23 +505,13 @@ const RegistroPedidos = () => {
                     }
                   }}
                 >
-                  <option value="Activo">Pedido Recibido</option>
+                  <option value="Activo">Nuevo Pedido</option>
                   <option value="Confirmado">Pedido Confirmado</option>
                   <option value="En camino">En camino</option>
                   <option value="Finalizado">Pedido Entregado</option>
                 </select>
               </div>
-              <div>
-                <Link
-                  to={`/pedido-confirmado/${selectedPedido.id}/${selectedPedido.track_id}`}
-                  target="_blank"
-                >
-                  <div className="id-number">
-                    <span className="id">ID </span>
-                    <span className="number">{selectedPedido.id}</span>
-                  </div>
-                </Link>
-              </div>
+              
             </div>
 
             {/* Resto del contenido de detalles del pedido */}
@@ -484,6 +524,28 @@ const RegistroPedidos = () => {
               <li className="telefono">{selectedPedido.telefono}</li>
               <li className="email">{selectedPedido.email}</li>
               <li className="direccion">{selectedPedido.direccion_envio}</li>
+              <li>
+                <button
+                  onClick={() => abrirEnWaze(selectedPedido.direccion_envio)}
+                >
+                  Abrir en Waze
+                  <FontAwesomeIcon icon={faWaze} className="waze-icon" />
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() =>
+                    abrirEnGoogleMaps(selectedPedido.direccion_envio)
+                  }
+                >
+                  Abrir en Google Maps
+                  <FontAwesomeIcon
+                    icon={faGoogle}
+                    className="google-maps-icon"
+                  />
+                </button>
+              </li>
+
               <li>
                 <a
                   target="_blank"
@@ -532,7 +594,7 @@ const RegistroPedidos = () => {
               </li>
             </ul>
 
-            <table>
+            <table className="details-card-table">
               <thead>
                 <tr>
                   <th colSpan={2}>Producto</th>
