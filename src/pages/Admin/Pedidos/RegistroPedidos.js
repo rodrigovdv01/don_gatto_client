@@ -13,6 +13,7 @@ import {
   faClock,
   faTimes,
   faExclamationTriangle,
+  faFileExcel,
 } from "@fortawesome/free-solid-svg-icons";
 
 
@@ -288,8 +289,11 @@ const RegistroPedidos = () => {
     // Set the style for each column to be justified
     ws["!cols"] = Object.keys(dataToExport[0]).map(() => ({ wch: 20 }));
   
+    // Enable filters for each column
+    ws["!autofilter"] = { ref: XLSX.utils.encode_range(XLSX.utils.decode_range(ws['!ref'])) };
+  
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Pedidos');
+    XLSX.utils.book_append_sheet(wb, ws, 'Registro_de_Pedidos_Don_Gatto');
   
     // Create an array buffer from the workbook
     const arrayBuffer = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' });
@@ -298,7 +302,7 @@ const RegistroPedidos = () => {
     const blob = new Blob([arrayBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
   
     // Save the Blob as an Excel file using FileSaver.js
-    FileSaver.saveAs(blob, 'Pedidos.xlsx');
+    FileSaver.saveAs(blob, 'Registro_de_Pedidos_Don_Gatto.xlsx');
   };
   
   
@@ -314,7 +318,7 @@ const RegistroPedidos = () => {
           <FontAwesomeIcon icon={faCalendar} /> <span>{formattedDate}</span>{" "}
         </div>
 
-        <button onClick={exportToExcel}>Exportar a Excel</button>
+        <button onClick={exportToExcel}>Exportar a Excel <span className="excel"><FontAwesomeIcon icon={faFileExcel} /></span></button>
       </div>
 
       <table className="tabla-registro-de-pedidos">

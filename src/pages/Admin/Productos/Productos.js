@@ -134,11 +134,11 @@ const AgregarMenu = () => {
               onChange={handleChange}
             >
               <option value="">Selecciona una categoría</option>
-              <option value="0">Ofertas</option>
-              <option value="1">Categoría 1</option>
-              <option value="2">Categoría 2</option>
-              <option value="3">Categoría 3</option>
-              <option value="4">Categoría 4</option>
+              <option value="0">Waka</option>
+              <option value="1">Relx</option>
+              <option value="2">Categoría 3</option>
+              <option value="3">Categoría 4</option>
+              <option value="4">Categoría 5</option>
             </select>
           </label>
           <button type="submit">Registrar producto</button>

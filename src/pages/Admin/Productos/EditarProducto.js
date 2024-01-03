@@ -77,11 +77,11 @@ const EditarProducto = ({ producto, onClose, onUpdate }) => {
               value={formData.id_categoria}
               onChange={handleChange}
             >
-              <option value="0">Menu</option>
-              <option value="1">Entradas</option>
-              <option value="2">Segundos</option>
-              <option value="3">Postres</option>
-              <option value="4">Bebidas</option>
+              <option value="0">Waka</option>
+              <option value="1">Relx</option>
+              <option value="2">Categoría 3</option>
+              <option value="3">Categoría 4</option>
+              <option value="4">Categoría 5</option>
             </select>
           </label>
           <label>

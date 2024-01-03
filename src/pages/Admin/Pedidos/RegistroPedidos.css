@@ -298,3 +298,7 @@
 .pedido-entregado {
   background-color: #ffffff; /* Verde pastel para el estado "Entregado" */
 }
+
+.excel {
+  color: #218838;
+}

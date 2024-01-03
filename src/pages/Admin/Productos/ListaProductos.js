@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./Productos.css";
+import * as XLSX from "xlsx";
+import FileSaver from "file-saver";
 import EditarProducto from "./EditarProducto";
 
 const ListaProductos = () => {
@@ -17,11 +19,11 @@ const ListaProductos = () => {
 
   // Objeto de mapeo para categorías
   const categorias = {
-    0: "Menu",
-    1: "Entradas",
-    2: "Segundos",
-    3: "Postres",
-    4: "Bebidas",
+    0: "Relx",
+    1: "Waka",
+    2: "Categoría 3",
+    3: "Categoría 4",
+    4: "Categoría 5",
   };
 
   // Define the filtrarProductos function using useCallback
@@ -132,6 +134,28 @@ const ListaProductos = () => {
     }
   };
 
+  const exportToExcel = () => {
+    const dataToExport = productosFiltrados.map((producto) => ({
+      'Id de producto': producto.producto_id,
+      'Nombre': producto.nombre,
+      'Descripción': producto.descripcion,
+      'Stock': producto.stock,
+      'Precio': `S/. ${producto.precio}`,
+      'Categoría': categorias[producto.id_categoria],
+      'Imagen': producto.img,
+      'Imagen URL': producto.img,
+      'Activo': producto.activo ? 'Sí' : 'No',
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(dataToExport, { header: Object.keys(dataToExport[0]) });
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Productos');
+
+    const arrayBuffer = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' });
+    const blob = new Blob([arrayBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    FileSaver.saveAs(blob, 'Productos.xlsx');
+  };
+
   return (
     <div className="content-container">
       <h2>Lista de Productos</h2>
@@ -169,6 +193,7 @@ const ListaProductos = () => {
         </select>
       </div>
       <button onClick={handleActualizarProductos}>Actualizar</button>
+      <button onClick={exportToExcel}>Exportar a Excel</button>
       {productosFiltrados.length === 0 ? (
         <div>No has agregado productos.</div>
       ) : (
