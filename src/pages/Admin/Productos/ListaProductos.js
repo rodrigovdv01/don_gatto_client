@@ -5,6 +5,11 @@ import * as XLSX from "xlsx";
 import FileSaver from "file-saver";
 import EditarProducto from "./EditarProducto";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileExcel,
+} from "@fortawesome/free-solid-svg-icons";
+
 const ListaProductos = () => {
   const [productosOriginales, setProductosOriginales] = useState([]);
   const [productosFiltrados, setProductosFiltrados] = useState([]);
@@ -151,6 +156,9 @@ const ListaProductos = () => {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Productos');
 
+    ws["!autofilter"] = { ref: XLSX.utils.encode_range(XLSX.utils.decode_range(ws['!ref'])) };
+
+
     const arrayBuffer = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' });
     const blob = new Blob([arrayBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     FileSaver.saveAs(blob, 'Productos.xlsx');
@@ -193,7 +201,7 @@ const ListaProductos = () => {
         </select>
       </div>
       <button onClick={handleActualizarProductos}>Actualizar</button>
-      <button onClick={exportToExcel}>Exportar a Excel</button>
+      <button onClick={exportToExcel}>Exportar a Excel <span className="excel"><FontAwesomeIcon icon={faFileExcel} /></span></button>
       {productosFiltrados.length === 0 ? (
         <div>No has agregado productos.</div>
       ) : (

@@ -2,6 +2,14 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./Usuarios.css"; // Asegúrate de ajustar el nombre del archivo CSS
 import EditarUsuario from "./EditarUsuario"; // Asegúrate de importar el componente de edición de usuario si existe
+import * as XLSX from "xlsx";
+import FileSaver from "file-saver";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileExcel,
+} from "@fortawesome/free-solid-svg-icons";
+
 const ListaUsuarios = () => {
   const [usuariosOriginales, setUsuariosOriginales] = useState([]);
   const [usuariosFiltrados, setUsuariosFiltrados] = useState([]);
@@ -115,6 +123,35 @@ const ListaUsuarios = () => {
     }
   };
 
+  const exportToExcel = () => {
+    const dataToExport = usuariosFiltrados.map((usuario) => ({
+      'Id de Usuario': usuario.id,
+      'Nombre': usuario.nombre,
+      'Apellido': usuario.apellido,
+      'Correo Electrónico': usuario.email,
+      'Teléfono': usuario.telefono,
+      'Dirección de envío': usuario.direccion_envio,
+      'Rol': usuario.level,
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(dataToExport, { header: Object.keys(dataToExport[0]) });
+
+    // Set the style for each column to be justified
+    ws["!cols"] = Object.keys(dataToExport[0]).map(() => ({ wch: 20 }));
+
+    // Set auto-filter for the entire worksheet
+    ws["!autofilter"] = { ref: XLSX.utils.encode_range(XLSX.utils.decode_range(ws['!ref'])) };
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Usuarios');
+
+    const arrayBuffer = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' });
+    const blob = new Blob([arrayBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    FileSaver.saveAs(blob, 'Usuarios.xlsx');
+  };
+
+
+
   return (
     <div>
       <h2>Lista de Usuarios</h2>
@@ -155,6 +192,7 @@ const ListaUsuarios = () => {
         </select>
       </div>
       <button onClick={handleActualizarUsuarios}>Actualizar</button>
+      <button onClick={exportToExcel}>Exportar a Excel <span className="excel"><FontAwesomeIcon icon={faFileExcel} /></span></button>
       <table>
         <thead>
           <tr>
