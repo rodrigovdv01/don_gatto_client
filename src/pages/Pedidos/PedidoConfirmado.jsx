@@ -5,7 +5,8 @@ import axios from "axios";
 import "./PedidoConfirmado.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCopy, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
-
+import CountdownTimer from "../../CountDownTimer";
+import OrderStatusIndicator from "../../OrderStatusIndicator"
 const PedidoDetalle = () => {
   const yapeNumber = 986734669;
   const {
@@ -49,11 +50,8 @@ const PedidoDetalle = () => {
             [pedidoId]: transaccionResponse.data,
           };
         });
-
-      
       } catch (error) {
         console.error("Error al obtener los detalles del pedido:", error);
-  
       } finally {
         setLoading(false);
       }
@@ -70,48 +68,14 @@ const PedidoDetalle = () => {
         case "Activo":
           return (
             <div>
-              <h4>¡Gracias por tu compra, {pedidoConfirmado?.nombre}!</h4>
               <h2 className="pedido-titulo activo-text">
-                ¡Hemos recibido tu pedido y está siendo revisado!
+                ¡Hemos recibido tu pedido! sigue las instrucciones...
               </h2>
-              {pagaConYape && (
-                <>
-                  <div>
-                    <h3 className="">
-                      Envíanos una captura de pantalla de la transacción en Yape
-                      por WhatsApp. Espera la confirmación del pedido. Una vez
-                      recibido el pago, actualizaremos el estado del pedido para
-                      que lo veas en esta pantalla. ¡Gracias!
-                    </h3>
-                  </div>
-
-                  <div>
-                    <img
-                      src="/images/yape.jpg"
-                      width={200}
-                      alt="Yape"
-                      className="yape-image"
-                    />
-                  </div>
-
-                  <div>
-                    {!copiedToClipboard && <b>{yapeNumber}</b>}
-                    <button className="copiar" onClick={handleCopyToClipboard}>
-                      {!copiedToClipboard && (
-                        <span>
-                          <FontAwesomeIcon icon={faCopy} /> Copiar
-                        </span>
-                      )}
-                      {copiedToClipboard && (
-                        <span className="numero-copiado">
-                          <FontAwesomeIcon icon={faCheckCircle} /> Número
-                          copiado
-                        </span>
-                      )}
-                    </button>
-                  </div>
-                </>
-              )}
+              <h4>¡Gracias por tu compra, {pedidoConfirmado?.nombre}!</h4>
+              <div className="countDownTimer">
+                <CountdownTimer initialSeconds={600} />
+                <p>Tienes 10 minutos para realizar el pago.</p>
+              </div>
             </div>
           );
         case "Confirmado":
@@ -123,43 +87,6 @@ const PedidoDetalle = () => {
               <b style={{ textAlign: "center" }}>
                 Pedido confirmado el {formattedUpdatedAt}
               </b>
-              {pagaConYape && (
-                <>
-                  <div>
-                    <h3 className="">
-                      Para completar tu pedido, por favor envíanos una{" "}
-                      <b>captura de pantalla</b> de la{" "}
-                      <b>transacción en Yape</b> por WhatsApp.
-                    </h3>
-                  </div>
-
-                  <div>
-                    <img
-                      src="/images/yape.jpg"
-                      width={200}
-                      alt="Yape"
-                      className="yape-image"
-                    />
-                  </div>
-
-                  <div>
-                    {!copiedToClipboard && <b>{yapeNumber}</b>}
-                    <button className="copiar" onClick={handleCopyToClipboard}>
-                      {!copiedToClipboard && (
-                        <span>
-                          <FontAwesomeIcon icon={faCopy} /> Copiar
-                        </span>
-                      )}
-                      {copiedToClipboard && (
-                        <span className="numero-copiado">
-                          <FontAwesomeIcon icon={faCheckCircle} /> Número
-                          copiado
-                        </span>
-                      )}
-                    </button>
-                  </div>
-                </>
-              )}
             </div>
           );
         case "En camino":
@@ -169,15 +96,47 @@ const PedidoDetalle = () => {
                 Tu pedido está en camino
               </h2>
               <b style={{ textAlign: "center" }}>
-                Salió de la tienda el {formattedUpdatedAt}
+                Salió el {formattedUpdatedAt}
               </b>
+
+            
+
+            </div>
+          );
+        case "Finalizado":
+          return (
+            <div className="mg-b-10">
+              <h2 className="pedido-titulo finalizado-text">
+                ¡Tu pedido ha sido entregado!
+              </h2>
+              <b style={{ textAlign: "center" }}>el {formattedUpdatedAt}</b>
+            </div>
+          );
+        default:
+          return null;
+      }
+    }
+
+    return null;
+  };
+
+  const renderTransaccionStatus = () => {
+    if (!loading) {
+      const { estado_transaccion } = transacciones[pedidoId];
+
+      switch (estado_transaccion) {
+        case "Pendiente":
+          return (
+            <div>
+              <p className="transaccion-pendiente-text">
+                Esperando confirmación de pago
+              </p>
+              {renderPedidoStatus()}
               {pagaConYape && (
                 <>
                   <div>
                     <h3 className="">
-                      Para completar tu pedido, por favor envíanos una{" "}
-                      <b>captura de pantalla</b> de la{" "}
-                      <b>transacción en Yape</b> por WhatsApp.
+                      Paga con Yape, envíanos una captura por WhatsApp.
                     </h3>
                   </div>
 
@@ -210,22 +169,27 @@ const PedidoDetalle = () => {
               )}
             </div>
           );
-        case "Finalizado":
+        case "Pagado":
           return (
-            <div className="mg-b-10">
-              <h2 className="pedido-titulo finalizado-text">
-                ¡Tu pedido ha sido entregado con éxito!
-              </h2>
-              <b style={{ textAlign: "center" }}>
-                Pedido entregado el {formattedUpdatedAt}
-              </b>
+            <div>
+              <p className="transaccion-pagado-text">Pago exitoso</p>
+
+              {renderPedidoStatus()}
+            </div>
+          );
+        case "Rechazada":
+          return (
+            <div>
+              <p className="transaccion-rechazado-text">
+                Su método de pago fue rechazado
+              </p>
+
+              {renderPedidoStatus()}
               {pagaConYape && (
                 <>
                   <div>
                     <h3 className="">
-                      Para completar tu pedido, por favor envíanos una{" "}
-                      <b>captura de pantalla</b> de la{" "}
-                      <b>transacción en Yape</b> por WhatsApp.
+                      Paga con Yape, envíanos una captura por WhatsApp.
                     </h3>
                   </div>
 
@@ -266,28 +230,14 @@ const PedidoDetalle = () => {
     return null;
   };
 
-  const renderTransaccionStatus = () => {
-    if (!loading) {
-      
-      const { estado_transaccion } = transacciones[pedidoId];
-
-      switch (estado_transaccion) {
-        case "Pendiente":
-          return (
-            <p className="transaccion-pendiente-text">
-              Esperando confirmación de pago
-            </p>
-          );
-        case "Pagado":
-          return <p className="transaccion-pagado-text">Pago recibido</p>;
-        case "Rechazado":
-          return <p className="transaccion-rechazado-text">Pago rechazado</p>;
-        default:
-          return null;
-      }
-    }
-
-    return null;
+  const handleTimeout = () => {
+    console.log(
+      "¡Gracias por tu compra! Estamos esperando la confirmación de tu pago, por favor comunícate con nosotros!"
+    );
+    // Perform actions when the timer reaches zero
+    alert(
+      "¡Gracias por tu compra! Estamos esperando la confirmación de tu pago, por favor comunícate con nosotros!"
+    );
   };
 
   // Assuming detallesPedido is an object containing pedido details
@@ -344,9 +294,30 @@ const PedidoDetalle = () => {
   return (
     <div className="content-container">
       <div className="pedido-detalle-container">
-        {renderPedidoStatus()}
+        <section className="pedido-details">
+          <dl>
+            <dt>
+              <div className="id-pedido">
+                <span className="s1">ID de pedido: </span>
+                <span className="s2">{pedidoConfirmado?.id}</span>
+              </div>
+              {/* <div>
+                <span className="s1">track ID: </span>
+                <span className="s2">{pedidoConfirmado?.trackId}</span>
+              </div> */}
+            </dt>
+            <dd></dd>
 
-        <dt>{renderTransaccionStatus()}</dt>
+            <dt>Fecha de pedido:</dt>
+            <dd>
+              {formattedCreatedAt} a las {formattedCreatedTime}
+            </dd>
+          </dl>
+        </section>
+
+        {renderTransaccionStatus()}
+          <OrderStatusIndicator currentStatus={pedidoConfirmado?.estado_pedido} />
+        
         {transacciones[pedidoId]?.estado_transaccion === "Pendiente" ? (
           <dd>
             <button className="enviar-comprobante">
@@ -373,23 +344,6 @@ const PedidoDetalle = () => {
         )}
         <section className="pedido-details">
           <dl>
-            <dt>
-              <div className="id-pedido">
-                <span className="s1">ID de pedido: </span>
-                <span className="s2">{pedidoConfirmado?.id}</span>
-              </div>
-              <div>
-                <span className="s1">track ID: </span>
-                <span className="s2">{pedidoConfirmado?.trackId}</span>
-              </div>
-            </dt>
-            <dd></dd>
-
-            <dt>Fecha de creación</dt>
-            <dd>
-              {formattedCreatedAt} a las {formattedCreatedTime}
-            </dd>
-
             <dt>Método de pago</dt>
             <dd>
               {pagaConYape ? (
@@ -427,7 +381,10 @@ const PedidoDetalle = () => {
               )}
             </dd>
 
-            <dt>Subtotal</dt>
+            <dt>Monto total</dt>
+            <dd>S/. {pedidoConfirmado?.monto_total.toFixed(2) || "-"}</dd>
+
+            {/* <dt>Subtotal</dt>
             <dd>
               S/.{" "}
               {(
@@ -436,10 +393,7 @@ const PedidoDetalle = () => {
             </dd>
 
             <dt>Costo de envío</dt>
-            <dd>S/. {pedidoConfirmado?.costo_envio.toFixed(2) || "-"}</dd>
-
-            <dt>Monto total</dt>
-            <dd>S/. {pedidoConfirmado?.monto_total.toFixed(2) || "-"}</dd>
+            <dd>S/. {pedidoConfirmado?.costo_envio.toFixed(2) || "-"}</dd> */}
 
             <dt>Nombre de cliente</dt>
             <dd>{pedidoConfirmado?.nombre || "-"}</dd>
@@ -454,7 +408,6 @@ const PedidoDetalle = () => {
             <dd>{pedidoConfirmado?.direccion_envio || "-"}</dd>
           </dl>
         </section>
-
         <div className="pedido-card-container">
           {Array.isArray(detallesPedido) && detallesPedido.length > 0 ? (
             detallesPedido.map((detalle, index) => {

@@ -14,6 +14,7 @@ import {
   faTimes,
   faExclamationTriangle,
   faFileExcel,
+  faEye,
 } from "@fortawesome/free-solid-svg-icons";
 import { faWaze, faGoogle } from "@fortawesome/free-brands-svg-icons";
 
@@ -21,8 +22,9 @@ const RegistroPedidos = () => {
   const [selectedPedido, setSelectedPedido] = useState(null);
   const [transacciones, setTransacciones] = useState({});
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [mostrarDetallesPedido, setMostrarDetallesPedido] = useState(false); // Nuevo estado
+  const [mostrarDetallesPedido, setMostrarDetallesPedido] = useState(false);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [selectedPedidoIndex, setSelectedPedidoIndex] = useState(null);
 
   const {
     obtenerUsuarios,
@@ -130,6 +132,7 @@ const RegistroPedidos = () => {
   const handlePedidoClick = async (pedido) => {
     if (selectedPedido && selectedPedido.id === pedido.id) {
       setSelectedPedido(null);
+      setSelectedPedidoIndex(sortedPedidos.indexOf(pedido));
     } else {
       setSelectedPedido(pedido);
       setMostrarDetallesPedido(true);
@@ -143,7 +146,6 @@ const RegistroPedidos = () => {
     }
   };
 
-  // Dentro de la función handleTransaccionChange
   const handleTransaccionChange = async (e) => {
     const nuevoEstadoTransaccion = e.target.value;
     const pedidoId = selectedPedido.id;
@@ -172,7 +174,6 @@ const RegistroPedidos = () => {
         `Estado de la transacción del pedido ${pedidoId} actualizado a ${nuevoEstadoTransaccion}`
       );
 
-      // Actualizar el estado local de la transacción
       setTransacciones((prevTransacciones) => ({
         ...prevTransacciones,
         [pedidoId]: {
@@ -181,7 +182,6 @@ const RegistroPedidos = () => {
         },
       }));
 
-      // Actualizar el estado del select
       setSelectedPedido((prevSelectedPedido) => ({
         ...prevSelectedPedido,
         estado_transaccion: nuevoEstadoTransaccion,
@@ -220,7 +220,6 @@ const RegistroPedidos = () => {
           }
         );
 
-        // Actualizar el estado del pedido directamente en el array local de pedidos
         const nuevosPedidos = pedidos.map((pedido) => {
           if (pedido.id === pedidoId) {
             return { ...pedido, estado_pedido: nuevoEstado };
@@ -289,31 +288,25 @@ const RegistroPedidos = () => {
       header: Object.keys(dataToExport[0]),
     });
 
-    // Set the style for each column to be justified
     ws["!cols"] = Object.keys(dataToExport[0]).map(() => ({ wch: 20 }));
-
-    // Enable filters for each column
     ws["!autofilter"] = {
       ref: XLSX.utils.encode_range(XLSX.utils.decode_range(ws["!ref"])),
     };
 
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Registro_de_Pedidos_Don_Gatto");
+    XLSX.utils.book_append_sheet(wb, ws, "Registro_de_Pedidos_Webo");
 
-    // Create an array buffer from the workbook
     const arrayBuffer = XLSX.write(wb, {
       bookType: "xlsx",
       bookSST: true,
       type: "array",
     });
 
-    // Convert the array buffer to a Blob
     const blob = new Blob([arrayBuffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
 
-    // Save the Blob as an Excel file using FileSaver.js
-    FileSaver.saveAs(blob, "Registro_de_Pedidos_Don_Gatto.xlsx");
+    FileSaver.saveAs(blob, "Registro_de_Pedidos_Webo.xlsx");
   };
 
   const abrirEnWaze = (direccion) => {
@@ -331,6 +324,29 @@ const RegistroPedidos = () => {
   return (
     <div className="content-container">
       <h2 className="registro-pedidos-heading">Registro de Pedidos</h2>
+
+      <div className="leyenda">
+        <div class="legend-item ">
+          <span>Pedido Nuevo</span>
+          <div class="color-box " style={{ background: "#4caf50" }}></div>
+        </div>
+
+        <div class="legend-item ">
+          <span>Confirmado</span>
+          <div class="color-box" style={{ background: "#6161ff" }}></div>
+        </div>
+
+        <div class="legend-item ">
+          <span>En Camino</span>
+          <div class="color-box" style={{ background: "#ffff55" }}></div>
+        </div>
+
+        <div class="legend-item">
+          <span>Entregado</span>
+          <div class="color-box" style={{ background: "grey" }}></div>
+        </div>
+      </div>
+
       <div className="clock flex-space-around">
         <div>
           <FontAwesomeIcon icon={faClock} /> <span>{formattedTime}</span>{" "}
@@ -340,7 +356,7 @@ const RegistroPedidos = () => {
           <FontAwesomeIcon icon={faCalendar} /> <span>{formattedDate}</span>{" "}
         </div>
 
-        <button onClick={exportToExcel}>
+        <button className="lista-button" onClick={exportToExcel}>
           Exportar a Excel{" "}
           <span className="excel">
             <FontAwesomeIcon icon={faFileExcel} />
@@ -416,19 +432,29 @@ const RegistroPedidos = () => {
                   </button>
                 </td>
                 <td>
-                  <select
-                    value={pedido.estado_pedido || ""}
-                    onChange={(e) => {
-                      if (pedido && pedido.estado_pedido !== undefined) {
-                        handleEstadoChange(e, pedido);
-                      }
-                    }}
-                  >
-                    <option value="Activo">Nuevo</option>
-                    <option value="Confirmado">Confirmado</option>
-                    <option value="En camino">En camino</option>
-                    <option value="Finalizado">Entregado</option>
-                  </select>
+                  <div className="flex">
+                    <select
+                      value={pedido.estado_pedido || ""}
+                      onChange={(e) => {
+                        if (pedido && pedido.estado_pedido !== undefined) {
+                          handleEstadoChange(e, pedido);
+                        }
+                      }}
+                    >
+                      <option value="Activo">Nuevo</option>
+                      <option value="Confirmado">Confirmado</option>
+                      <option value="En camino">En camino</option>
+                      <option value="Finalizado">Entregado</option>
+                    </select>
+                    <div className="icons">
+                      <Link
+                        to={`/pedido-confirmado/${pedido.id}/${pedido.trackId}}`}
+                      >
+                        <FontAwesomeIcon icon={faEye} />
+                      </Link>
+                    </div>
+                  </div>
+
                   <p>a las {formatTime(pedido.updatedAt)}</p>
                 </td>
               </tr>
@@ -463,7 +489,7 @@ const RegistroPedidos = () => {
               </div>
               <div>
                 <Link
-                  to={`/pedido-confirmado/${selectedPedido.id}/${selectedPedido.track_id}`}
+                  to={`/pedido-confirmado/${selectedPedido.id}/${selectedPedido.trackId}`}
                   target="_blank"
                 >
                   <div className="id-number">
@@ -511,7 +537,6 @@ const RegistroPedidos = () => {
                   <option value="Finalizado">Pedido Entregado</option>
                 </select>
               </div>
-              
             </div>
 
             {/* Resto del contenido de detalles del pedido */}
@@ -578,20 +603,14 @@ const RegistroPedidos = () => {
                 <b>Total S/. {selectedPedido.monto_total.toFixed(2)}</b>
               </li>
               <li>
-                <button>
+                <button className="seguimiento">
                   <Link
-                  target="_blank"
-                    to={`/pedido-confirmado/${selectedPedido.id}/${selectedPedido.track_id}}`}
+                    target="_blank"
+                    to={`/pedido-confirmado/${selectedPedido.id}/${selectedPedido.trackId}}`}
                   >
                     Seguimiento
                   </Link>
                 </button>
-              </li>
-              <li className="ver-detalles">
-                <button
-                  id="ver-detalles"
-                  onClick={() => handlePedidoClick(selectedPedido)}
-                ></button>
               </li>
             </ul>
 

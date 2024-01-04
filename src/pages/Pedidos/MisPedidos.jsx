@@ -283,7 +283,7 @@ const MisPedidos = () => {
                     <li>
                       <button>
                         <Link
-                          to={`/pedido-confirmado/${pedido.id}/${pedido.track_id}}`}
+                          to={`/pedido-confirmado/${pedido.id}/${pedido.trackId}}`}
                         >
                           Seguir Pedido
                         </Link>

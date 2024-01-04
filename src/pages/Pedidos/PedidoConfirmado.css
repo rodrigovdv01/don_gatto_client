@@ -1,147 +1,39 @@
 /* PedidoConfirmado.css */
 
 .pedido-detalle-container {
-    margin: 0px;
-  }
-  
-  .activo-text {
-    color: #007bff; /* Azul para estado "Activo" */
-  }
-  
-  .en-camino-text {
-    color: #28a745; /* Verde para estado "En camino" */
-  }
-  
-  .finalizado-text {
-    color: #35dc86; /* Rojo para estado "Finalizado" */
-  }
-  
-  .transaccion-pendiente-text {
-    color: #ecb100; /* Amarillo para estado "Pendiente" */
-  }
-  
-  .transaccion-pagado-text {
-    color: #28a745; /* Verde para estado "Pagado" */
-  }
-  
-  .transaccion-rechazado-text {
-    color: #dc3545; /* Rojo para estado "Rechazado" */
-  }
-  
-  /* Otros estilos según tus necesidades */
-
-  /* PedidoConfirmado.css */
-
-
-  
-  .pedido-detalle-container {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-  }
-
-  .copiar {
-    background: none;
-    color: #007bff;
-    font-size: 1rem;
-  }
-  
-
-  .copiar:hover {
-    color: #007bffaa;
-    font-size: 1rem;
-  }
-  
-  .pedido-titulo {
-    font-size: 24px;
-  }
-
-  .mg-b-10 {
-    margin-bottom: 20px;
-  }
-  
-  .activo-text {
-    color: #007bff; /* Azul */
-  }
-  
-  .en-camino-text {
-    color: #28a745; /* Verde */
-  }
-  
-  .finalizado-text {
-    color: #17a2b8; /* Cian */
-  }
-  
-  .transaccion-pendiente-text {
-    color: #ffc107; /* Amarillo */
-  }
-  
-  .transaccion-pagado-text {
-    color: #28a745; /* Verde */
-  }
-  
-  .transaccion-rechazado-text {
-    color: #dc3545; /* Rojo */
-  }
-  
-  .pedido-details,
-  .transaccion-details {
-    padding: 10px;
-    margin-bottom: 20px;
-  }
-  
-  dl {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-  
-  dt {
-    font-weight: bold;
-  }
-  
-
-  
-  /* Media query para hacerlo responsive */
-  @media (max-width: 955px) {
-    dl {
-      grid-template-columns: 1fr;
-    }
-
-  }
-
-dl {
-  display: flex;
-  flex-wrap: wrap;
+  margin: 0px;
 }
 
-dt {
-  font-weight: bold;
-  flex: 1 50%; /* Ocupa el 50% del ancho en dos columnas */
+.activo-text {
+  color: #007bff; /* Azul para estado "Activo" */
 }
 
-dd {
-  flex: 1 48%; /* Ocupa el 50% del ancho en dos columnas */
+.en-camino-text {
+  color: #28a745; /* Verde para estado "En camino" */
 }
 
-/* Media query para hacerlo responsive */
-@media (max-width: 955px) {
-  dl {
-    flex-direction: column; /* Cambia a una columna en pantallas más estrechas */
-  }
+.finalizado-text {
+  color: #35dc86; /* Rojo para estado "Finalizado" */
+}
 
-  dt, dd {
-    flex: 1 100%; /* Ocupa el 100% del ancho en una columna */
-  }
+.transaccion-pendiente-text {
+  font-size: 1.1rem;
+  color: #35dc86; /* Amarillo para estado "Pendiente" */
 }
-  
-  
-.numero-copiado {
-    color: #007bff;
+
+.transaccion-pagado-text {
+  color: #28a745; /* Verde para estado "Pagado" */
 }
+
+.transaccion-rechazado-text {
+  color: #dc3545; /* Rojo para estado "Rechazado" */
+}
+
+/* Otros estilos según tus necesidades */
 
 /* PedidoConfirmado.css */
+
+
 
 .pedido-detalle-container {
   background-color: #fff;
@@ -155,6 +47,7 @@ dd {
   color: #007bff;
   font-size: 1rem;
 }
+
 
 .copiar:hover {
   color: #007bffaa;
@@ -181,9 +74,6 @@ dd {
   color: #17a2b8; /* Cian */
 }
 
-.transaccion-pendiente-text {
-  color: #ffc107; /* Amarillo */
-}
 
 .transaccion-pagado-text {
   color: #28a745; /* Verde */
@@ -195,6 +85,7 @@ dd {
 
 .pedido-details,
 .transaccion-details {
+  padding: 10px;
   margin-bottom: 20px;
 }
 
@@ -208,16 +99,136 @@ dt {
   font-weight: bold;
 }
 
-/* Media query for tablets and smaller screens */
+
+
+/* Media query para hacerlo responsive */
 @media (max-width: 955px) {
   dl {
-    grid-template-columns: 1fr; /* Switch to a single column layout */
+    grid-template-columns: 1fr;
   }
+
+}
+
+dl {
+display: flex;
+flex-wrap: wrap;
+}
+
+dt {
+font-weight: bold;
+flex: 1 50%; /* Ocupa el 50% del ancho en dos columnas */
+}
+
+dd {
+flex: 1 48%; /* Ocupa el 50% del ancho en dos columnas */
+}
+
+/* Media query para hacerlo responsive */
+@media (max-width: 955px) {
+dl {
+  flex-direction: column; /* Cambia a una columna en pantallas más estrechas */
+}
+
+dt, dd {
+  flex: 1 100%; /* Ocupa el 100% del ancho en una columna */
+}
+}
+
+
+.numero-copiado {
+  color: #007bff;
+}
+
+/* PedidoConfirmado.css */
+
+.pedido-detalle-container {
+background-color: #fff;
+border-radius: 8px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+padding: 20px;
+}
+
+.copiar {
+background: none;
+color: #007bff;
+font-size: 1rem;
+}
+
+.copiar:hover {
+color: #007bffaa;
+font-size: 1rem;
+}
+
+.pedido-titulo {
+font-size: 24px;
+}
+
+.mg-b-10 {
+margin-bottom: 20px;
+}
+
+.activo-text {
+color: #007bff; /* Azul */
+}
+
+.en-camino-text {
+color: #28a745; /* Verde */
+}
+
+.finalizado-text {
+color: #17a2b8; /* Cian */
+}
+
+.transaccion-pagado-text {
+color: #28a745; /* Verde */
+}
+
+.transaccion-rechazado-text {
+color: #dc3545; /* Rojo */
+}
+
+.pedido-details,
+.transaccion-details {
+margin-bottom: 20px;
+}
+
+dl {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 10px;
+}
+
+dt {
+font-weight: bold;
+}
+
+/* Media query for tablets and smaller screens */
+@media (max-width: 955px) {
+dl {
+  grid-template-columns: 1fr; /* Switch to a single column layout */
+}
 }
 
 .id-pedido {
-  background: #e8e8e8;
-  padding: 5px 10px;
-  border-radius: 20px;
-  width: 40%; /* Adjust width for smaller screens */
+background: #e8e8e8;
+padding: 5px 10px;
+border-radius: 20px;
+width: 40%; /* Adjust width for smaller screens */
+}
+
+.enviar-comprobante {
+  background-color: #007bff;
+  border-radius: 10px;
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: large;
+  font-weight: bold;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+.countDownTimer {
+  width: 100%;
+  background: rgba(128, 128, 128, 0.153);
+  padding: 20px;
+  margin-bottom: 5px;
 }

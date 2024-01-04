@@ -1,0 +1,30 @@
+.order-status-container {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;
+}
+
+.order-status-indicator {
+  display: flex;
+  align-items: center;
+  width: 265px; /* Ajusta según sea necesario */
+  overflow-x: auto; /* Agrega una barra de desplazamiento horizontal si es necesario */
+}
+
+.order-status-indicator svg {
+  overflow: visible; /* Para que las líneas animadas no se recorten */
+  width: 100%; /* Ajusta según sea necesario */
+}
+
+.animated-stroke {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: dash 2s linear infinite;
+  transition: stroke 1s; /* Transición para el cambio de color */
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -200;
+  }
+}

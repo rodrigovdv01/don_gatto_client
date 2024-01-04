@@ -6,9 +6,7 @@ import * as XLSX from "xlsx";
 import FileSaver from "file-saver";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFileExcel,
-} from "@fortawesome/free-solid-svg-icons";
+import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
 
 const ListaUsuarios = () => {
   const [usuariosOriginales, setUsuariosOriginales] = useState([]);
@@ -92,7 +90,9 @@ const ListaUsuarios = () => {
 
   const obtenerUsuarios = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/users`);
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/users`
+      );
       const usuarios = response.data;
       setUsuariosOriginales(usuarios);
       setUsuariosFiltrados(usuarios);
@@ -103,7 +103,9 @@ const ListaUsuarios = () => {
 
   const handleActualizarUsuarios = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/users`);
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/users`
+      );
       const usuariosActualizados = response.data;
       setUsuariosOriginales(usuariosActualizados);
       filtrarUsuarios();
@@ -111,8 +113,6 @@ const ListaUsuarios = () => {
       console.error("Error al actualizar los usuarios:", error);
     }
   };
-
- 
 
   const handleEliminarUsuario = async (id) => {
     try {
@@ -125,32 +125,40 @@ const ListaUsuarios = () => {
 
   const exportToExcel = () => {
     const dataToExport = usuariosFiltrados.map((usuario) => ({
-      'Id de Usuario': usuario.id,
-      'Nombre': usuario.nombre,
-      'Apellido': usuario.apellido,
-      'Correo Electrónico': usuario.email,
-      'Teléfono': usuario.telefono,
-      'Dirección de envío': usuario.direccion_envio,
-      'Rol': usuario.level,
+      "Id de Usuario": usuario.id,
+      Nombre: usuario.nombre,
+      Apellido: usuario.apellido,
+      "Correo Electrónico": usuario.email,
+      Teléfono: usuario.telefono,
+      "Dirección de envío": usuario.direccion_envio,
+      Rol: usuario.level,
     }));
 
-    const ws = XLSX.utils.json_to_sheet(dataToExport, { header: Object.keys(dataToExport[0]) });
+    const ws = XLSX.utils.json_to_sheet(dataToExport, {
+      header: Object.keys(dataToExport[0]),
+    });
 
     // Set the style for each column to be justified
     ws["!cols"] = Object.keys(dataToExport[0]).map(() => ({ wch: 20 }));
 
     // Set auto-filter for the entire worksheet
-    ws["!autofilter"] = { ref: XLSX.utils.encode_range(XLSX.utils.decode_range(ws['!ref'])) };
+    ws["!autofilter"] = {
+      ref: XLSX.utils.encode_range(XLSX.utils.decode_range(ws["!ref"])),
+    };
 
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Usuarios');
+    XLSX.utils.book_append_sheet(wb, ws, "Usuarios");
 
-    const arrayBuffer = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' });
-    const blob = new Blob([arrayBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    FileSaver.saveAs(blob, 'Usuarios.xlsx');
+    const arrayBuffer = XLSX.write(wb, {
+      bookType: "xlsx",
+      bookSST: true,
+      type: "array",
+    });
+    const blob = new Blob([arrayBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    FileSaver.saveAs(blob, "Usuarios.xlsx");
   };
-
-
 
   return (
     <div>
@@ -191,8 +199,18 @@ const ListaUsuarios = () => {
           <option value="user">User</option>
         </select>
       </div>
-      <button onClick={handleActualizarUsuarios}>Actualizar</button>
-      <button onClick={exportToExcel}>Exportar a Excel <span className="excel"><FontAwesomeIcon icon={faFileExcel} /></span></button>
+
+      <div className="lista-buttons">
+        <button className="lista-button" onClick={handleActualizarUsuarios}>
+          Actualizar
+        </button>
+        <button className="lista-button" onClick={exportToExcel}>
+          Exportar a Excel{" "}
+          <span className="excel">
+            <FontAwesomeIcon icon={faFileExcel} />
+          </span>
+        </button>
+      </div>
       <table>
         <thead>
           <tr>
